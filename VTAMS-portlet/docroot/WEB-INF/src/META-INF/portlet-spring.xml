@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<bean id="com.viettel.ams.core.service.AssetManageReqLocalService" class="com.viettel.ams.core.service.impl.AssetManageReqLocalServiceImpl" />
+	<bean id="com.viettel.ams.core.service.AssetManageReqService" class="com.viettel.ams.core.service.impl.AssetManageReqServiceImpl" />
+	<bean id="com.viettel.ams.core.service.persistence.AssetManageReqPersistence" class="com.viettel.ams.core.service.persistence.AssetManageReqPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="amsDataSource" />
+		<property name="sessionFactory" ref="amsSessionFactory" />
+	</bean>
+	<bean id="com.viettel.ams.core.service.persistence.AssetManageReqFinder" class="com.viettel.ams.core.service.persistence.AssetManageReqFinderImpl" parent="basePersistence">
+		<property name="dataSource" ref="amsDataSource" />
+		<property name="sessionFactory" ref="amsSessionFactory" />
+	</bean>
+	<bean id="com.viettel.ams.core.service.AssetManageReqEntityLocalService" class="com.viettel.ams.core.service.impl.AssetManageReqEntityLocalServiceImpl" />
+	<bean id="com.viettel.ams.core.service.AssetManageReqEntityService" class="com.viettel.ams.core.service.impl.AssetManageReqEntityServiceImpl" />
+	<bean id="com.viettel.ams.core.service.persistence.AssetManageReqEntityPersistence" class="com.viettel.ams.core.service.persistence.AssetManageReqEntityPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="amsDataSource" />
+		<property name="sessionFactory" ref="amsSessionFactory" />
+	</bean>
+	<bean id="com.viettel.ams.core.service.AssetManageReqHandleLocalService" class="com.viettel.ams.core.service.impl.AssetManageReqHandleLocalServiceImpl" />
+	<bean id="com.viettel.ams.core.service.AssetManageReqHandleService" class="com.viettel.ams.core.service.impl.AssetManageReqHandleServiceImpl" />
+	<bean id="com.viettel.ams.core.service.persistence.AssetManageReqHandlePersistence" class="com.viettel.ams.core.service.persistence.AssetManageReqHandlePersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="amsDataSource" />
+		<property name="sessionFactory" ref="amsSessionFactory" />
+	</bean>
+	<bean id="com.viettel.ams.core.service.AssetManageReqHandleEntityLocalService" class="com.viettel.ams.core.service.impl.AssetManageReqHandleEntityLocalServiceImpl" />
+	<bean id="com.viettel.ams.core.service.AssetManageReqHandleEntityService" class="com.viettel.ams.core.service.impl.AssetManageReqHandleEntityServiceImpl" />
+	<bean id="com.viettel.ams.core.service.persistence.AssetManageReqHandleEntityPersistence" class="com.viettel.ams.core.service.persistence.AssetManageReqHandleEntityPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="amsDataSource" />
+		<property name="sessionFactory" ref="amsSessionFactory" />
+	</bean>
+	<bean id="com.viettel.ams.core.service.MerEntityLocalService" class="com.viettel.ams.core.service.impl.MerEntityLocalServiceImpl" />
+	<bean id="com.viettel.ams.core.service.MerEntityService" class="com.viettel.ams.core.service.impl.MerEntityServiceImpl" />
+	<bean id="com.viettel.ams.core.service.persistence.MerEntityPersistence" class="com.viettel.ams.core.service.persistence.MerEntityPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="amsDataSource" />
+		<property name="sessionFactory" ref="amsSessionFactory" />
+	</bean>
+	<bean id="com.viettel.ams.core.service.persistence.MerEntityFinder" class="com.viettel.ams.core.service.persistence.MerEntityFinderImpl" parent="basePersistence">
+		<property name="dataSource" ref="amsDataSource" />
+		<property name="sessionFactory" ref="amsSessionFactory" />
+	</bean>
+	<bean id="com.viettel.ams.core.service.SysGroupLocalService" class="com.viettel.ams.core.service.impl.SysGroupLocalServiceImpl" />
+	<bean id="com.viettel.ams.core.service.SysGroupService" class="com.viettel.ams.core.service.impl.SysGroupServiceImpl" />
+	<bean id="com.viettel.ams.core.service.persistence.SysGroupPersistence" class="com.viettel.ams.core.service.persistence.SysGroupPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="amsDataSource" />
+		<property name="sessionFactory" ref="amsSessionFactory" />
+	</bean>
+</beans>

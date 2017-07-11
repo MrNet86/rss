@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 6.2.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_6_2_0.dtd">
+<service-builder package-path="com.viettel.ams.core">
+	<author>MrNet</author>
+	<namespace>VTAMS</namespace>
+
+	<entity name="AssetManageReq" table="Asset_Manage_Req" local-service="true" remote-service="true"
+		data-source="amsDataSource" session-factory="amsSessionFactory" tx-manager="amsTransactionManager" >
+
+		<column name="manageReqId" db-name="manage_req_id" type="long" primary="true" id-type="sequence" id-param="Asset_Manage_Req_Seq"/>
+
+		<column name="reqGroupId" type="Long" db-name="req_group_id"/>
+		<column name="userId" type="Long" db-name="user_id"/>
+		<column name="recvGroupId" type="Long" db-name="recv_group_id"/>
+		<column name="cause" type="String" db-name="cause"/>
+		<column name="creatorId" type="Long" db-name="creator_id"/>
+		<column name="createdDate" type="Date" db-name="CREATED_DATE"/>
+		<column name="status" type="Long" db-name="STATUS"/>
+		<column name="type" type="Long" db-name="TYPE"/>
+		<column name="usedGroupId" type="Long" db-name="USED_GROUP_ID"/>
+		<column name="code" type="String" db-name="CODE"/>
+		<column name="acceptorId" type="Long" db-name="ACCEPTOR_ID"/>
+		<column name="acceptComment" type="String" db-name="ACCEPT_COMMENT"/>
+		<column name="retrieveCauseId" type="Long" db-name="RETRIEVE_CAUSE_ID"/>
+		<column name="constructId" type="Long" db-name="CONSTRUCT_ID"/>
+		<column name="delegator" type="String" db-name="DELEGATOR"/>
+		<column name="isFull" type="Long" db-name="IS_FULL"/>
+		<column name="titleDelegator" type="String" db-name="TITLE_DELEGATOR"/>
+		<column name="mobileNumber" type="Long" db-name="MOBILE_NUMBER"/>
+		<column name="document" type="String" db-name="DOCUMENT"/>
+		<column name="failCheckId" type="Long" db-name="FAIL_CHECK_ID"/>
+		<column name="deliveryNoteId" type="Long" db-name="DELIVERY_NOTE_ID"/>
+		<column name="isMaintain" type="Long" db-name="IS_MAINTAIN"/>
+		<column name="causeReject" type="String" db-name="CAUSE_REJECT"/>
+		<column name="assetType" type="Long" db-name="ASSET_TYPE"/>
+		<column name="retrieveType" type="Long" db-name="RETRIEVE_TYPE"/>
+		<column name="retrieveCmdId" type="Long" db-name="RETRIEVE_CMD_ID"/>
+		<column name="planSwapId" type="Long" db-name="PLAN_SWAP_ID"/>
+		<column name="certificateRegistrationId" type="Long" db-name="CERTIFICATE_REGISTRATION_ID"/>
+		<column name="contractid" type="Long" db-name="CONTRACT_ID"/>
+		<column name="partnerId" type="Long" db-name="PARTNER_ID"/>
+		<column name="statusCa" type="Long" db-name="STATUS_CA" convert-null="false"/>
+		<column name="commentCa" type="String" db-name="COMMENT_CA"/>
+		<column name="documentCaId" type="Long" db-name="DOCUMENT_CA_ID" convert-null="false"/>
+
+	</entity>
+
+	<entity name="AssetManageReqEntity" table="Asset_Manage_Req_Entity" local-service="true" remote-service="true"
+		data-source="amsDataSource" session-factory="amsSessionFactory" tx-manager="amsTransactionManager" >
+
+		<column name="id" type="long" db-name="ID" primary="true" id-type="sequence" id-param="ASSET_MANAGE_REQ_ENTITY_SEQ"/>
+<!-- 		<column name="id" type="long" db-name="ID" /> -->
+		<column name="reqId" type="Long" db-name="REQ_ID"/>
+		<column name="merEntityId" type="Long" db-name="MER_ENTITY_ID"/>
+		<column name="stationId" type="Long" db-name="STATION_ID"/>
+		<column name="failDate" type="Date" db-name="FAIL_DATE"/>
+		<column name="failReason" type="String" db-name="FAIL_REASON"/>
+		<column name="usedDate" type="Date" db-name="USED_DATE"/>
+		<column name="preStatusId" type="Long" db-name="PRE_STATUS_ID"/>
+		<column name="groupId" type="Long" db-name="GROUP_ID"/>
+		<column name="quantity" type="Double" db-name="QUANTITY"/>
+		<column name="description" type="String" db-name="DESCRIPTION"/>
+		<column name="unitPrice" type="Double" db-name="UNIT_PRICE"/>
+		<column name="timeRetrieve" type="Date" db-name="TIME_RETRIEVE"/>
+		<column name="constructionId" type="Long" db-name="CONSTRUCTION_ID"/>
+		<column name="conditionerId" type="Long" db-name="CONDITIONER_ID"/>
+		<column name="catGroupMerId" type="Long" db-name="CAT_GROUP_MER_ID"/>
+		<column name="upgradeParentId" type="Long" db-name="UPGRADE_PARENT_ID"/>
+		<column name="partnerId" type="Long" db-name="PARTNER_ID"/>
+		<column name="deliveryNoteId" type="Long" db-name="DELIVERY_NOTE_ID"/>
+
+		<finder name="AssetManageReq" return-type="Collection">
+            <finder-column name="reqId"></finder-column>
+        </finder>
+
+	</entity>
+	<entity name="AssetManageReqHandle" table="Asset_Manage_Req_Handle" local-service="true" remote-service="true"
+		data-source="amsDataSource" session-factory="amsSessionFactory" tx-manager="amsTransactionManager" >
+
+		<column name="handleId" type="long" db-name="HANDLE_ID" primary="true" id-type="sequence" id-param="ASSET_MANAGE_REQ_HANDLE_SEQ"/>
+		<column name="manageReqId" type="Long" db-name="MANAGE_REQ_ID"/>
+		<column name="description" type="String" db-name="DESCRIPTION"/>
+		<column name="updatorId" type="Long" db-name="UPDATOR_ID"/>
+		<column name="updateDate" type="Date" db-name="UPDATE_DATE"/>
+		<column name="status" type="Long" db-name="STATUS"/>
+		<column name="code" type="String" db-name="CODE"/>
+		<column name="createGroupId" type="Long" db-name="CREATE_GROUP_ID"/>
+		<column name="impReqId" type="Long" db-name="IMP_REQ_ID"/>
+		<column name="reqDelegator" type="String" db-name="REQ_DELEGATOR"/>
+		<column name="reqDelegatorPosition" type="String" db-name="REQ_DELEGATOR_POSITION"/>
+		<column name="document" type="String" db-name="DOCUMENT"/>
+		<column name="beginDate" type="Date" db-name="BEGIN_DATE"/>
+		<column name="endDate" type="Date" db-name="END_DATE"/>
+		<column name="kcsCode" type="String" db-name="KCS_CODE"/>
+		<column name="handOverId" type="Long" db-name="HAND_OVER_ID"/>
+		<column name="impReqCode" type="String" db-name="IMP_REQ_CODE"/>
+		<column name="baseKcsCode" type="Long" db-name="BASE_KCS_CODE"/>
+		<column name="creatorKcs" type="Long" db-name="CREATOR_KCS"/>
+		<column name="assetType" type="Long" db-name="ASSET_TYPE"/>
+		<column name="isNotModify" type="Long" db-name="IS_NOT_MODIFY"/>
+		<column name="handleDelegator" type="String" db-name="HANDLE_DELEGATOR"/>
+		<column name="handleDelegatorPosition" type="String" db-name="HANDLE_DELEGATOR_POSITION"/>
+		<column name="contractId" type="Long" db-name="CONTRACT_ID"/>
+		<column name="statusCa" type="Long" db-name="STATUS_CA"/>
+		<column name="commentCa" type="String" db-name="COMMENT_CA"/>
+		<column name="documentCaId" type="Long" db-name="DOCUMENT_CA_ID"/>
+
+	</entity>
+	<entity name="AssetManageReqHandleEntity" table="Asset_Manage_Req_Handle_Entity" local-service="true" remote-service="true"
+		data-source="amsDataSource" session-factory="amsSessionFactory" tx-manager="amsTransactionManager" >
+
+		<column name="id" type="long" db-name="ID" primary="true" id-type="sequence" id-param="ASSET_MANAGE_HANDLE_ENTITY_SEQ"/>
+		<column name="handleId" type="Long" db-name="HANDLE_ID"/>
+		<column name="merEntityId" type="Long" db-name="MER_ENTITY_ID"/>
+		<column name="status" type="Long" db-name="STATUS"/>
+		<column name="stationId" type="Long" db-name="STATION_ID"/>
+		<column name="failDate" type="Date" db-name="FAIL_DATE"/>
+		<column name="failReason" type="String" db-name="FAIL_REASON"/>
+		<column name="usedDate" type="Date" db-name="USED_DATE"/>
+		<column name="handOverId" type="Long" db-name="HAND_OVER_ID"/>
+		<column name="quantity" type="Double" db-name="QUANTITY"/>
+		<column name="unitPrice" type="Double" db-name="UNIT_PRICE"/>
+		<column name="description" type="String" db-name="DESCRIPTION"/>
+		<column name="upgradeParentId" type="Long" db-name="UPGRADE_PARENT_ID"/>
+		<column name="parentId" type="Long" db-name="PARENT_ID"/>
+		<column name="groupId" type="Long" db-name="GROUP_ID"/>
+		<column name="timeRetrieve" type="Date" db-name="TIME_RETRIEVE"/>
+		<column name="statusId" type="Long" db-name="STATUS_ID"/>
+		<column name="mark" type="Long" db-name="MARK"/>
+		<column name="oldStatusId" type="Long" db-name="OLD_STATUS_ID"/>
+		<column name="preCatEmployeeId" type="Long" db-name="PRE_CAT_EMPLOYEE_ID"/>
+		<column name="percentQuality" type="Long" db-name="PERCENT_QUALITY"/>
+		<column name="withdrawPrice" type="Long" db-name="WITHDRAW_PRICE"/>
+		<column name="deliveryNoteId" type="Long" db-name="DELIVERY_NOTE_ID"/>
+
+	</entity>
+	<entity name="SysGroup" table="Sys_Group" local-service="true" remote-service="true"
+		data-source="amsDataSource" session-factory="amsSessionFactory" tx-manager="amsTransactionManager" >
+
+		<column name="groupId" db-name="group_id" type="long" primary="true" id-type="sequence" id-param="Sys_Group_Seq"/>
+
+		<column name="name" type="String" db-name="NAME"/>
+		<column name="groupCode" type="String" db-name="group_code"/>
+		<column name="fullName" type="String" db-name="full_name"/>
+		<column name="description" type="String" db-name="DESCRIPTION"/>
+		<column name="provinceId" type="Long" db-name="province_id"/>
+		<column name="address" type="String" db-name="address"/>
+		<column name="parentId" type="Long" db-name="parent_id"/>
+		<column name="path" type="String" db-name="path"/>
+		<column name="status" type="Long" db-name="STATUS"/>
+		<column name="titleName" type="Long" db-name="TITLE_NAME"/>
+		<column name="isOff" type="Long" db-name="IS_OFF"/>
+		<column name="lockStatus" type="Long" db-name="lock_status"/>
+
+		<order by="asc">
+			<order-column name="groupCode" />
+		</order>
+		<finder return-type="Collection" name="name">
+			<finder-column name="name"/>
+			<finder-column name="status"/>
+		</finder>
+		<finder return-type="Collection" name="groupCode">
+			<finder-column name="groupCode"/>
+			<finder-column name="status"/>
+		</finder>
+		<finder return-type="Collection" name="path">
+			<finder-column name="path"/>
+			<finder-column name="status"/>
+		</finder>
+	</entity>
+	<entity name="MerEntity" table="Mer_Entity" local-service="true" remote-service="true"
+		data-source="amsDataSource" session-factory="amsSessionFactory" tx-manager="amsTransactionManager">
+
+		<column name='merEntityId' type='long' db-name='MER_ENTITY_ID' primary="true" id-type="sequence" id-param="mer_entity_seq"/>
+		<column name='serialNumber' type='String' db-name='SERIAL_NUMBER'/>
+		<column name='unitPrice' type='Double' db-name='UNIT_PRICE'/>
+<!-- 		<column name='' type='' db-name='COMPANY_ID'/> -->
+<!-- 		<column name='' type='' db-name='NATIONAL_ID'/> -->
+<!-- 		<column name='' type='' db-name='MADE_YEAR'/> -->
+<!-- 		<column name='' type='' db-name='MAX_USED_TIME'/> -->
+		<column name='merId' type='Long' db-name='MER_ID'/>
+		<column name='contractid' type='Long' db-name='CONTRACT_ID'/>
+		<column name='groupId' type='Long' db-name='GROUP_ID'/>
+		<column name='warehouseId' type='Long' db-name='WAREHOUSE_ID'/>
+		<column name='constructionId' type='Long' db-name='CONSTRUCTION_ID'/>
+		<column name='isMerchandise' type='Long' db-name='IS_MERCHANDISE'/>
+<!-- 		<column name='' type='' db-name='WH_POS_ID'/> -->
+		<column name='statusId' type='Long' db-name='STATUS_ID'/>
+		<column name='parentId' type='Long' db-name='PARENT_ID'/>
+<!-- 		<column name='' type='' db-name='IS_CONTRACT_ASSIGNED'/> -->
+<!-- 		<column name='' type='' db-name='CHANGE_ACTION'/> -->
+		<column name='userId' type='Long' db-name='USER_ID'/>
+<!-- 		<column name='' type='' db-name='ADDED_PART'/> -->
+		<column name='upgradeParentId' type='Long' db-name='UPGRADE_PARENT_ID'/>
+		<column name='partNumber' type='String' db-name='PART_NUMBER'/>
+		<column name='count' type='Double' db-name='COUNT'/>
+<!-- 		<column name='' type='' db-name='AMORT_START_DATE'/> -->
+		<column name='isTemp' type='Long' db-name='IS_TEMP'/>
+<!-- 		<column name='' type='' db-name='MER_WEIGHT'/> -->
+<!-- 		<column name='' type='' db-name='SERIAL_NUMBER_OWNER'/> -->
+<!-- 		<column name='' type='' db-name='PART_NUMBER_OWNER'/> -->
+		<column name='path' type='String' db-name='PATH'/>
+<!-- 		<column name='' type='' db-name='WORK_ITEM_ID'/> -->
+		<column name='originalPrice' type='Double' db-name='ORIGINAL_PRICE'/>
+<!-- 		<column name='' type='' db-name='EXPIRED_WARRANTY_DATE'/> -->
+<!-- 		<column name='' type='' db-name='WARRANT_PARTNER_ID'/> -->
+<!-- 		<column name='' type='' db-name='PROJECT_ID'/> -->
+<!-- 		<column name='' type='' db-name='PROPOSAL_ID'/> -->
+<!-- 		<column name='' type='' db-name='NEXT_MAINTAIN_DATE'/> -->
+<!-- 		<column name='' type='' db-name='PACKAGE_ID'/> -->
+<!-- 		<column name='' type='' db-name='SOURCE_ID'/> -->
+		<column name='managerName' type='String' db-name='MANAGER_NAME'/>
+		<column name='isExpense' type='Long' db-name='IS_EXPENSE'/>
+		<column name='useGroupId' type='Long' db-name='USE_GROUP_ID'/>
+<!-- 		<column name='' type='' db-name='MER_ROOT_ID'/> -->
+<!-- 		<column name='' type='' db-name='TAX_RATE'/> -->
+<!-- 		<column name='' type='' db-name='VND_UNIT_PRICE'/> -->
+<!-- 		<column name='' type='' db-name='PARENT_CONFIG_ID'/> -->
+<!-- 		<column name='' type='' db-name='FILE_ID'/> -->
+<!-- 		<column name='' type='' db-name='PL_IND_ID'/> -->
+<!-- 		<column name='' type='' db-name='SHIPMENT_NO'/> -->
+<!-- 		<column name='' type='' db-name='PL_CODE'/> -->
+<!-- 		<column name='' type='' db-name='BOX_NO'/> -->
+		<column name='keySearch' type='Long' db-name='KEY_SEARCH'/>
+		<column name='contractCode' type='String' db-name='CONTRACT_CODE'/>
+<!-- 		<column name='' type='' db-name='IS_CHECKED_KCS'/> -->
+<!-- 		<column name='' type='' db-name='OLD_MER_ENTITY_ID'/> -->
+<!-- 		<column name='' type='' db-name='IS_MAPPED'/> -->
+		<column name='description' type='String' db-name='DESCRIPTION'/>
+<!-- 		<column name='' type='' db-name='PL_IMPORT_ID'/> -->
+		<column name='stationId' type='Long' db-name='STATION_ID'/>
+		<column name='isInventory' type='Long' db-name='IS_INVENTORY'/>
+<!-- 		<column name='' type='' db-name='MAP_NO'/> -->
+<!-- 		<column name='' type='' db-name='LATEST_EXPORT_DATE'/> -->
+<!-- 		<column name='' type='' db-name='LATEST_IMPORT_DATE'/> -->
+<!-- 		<column name='' type='' db-name='USED_DATE'/> -->
+<!-- 		<column name='' type='' db-name='ACCOUNT_TYPE'/> -->
+<!-- 		<column name='' type='' db-name='DEPRECIATION_DATE'/> -->
+<!-- 		<column name='' type='' db-name='LATEST_MAINTAIN_DATE'/> -->
+<!-- 		<column name='' type='' db-name='LATEST_MAINTAIN_DATE_BK'/> -->
+<!-- 		<column name='' type='' db-name='COUNT_MAINTAIN'/> -->
+<!-- 		<column name='' type='' db-name='NEXT_MAINTAIN_DATE_BK'/> -->
+<!-- 		<column name='' type='' db-name='TWIN_MER_ENTITY_ID'/> -->
+<!-- 		<column name='' type='' db-name='OLD_MER_ID'/> -->
+<!-- 		<column name='' type='' db-name='OLD_CONTRACT_ID'/> -->
+<!-- 		<column name='' type='' db-name='TYPE_DEFINE_HIS'/> -->
+		<column name='entityType' type='Long' db-name='ENTITY_TYPE'/>
+<!-- 		<column name='' type='' db-name='EMAIL'/> -->
+<!-- 		<column name='' type='' db-name='MARK_NUM'/> -->
+<!-- 		<column name='' type='' db-name='PROPERTY_DETAIL'/> -->
+<!-- 		<column name='' type='' db-name='OLD_ORIGINAL_PRICE'/> -->
+<!-- 		<column name='' type='' db-name='MER_MODEL'/> -->
+<!-- 		<column name='' type='' db-name='USED_GROUP'/> -->
+<!-- 		<column name='' type='' db-name='TEL'/> -->
+<!-- 		<column name='' type='' db-name='SERIAL_NUMBER_PARENT'/> -->
+<!-- 		<column name='' type='' db-name='SPLIT_MER'/> -->
+<!-- 		<column name='' type='' db-name='NODE_ID'/> -->
+<!-- 		<column name='' type='' db-name='IS_ORIGINAL'/> -->
+		<column name='quality' type='Long' db-name='QUALITY'/>
+		<column name='catEmployeeId' type='Long' db-name='CAT_EMPLOYEE_ID'/>
+		<column name='createdDate' type='Date' db-name='CREATED_DATE'/>
+<!-- 		<column name='' type='' db-name='TYPE_OUT_SIDE'/> -->
+<!-- 		<column name='' type='' db-name='REAL_SERIAL_NUMBER'/> -->
+<!-- 		<column name='' type='' db-name='ISVALID'/> -->
+		<column name='isLock' type='Long' db-name='IS_LOCK'/>
+<!-- 		<column name='' type='' db-name='UNIT_PRICE_DOMESTIC'/> -->
+<!-- 		<column name='' type='' db-name='UNIT_PRICE_FOREIGN'/> -->
+<!-- 		<column name='' type='' db-name='IS_APPO'/> -->
+<!-- 		<column name='' type='' db-name='IS_PROCESS_COMPARE'/> -->
+<!-- 		<column name='' type='' db-name='IMPORT_DATE'/> -->
+<!-- 		<column name='' type='' db-name='TYPE_STATION_MAINTAIN'/> -->
+<!-- 		<column name='' type='' db-name='EXECUTE_MONTH_TIME_USED'/> -->
+<!-- 		<column name='' type='' db-name='EXECUTE_DATE_KDHC'/> -->
+<!-- 		<column name='' type='' db-name='EXECUTE_DATE_BDSC'/> -->
+<!-- 		<column name='' type='' db-name='IS_CHECK_IMP'/> -->
+<!-- 		<column name='' type='' db-name='COUNT_NEW'/> -->
+<!-- 		<column name='' type='' db-name='ASSET_PRICE'/> -->
+<!-- 		<column name='' type='' db-name='USED_DATE_MIGRATE'/> -->
+<!-- 		<column name='' type='' db-name='OBJ_LEVEL'/> -->
+<!-- 		<column name='' type='' db-name='IS_MIGRATE_USED_DATE'/> -->
+<!-- 		<column name='' type='' db-name='IS_MIGRATE_ASSET_PRICE'/> -->
+<!-- 		<column name='' type='' db-name='IS_EXPIRED'/> -->
+<!-- 		<column name='' type='' db-name='ASSET_PLAN_USE_ID'/> -->
+
+		<finder return-type="Collection" name="merEntityId">
+			<finder-column name="merEntityId"/>
+		</finder>
+
+	</entity>
+</service-builder>

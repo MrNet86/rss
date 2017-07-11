@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<custom-sql>
+
+	<sql id="findEntityByAssetManageReq">
+		<![CDATA[
+			select
+				REQ.req_id, REQ.MER_ENTITY_ID,
+				cm.name, cm.code,
+				ME.SERIAL_NUMBER, ME.COUNT,
+				REQ.QUANTITY, REQ.DESCRIPTION
+			from asset_manage_req_entity req
+			join mer_entity me on ME.MER_ENTITY_ID = REQ.MER_ENTITY_ID
+			join cat_merchandise cm on CM.MERCHANDISE_ID = ME.MER_ID
+			Where REQ.req_id = ?
+		]]>
+	</sql>
+
+</custom-sql>

@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.viettel.ams.core.model.AssetManageReq">
+		<field name="manageReqId" type="long" />
+		<field name="reqGroupId" type="Long" />
+		<field name="userId" type="Long" />
+		<field name="recvGroupId" type="Long" />
+		<field name="cause" type="String" />
+		<field name="creatorId" type="Long" />
+		<field name="createdDate" type="Date" />
+		<field name="status" type="Long" />
+		<field name="type" type="Long" />
+		<field name="usedGroupId" type="Long" />
+		<field name="code" type="String" />
+		<field name="acceptorId" type="Long" />
+		<field name="acceptComment" type="String" />
+		<field name="retrieveCauseId" type="Long" />
+		<field name="constructId" type="Long" />
+		<field name="delegator" type="String" />
+		<field name="isFull" type="Long" />
+		<field name="titleDelegator" type="String" />
+		<field name="mobileNumber" type="Long" />
+		<field name="document" type="String" />
+		<field name="failCheckId" type="Long" />
+		<field name="deliveryNoteId" type="Long" />
+		<field name="isMaintain" type="Long" />
+		<field name="causeReject" type="String" />
+		<field name="assetType" type="Long" />
+		<field name="retrieveType" type="Long" />
+		<field name="retrieveCmdId" type="Long" />
+		<field name="planSwapId" type="Long" />
+		<field name="certificateRegistrationId" type="Long" />
+		<field name="contractid" type="Long" />
+		<field name="partnerId" type="Long" />
+		<field name="statusCa" type="Long" />
+		<field name="commentCa" type="String" />
+		<field name="documentCaId" type="Long" />
+	</model>
+	<model name="com.viettel.ams.core.model.AssetManageReqEntity">
+		<field name="id" type="long" />
+		<field name="reqId" type="Long" />
+		<field name="merEntityId" type="Long" />
+		<field name="stationId" type="Long" />
+		<field name="failDate" type="Date" />
+		<field name="failReason" type="String" />
+		<field name="usedDate" type="Date" />
+		<field name="preStatusId" type="Long" />
+		<field name="groupId" type="Long" />
+		<field name="quantity" type="Double" />
+		<field name="description" type="String" />
+		<field name="unitPrice" type="Double" />
+		<field name="timeRetrieve" type="Date" />
+		<field name="constructionId" type="Long" />
+		<field name="conditionerId" type="Long" />
+		<field name="catGroupMerId" type="Long" />
+		<field name="upgradeParentId" type="Long" />
+		<field name="partnerId" type="Long" />
+		<field name="deliveryNoteId" type="Long" />
+	</model>
+	<model name="com.viettel.ams.core.model.AssetManageReqHandle">
+		<field name="handleId" type="long" />
+		<field name="manageReqId" type="Long" />
+		<field name="description" type="String" />
+		<field name="updatorId" type="Long" />
+		<field name="updateDate" type="Date" />
+		<field name="status" type="Long" />
+		<field name="code" type="String" />
+		<field name="createGroupId" type="Long" />
+		<field name="impReqId" type="Long" />
+		<field name="reqDelegator" type="String" />
+		<field name="reqDelegatorPosition" type="String" />
+		<field name="document" type="String" />
+		<field name="beginDate" type="Date" />
+		<field name="endDate" type="Date" />
+		<field name="kcsCode" type="String" />
+		<field name="handOverId" type="Long" />
+		<field name="impReqCode" type="String" />
+		<field name="baseKcsCode" type="Long" />
+		<field name="creatorKcs" type="Long" />
+		<field name="assetType" type="Long" />
+		<field name="isNotModify" type="Long" />
+		<field name="handleDelegator" type="String" />
+		<field name="handleDelegatorPosition" type="String" />
+		<field name="contractId" type="Long" />
+		<field name="statusCa" type="Long" />
+		<field name="commentCa" type="String" />
+		<field name="documentCaId" type="Long" />
+	</model>
+	<model name="com.viettel.ams.core.model.AssetManageReqHandleEntity">
+		<field name="id" type="long" />
+		<field name="handleId" type="Long" />
+		<field name="merEntityId" type="Long" />
+		<field name="status" type="Long" />
+		<field name="stationId" type="Long" />
+		<field name="failDate" type="Date" />
+		<field name="failReason" type="String" />
+		<field name="usedDate" type="Date" />
+		<field name="handOverId" type="Long" />
+		<field name="quantity" type="Double" />
+		<field name="unitPrice" type="Double" />
+		<field name="description" type="String" />
+		<field name="upgradeParentId" type="Long" />
+		<field name="parentId" type="Long" />
+		<field name="groupId" type="Long" />
+		<field name="timeRetrieve" type="Date" />
+		<field name="statusId" type="Long" />
+		<field name="mark" type="Long" />
+		<field name="oldStatusId" type="Long" />
+		<field name="preCatEmployeeId" type="Long" />
+		<field name="percentQuality" type="Long" />
+		<field name="withdrawPrice" type="Long" />
+		<field name="deliveryNoteId" type="Long" />
+	</model>
+	<model name="com.viettel.ams.core.model.MerEntity">
+		<field name="merEntityId" type="long" />
+		<field name="serialNumber" type="String" />
+		<field name="unitPrice" type="Double" />
+		<field name="merId" type="Long" />
+		<field name="contractid" type="Long" />
+		<field name="groupId" type="Long" />
+		<field name="warehouseId" type="Long" />
+		<field name="constructionId" type="Long" />
+		<field name="isMerchandise" type="Long" />
+		<field name="statusId" type="Long" />
+		<field name="parentId" type="Long" />
+		<field name="userId" type="Long" />
+		<field name="upgradeParentId" type="Long" />
+		<field name="partNumber" type="String" />
+		<field name="count" type="Double" />
+		<field name="isTemp" type="Long" />
+		<field name="path" type="String" />
+		<field name="originalPrice" type="Double" />
+		<field name="managerName" type="String" />
+		<field name="isExpense" type="Long" />
+		<field name="useGroupId" type="Long" />
+		<field name="keySearch" type="Long" />
+		<field name="contractCode" type="String" />
+		<field name="description" type="String" />
+		<field name="stationId" type="Long" />
+		<field name="isInventory" type="Long" />
+		<field name="entityType" type="Long" />
+		<field name="quality" type="Long" />
+		<field name="catEmployeeId" type="Long" />
+		<field name="createdDate" type="Date" />
+		<field name="isLock" type="Long" />
+	</model>
+	<model name="com.viettel.ams.core.model.SysGroup">
+		<field name="groupId" type="long" />
+		<field name="name" type="String" />
+		<field name="groupCode" type="String" />
+		<field name="fullName" type="String" />
+		<field name="description" type="String" />
+		<field name="provinceId" type="Long" />
+		<field name="address" type="String" />
+		<field name="parentId" type="Long" />
+		<field name="path" type="String" />
+		<field name="status" type="Long" />
+		<field name="titleName" type="Long" />
+		<field name="isOff" type="Long" />
+		<field name="lockStatus" type="Long" />
+	</model>
+</model-hints>

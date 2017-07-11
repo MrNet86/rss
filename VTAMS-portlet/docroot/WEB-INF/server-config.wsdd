@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+
+<deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+	<globalConfiguration>
+		<parameter name="adminPassword" value="admin" />
+		<parameter name="attachments.implementation" value="org.apache.axis.attachments.AttachmentsImpl" />
+		<parameter name="sendXsiTypes" value="true" />
+		<parameter name="sendMultiRefs" value="true" />
+		<parameter name="sendXMLDeclaration" value="true" />
+		<parameter name="axis.sendMinimizedElements" value="true" />
+		<requestFlow>
+			<handler type="java:org.apache.axis.handlers.JWSHandler">
+				<parameter name="scope" value="session" />
+			</handler>
+			<handler type="java:org.apache.axis.handlers.JWSHandler">
+				<parameter name="scope" value="request" />
+				<parameter name="extension" value=".jwr" />
+			</handler>
+		</requestFlow>
+	</globalConfiguration>
+	<handler name="LocalResponder" type="java:org.apache.axis.transport.local.LocalResponder" />
+	<handler name="URLMapper" type="java:org.apache.axis.handlers.http.URLMapper" />
+	<handler name="Authenticate" type="java:org.apache.axis.handlers.SimpleAuthenticationHandler" />
+	<transport name="http">
+		<requestFlow>
+			<handler type="URLMapper" />
+			<handler type="java:org.apache.axis.handlers.http.HTTPAuthHandler" />
+		</requestFlow>
+	</transport>
+	<transport name="local">
+		<responseFlow>
+			<handler type="LocalResponder" />
+		</responseFlow>
+	</transport>
+	<service name="Plugin_VTAMS_AssetManageReqEntityService" provider="java:RPC" style="rpc" use="encoded">
+		<parameter name="allowedMethods" value="*" />
+		<parameter name="className" value="com.viettel.ams.core.service.http.AssetManageReqEntityServiceSoap" />
+		<parameter name="typeMappingVersion" value="1.2" />
+		<parameter name="wsdlPortType" value="AssetManageReqEntityServiceSoap" />
+		<parameter name="wsdlServiceElement" value="AssetManageReqEntityServiceSoapService" />
+		<parameter name="wsdlServicePort" value="Plugin_VTAMS_AssetManageReqEntityService" />
+		<parameter name="wsdlTargetNamespace" value="urn:http.service.core.ams.viettel.com" />
+	</service>
+	<service name="Plugin_VTAMS_AssetManageReqHandleEntityService" provider="java:RPC" style="rpc" use="encoded">
+		<parameter name="allowedMethods" value="*" />
+		<parameter name="className" value="com.viettel.ams.core.service.http.AssetManageReqHandleEntityServiceSoap" />
+		<parameter name="typeMappingVersion" value="1.2" />
+		<parameter name="wsdlPortType" value="AssetManageReqHandleEntityServiceSoap" />
+		<parameter name="wsdlServiceElement" value="AssetManageReqHandleEntityServiceSoapService" />
+		<parameter name="wsdlServicePort" value="Plugin_VTAMS_AssetManageReqHandleEntityService" />
+		<parameter name="wsdlTargetNamespace" value="urn:http.service.core.ams.viettel.com" />
+	</service>
+	<service name="Plugin_VTAMS_AssetManageReqHandleService" provider="java:RPC" style="rpc" use="encoded">
+		<parameter name="allowedMethods" value="*" />
+		<parameter name="className" value="com.viettel.ams.core.service.http.AssetManageReqHandleServiceSoap" />
+		<parameter name="typeMappingVersion" value="1.2" />
+		<parameter name="wsdlPortType" value="AssetManageReqHandleServiceSoap" />
+		<parameter name="wsdlServiceElement" value="AssetManageReqHandleServiceSoapService" />
+		<parameter name="wsdlServicePort" value="Plugin_VTAMS_AssetManageReqHandleService" />
+		<parameter name="wsdlTargetNamespace" value="urn:http.service.core.ams.viettel.com" />
+	</service>
+	<service name="Plugin_VTAMS_AssetManageReqService" provider="java:RPC" style="rpc" use="encoded">
+		<arrayMapping xmlns:ns="urn:http.service.core.ams.viettel.com" xmlns:cmp-ns="http://model.core.ams.viettel.com" qname="ns:ArrayOf_tns5_AssetManageReqSoap" type="java:com.viettel.ams.core.model.AssetManageReqSoap[]" innerType="cmp-ns:AssetManageReqSoap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"></arrayMapping>
+		<arrayMapping xmlns:ns="urn:http.service.core.ams.viettel.com" xmlns:cmp-ns="http://www.w3.org/2001/XMLSchema" qname="ns:ArrayOf_xsd_anyType" type="java:java.lang.Object[]" innerType="cmp-ns:anyType" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"></arrayMapping>
+		<arrayMapping xmlns:ns="urn:http.service.core.ams.viettel.com" xmlns:cmp-ns="http://www.w3.org/2001/XMLSchema" qname="ns:ArrayOf_xsd_string" type="java:java.lang.String[]" innerType="cmp-ns:string" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"></arrayMapping>
+		<typeMapping xmlns:ns="http://model.core.ams.viettel.com" qname="ns:AssetManageReqSoap" type="java:com.viettel.ams.core.model.AssetManageReqSoap" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"></typeMapping>
+		<typeMapping xmlns:ns="http://search.dao.kernel.portal.liferay.com" qname="ns:SearchContainer" type="java:com.liferay.portal.kernel.dao.search.SearchContainer" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"></typeMapping>
+		<typeMapping xmlns:ns="http://util.kernel.portal.liferay.com" qname="ns:OrderByComparator" type="java:com.liferay.portal.kernel.util.OrderByComparator" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"></typeMapping>
+		<typeMapping xmlns:ns="http://xml.apache.org/xml-soap" qname="ns:mapItem" type="java:org.apache.xml.xml_soap.MapItem" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"></typeMapping>
+		<operation xmlns:operNS="urn:http.service.core.ams.viettel.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="countAssetManageReq" qname="operNS:countAssetManageReq" returnQName="countAssetManageReqReturn" returnType="rtns:int" soapAction="">
+			<parameter xmlns:tns="http://search.dao.kernel.portal.liferay.com" qname="searchContainer" type="tns:SearchContainer"></parameter>
+		</operation>
+		<operation xmlns:operNS="urn:http.service.core.ams.viettel.com" xmlns:rtns="urn:http.service.core.ams.viettel.com" xmlns:tns2="http://model.core.ams.viettel.com" name="searchAssetManageReq" qname="operNS:searchAssetManageReq" returnQName="searchAssetManageReqReturn" returnType="rtns:ArrayOf_tns5_AssetManageReqSoap" returnItemType="tns2:AssetManageReqSoap" soapAction="">
+			<parameter xmlns:tns="http://search.dao.kernel.portal.liferay.com" qname="searchContainer" type="tns:SearchContainer"></parameter>
+			<parameter xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="start" type="tns:int"></parameter>
+			<parameter xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="end" type="tns:int"></parameter>
+		</operation>
+		<parameter name="allowedMethods" value="countAssetManageReq searchAssetManageReq" />
+		<parameter name="className" value="com.viettel.ams.core.service.http.AssetManageReqServiceSoap" />
+		<parameter name="schemaUnqualified" value="http://model.core.ams.viettel.com,http://search.dao.kernel.portal.liferay.com,http://util.kernel.portal.liferay.com,http://xml.apache.org/xml-soap,urn:http.service.core.ams.viettel.com" />
+		<parameter name="typeMappingVersion" value="1.2" />
+		<parameter name="wsdlPortType" value="AssetManageReqServiceSoap" />
+		<parameter name="wsdlServiceElement" value="AssetManageReqServiceSoapService" />
+		<parameter name="wsdlServicePort" value="Plugin_VTAMS_AssetManageReqService" />
+		<parameter name="wsdlTargetNamespace" value="urn:http.service.core.ams.viettel.com" />
+	</service>
+	<service name="Plugin_VTAMS_MerEntityService" provider="java:RPC" style="rpc" use="encoded">
+		<parameter name="allowedMethods" value="*" />
+		<parameter name="className" value="com.viettel.ams.core.service.http.MerEntityServiceSoap" />
+		<parameter name="typeMappingVersion" value="1.2" />
+		<parameter name="wsdlPortType" value="MerEntityServiceSoap" />
+		<parameter name="wsdlServiceElement" value="MerEntityServiceSoapService" />
+		<parameter name="wsdlServicePort" value="Plugin_VTAMS_MerEntityService" />
+		<parameter name="wsdlTargetNamespace" value="urn:http.service.core.ams.viettel.com" />
+	</service>
+	<service name="Plugin_VTAMS_SysGroupService" provider="java:RPC" style="rpc" use="encoded">
+		<parameter name="allowedMethods" value="*" />
+		<parameter name="className" value="com.viettel.ams.core.service.http.SysGroupServiceSoap" />
+		<parameter name="typeMappingVersion" value="1.2" />
+		<parameter name="wsdlPortType" value="SysGroupServiceSoap" />
+		<parameter name="wsdlServiceElement" value="SysGroupServiceSoapService" />
+		<parameter name="wsdlServicePort" value="Plugin_VTAMS_SysGroupService" />
+		<parameter name="wsdlTargetNamespace" value="urn:http.service.core.ams.viettel.com" />
+	</service>
+</deployment>

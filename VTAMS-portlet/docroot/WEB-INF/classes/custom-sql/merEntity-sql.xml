@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<custom-sql>
+	<sql id="getMerEntity">
+		<![CDATA[
+			select a.*
+			from mer_entity a
+		]]>
+	</sql>
+
+	<sql id="findMerEntity">
+		<![CDATA[
+			SELECT a.mer_entity_id as merEntityId,
+			  c.name as merName,
+			  c.code as merCode,
+			  A.SERIAL_NUMBER as serialNumber,
+			  cc.code as contractCode,
+			  CS.STATION_CODE as stationCode,
+			  a.count,
+			  ms.name as statusName,
+			  a.mer_id as merId
+			FROM mer_entity a
+			Left JOIN cat_merchandise c
+			  ON c.merchandise_id = a.mer_id
+			Left JOIN cnt_contract cc
+			  ON cc.contract_id = A.CONTRACT_ID
+			Left JOIN cat_station cs
+			  ON cs.id = a.station_id
+			Left JOIN MER_STATUS ms
+			  ON MS.MER_STATUS_ID = a.status_id
+			Where 1 = 1
+		]]>
+	</sql>
+
+	<sql id="countMerEntity">
+		<![CDATA[
+			select count(1) as numRow
+			FROM mer_entity a
+			Left JOIN cat_merchandise c
+			  ON c.merchandise_id = a.mer_id
+		  	Where 1=1
+		]]>
+	</sql>
+
+</custom-sql>

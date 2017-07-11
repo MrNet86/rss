@@ -1,0 +1,200 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="false" auto-import="false">
+	<import class="com.viettel.ams.core.model.AssetManageReq" />
+	<import class="com.viettel.ams.core.model.AssetManageReqEntity" />
+	<import class="com.viettel.ams.core.model.AssetManageReqHandle" />
+	<import class="com.viettel.ams.core.model.AssetManageReqHandleEntity" />
+	<import class="com.viettel.ams.core.model.MerEntity" />
+	<import class="com.viettel.ams.core.model.SysGroup" />
+	<class name="com.viettel.ams.core.model.impl.AssetManageReqImpl" table="Asset_Manage_Req">
+		<cache usage="read-write" />
+		<id name="manageReqId" column="manage_req_id" type="long">
+			<generator class="sequence">
+				<param name="sequence">Asset_Manage_Req_Seq</param>
+			</generator>
+		</id>
+		<property name="reqGroupId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="req_group_id" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="user_id" />
+		<property name="recvGroupId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="recv_group_id" />
+		<property name="cause" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="creatorId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="creator_id" />
+		<property name="createdDate" type="org.hibernate.type.TimestampType" column="CREATED_DATE" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.LongType" column="STATUS" />
+		<property name="type" type="com.liferay.portal.dao.orm.hibernate.LongType" column="TYPE" />
+		<property name="usedGroupId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="USED_GROUP_ID" />
+		<property name="code" type="com.liferay.portal.dao.orm.hibernate.StringType" column="CODE" />
+		<property name="acceptorId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="ACCEPTOR_ID" />
+		<property name="acceptComment" type="com.liferay.portal.dao.orm.hibernate.StringType" column="ACCEPT_COMMENT" />
+		<property name="retrieveCauseId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="RETRIEVE_CAUSE_ID" />
+		<property name="constructId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="CONSTRUCT_ID" />
+		<property name="delegator" type="com.liferay.portal.dao.orm.hibernate.StringType" column="DELEGATOR" />
+		<property name="isFull" type="com.liferay.portal.dao.orm.hibernate.LongType" column="IS_FULL" />
+		<property name="titleDelegator" type="com.liferay.portal.dao.orm.hibernate.StringType" column="TITLE_DELEGATOR" />
+		<property name="mobileNumber" type="com.liferay.portal.dao.orm.hibernate.LongType" column="MOBILE_NUMBER" />
+		<property name="document" type="com.liferay.portal.dao.orm.hibernate.StringType" column="DOCUMENT" />
+		<property name="failCheckId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="FAIL_CHECK_ID" />
+		<property name="deliveryNoteId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="DELIVERY_NOTE_ID" />
+		<property name="isMaintain" type="com.liferay.portal.dao.orm.hibernate.LongType" column="IS_MAINTAIN" />
+		<property name="causeReject" type="com.liferay.portal.dao.orm.hibernate.StringType" column="CAUSE_REJECT" />
+		<property name="assetType" type="com.liferay.portal.dao.orm.hibernate.LongType" column="ASSET_TYPE" />
+		<property name="retrieveType" type="com.liferay.portal.dao.orm.hibernate.LongType" column="RETRIEVE_TYPE" />
+		<property name="retrieveCmdId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="RETRIEVE_CMD_ID" />
+		<property name="planSwapId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="PLAN_SWAP_ID" />
+		<property name="certificateRegistrationId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="CERTIFICATE_REGISTRATION_ID" />
+		<property name="contractid" type="com.liferay.portal.dao.orm.hibernate.LongType" column="CONTRACT_ID" />
+		<property name="partnerId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="PARTNER_ID" />
+		<property name="statusCa" type="com.liferay.portal.dao.orm.hibernate.LongType" column="STATUS_CA" />
+		<property name="commentCa" type="com.liferay.portal.dao.orm.hibernate.StringType" column="COMMENT_CA" />
+		<property name="documentCaId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="DOCUMENT_CA_ID" />
+	</class>
+	<class name="com.viettel.ams.core.model.impl.AssetManageReqEntityImpl" table="Asset_Manage_Req_Entity">
+		<cache usage="read-write" />
+		<id name="id" column="ID" type="long">
+			<generator class="sequence">
+				<param name="sequence">ASSET_MANAGE_REQ_ENTITY_SEQ</param>
+			</generator>
+		</id>
+		<property name="reqId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="REQ_ID" />
+		<property name="merEntityId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="MER_ENTITY_ID" />
+		<property name="stationId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="STATION_ID" />
+		<property name="failDate" type="org.hibernate.type.TimestampType" column="FAIL_DATE" />
+		<property name="failReason" type="com.liferay.portal.dao.orm.hibernate.StringType" column="FAIL_REASON" />
+		<property name="usedDate" type="org.hibernate.type.TimestampType" column="USED_DATE" />
+		<property name="preStatusId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="PRE_STATUS_ID" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="GROUP_ID" />
+		<property name="quantity" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="QUANTITY" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" column="DESCRIPTION" />
+		<property name="unitPrice" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="UNIT_PRICE" />
+		<property name="timeRetrieve" type="org.hibernate.type.TimestampType" column="TIME_RETRIEVE" />
+		<property name="constructionId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="CONSTRUCTION_ID" />
+		<property name="conditionerId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="CONDITIONER_ID" />
+		<property name="catGroupMerId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="CAT_GROUP_MER_ID" />
+		<property name="upgradeParentId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="UPGRADE_PARENT_ID" />
+		<property name="partnerId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="PARTNER_ID" />
+		<property name="deliveryNoteId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="DELIVERY_NOTE_ID" />
+	</class>
+	<class name="com.viettel.ams.core.model.impl.AssetManageReqHandleImpl" table="Asset_Manage_Req_Handle">
+		<cache usage="read-write" />
+		<id name="handleId" column="HANDLE_ID" type="long">
+			<generator class="sequence">
+				<param name="sequence">ASSET_MANAGE_REQ_HANDLE_SEQ</param>
+			</generator>
+		</id>
+		<property name="manageReqId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="MANAGE_REQ_ID" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" column="DESCRIPTION" />
+		<property name="updatorId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="UPDATOR_ID" />
+		<property name="updateDate" type="org.hibernate.type.TimestampType" column="UPDATE_DATE" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.LongType" column="STATUS" />
+		<property name="code" type="com.liferay.portal.dao.orm.hibernate.StringType" column="CODE" />
+		<property name="createGroupId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="CREATE_GROUP_ID" />
+		<property name="impReqId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="IMP_REQ_ID" />
+		<property name="reqDelegator" type="com.liferay.portal.dao.orm.hibernate.StringType" column="REQ_DELEGATOR" />
+		<property name="reqDelegatorPosition" type="com.liferay.portal.dao.orm.hibernate.StringType" column="REQ_DELEGATOR_POSITION" />
+		<property name="document" type="com.liferay.portal.dao.orm.hibernate.StringType" column="DOCUMENT" />
+		<property name="beginDate" type="org.hibernate.type.TimestampType" column="BEGIN_DATE" />
+		<property name="endDate" type="org.hibernate.type.TimestampType" column="END_DATE" />
+		<property name="kcsCode" type="com.liferay.portal.dao.orm.hibernate.StringType" column="KCS_CODE" />
+		<property name="handOverId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="HAND_OVER_ID" />
+		<property name="impReqCode" type="com.liferay.portal.dao.orm.hibernate.StringType" column="IMP_REQ_CODE" />
+		<property name="baseKcsCode" type="com.liferay.portal.dao.orm.hibernate.LongType" column="BASE_KCS_CODE" />
+		<property name="creatorKcs" type="com.liferay.portal.dao.orm.hibernate.LongType" column="CREATOR_KCS" />
+		<property name="assetType" type="com.liferay.portal.dao.orm.hibernate.LongType" column="ASSET_TYPE" />
+		<property name="isNotModify" type="com.liferay.portal.dao.orm.hibernate.LongType" column="IS_NOT_MODIFY" />
+		<property name="handleDelegator" type="com.liferay.portal.dao.orm.hibernate.StringType" column="HANDLE_DELEGATOR" />
+		<property name="handleDelegatorPosition" type="com.liferay.portal.dao.orm.hibernate.StringType" column="HANDLE_DELEGATOR_POSITION" />
+		<property name="contractId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="CONTRACT_ID" />
+		<property name="statusCa" type="com.liferay.portal.dao.orm.hibernate.LongType" column="STATUS_CA" />
+		<property name="commentCa" type="com.liferay.portal.dao.orm.hibernate.StringType" column="COMMENT_CA" />
+		<property name="documentCaId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="DOCUMENT_CA_ID" />
+	</class>
+	<class name="com.viettel.ams.core.model.impl.AssetManageReqHandleEntityImpl" table="Asset_Manage_Req_Handle_Entity">
+		<cache usage="read-write" />
+		<id name="id" column="ID" type="long">
+			<generator class="sequence">
+				<param name="sequence">ASSET_MANAGE_HANDLE_ENTITY_SEQ</param>
+			</generator>
+		</id>
+		<property name="handleId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="HANDLE_ID" />
+		<property name="merEntityId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="MER_ENTITY_ID" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.LongType" column="STATUS" />
+		<property name="stationId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="STATION_ID" />
+		<property name="failDate" type="org.hibernate.type.TimestampType" column="FAIL_DATE" />
+		<property name="failReason" type="com.liferay.portal.dao.orm.hibernate.StringType" column="FAIL_REASON" />
+		<property name="usedDate" type="org.hibernate.type.TimestampType" column="USED_DATE" />
+		<property name="handOverId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="HAND_OVER_ID" />
+		<property name="quantity" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="QUANTITY" />
+		<property name="unitPrice" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="UNIT_PRICE" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" column="DESCRIPTION" />
+		<property name="upgradeParentId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="UPGRADE_PARENT_ID" />
+		<property name="parentId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="PARENT_ID" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="GROUP_ID" />
+		<property name="timeRetrieve" type="org.hibernate.type.TimestampType" column="TIME_RETRIEVE" />
+		<property name="statusId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="STATUS_ID" />
+		<property name="mark" type="com.liferay.portal.dao.orm.hibernate.LongType" column="MARK" />
+		<property name="oldStatusId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="OLD_STATUS_ID" />
+		<property name="preCatEmployeeId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="PRE_CAT_EMPLOYEE_ID" />
+		<property name="percentQuality" type="com.liferay.portal.dao.orm.hibernate.LongType" column="PERCENT_QUALITY" />
+		<property name="withdrawPrice" type="com.liferay.portal.dao.orm.hibernate.LongType" column="WITHDRAW_PRICE" />
+		<property name="deliveryNoteId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="DELIVERY_NOTE_ID" />
+	</class>
+	<class name="com.viettel.ams.core.model.impl.MerEntityImpl" table="Mer_Entity">
+		<cache usage="read-write" />
+		<id name="merEntityId" column="MER_ENTITY_ID" type="long">
+			<generator class="sequence">
+				<param name="sequence">mer_entity_seq</param>
+			</generator>
+		</id>
+		<property name="serialNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" column="SERIAL_NUMBER" />
+		<property name="unitPrice" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="UNIT_PRICE" />
+		<property name="merId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="MER_ID" />
+		<property name="contractid" type="com.liferay.portal.dao.orm.hibernate.LongType" column="CONTRACT_ID" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="GROUP_ID" />
+		<property name="warehouseId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="WAREHOUSE_ID" />
+		<property name="constructionId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="CONSTRUCTION_ID" />
+		<property name="isMerchandise" type="com.liferay.portal.dao.orm.hibernate.LongType" column="IS_MERCHANDISE" />
+		<property name="statusId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="STATUS_ID" />
+		<property name="parentId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="PARENT_ID" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="USER_ID" />
+		<property name="upgradeParentId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="UPGRADE_PARENT_ID" />
+		<property name="partNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" column="PART_NUMBER" />
+		<property name="count" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="COUNT" />
+		<property name="isTemp" type="com.liferay.portal.dao.orm.hibernate.LongType" column="IS_TEMP" />
+		<property name="path" type="com.liferay.portal.dao.orm.hibernate.StringType" column="PATH" />
+		<property name="originalPrice" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="ORIGINAL_PRICE" />
+		<property name="managerName" type="com.liferay.portal.dao.orm.hibernate.StringType" column="MANAGER_NAME" />
+		<property name="isExpense" type="com.liferay.portal.dao.orm.hibernate.LongType" column="IS_EXPENSE" />
+		<property name="useGroupId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="USE_GROUP_ID" />
+		<property name="keySearch" type="com.liferay.portal.dao.orm.hibernate.LongType" column="KEY_SEARCH" />
+		<property name="contractCode" type="com.liferay.portal.dao.orm.hibernate.StringType" column="CONTRACT_CODE" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" column="DESCRIPTION" />
+		<property name="stationId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="STATION_ID" />
+		<property name="isInventory" type="com.liferay.portal.dao.orm.hibernate.LongType" column="IS_INVENTORY" />
+		<property name="entityType" type="com.liferay.portal.dao.orm.hibernate.LongType" column="ENTITY_TYPE" />
+		<property name="quality" type="com.liferay.portal.dao.orm.hibernate.LongType" column="QUALITY" />
+		<property name="catEmployeeId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="CAT_EMPLOYEE_ID" />
+		<property name="createdDate" type="org.hibernate.type.TimestampType" column="CREATED_DATE" />
+		<property name="isLock" type="com.liferay.portal.dao.orm.hibernate.LongType" column="IS_LOCK" />
+	</class>
+	<class name="com.viettel.ams.core.model.impl.SysGroupImpl" table="Sys_Group">
+		<cache usage="read-write" />
+		<id name="groupId" column="group_id" type="long">
+			<generator class="sequence">
+				<param name="sequence">Sys_Group_Seq</param>
+			</generator>
+		</id>
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" column="NAME" />
+		<property name="groupCode" type="com.liferay.portal.dao.orm.hibernate.StringType" column="group_code" />
+		<property name="fullName" type="com.liferay.portal.dao.orm.hibernate.StringType" column="full_name" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" column="DESCRIPTION" />
+		<property name="provinceId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="province_id" />
+		<property name="address" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="parentId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="parent_id" />
+		<property name="path" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.LongType" column="STATUS" />
+		<property name="titleName" type="com.liferay.portal.dao.orm.hibernate.LongType" column="TITLE_NAME" />
+		<property name="isOff" type="com.liferay.portal.dao.orm.hibernate.LongType" column="IS_OFF" />
+		<property name="lockStatus" type="com.liferay.portal.dao.orm.hibernate.LongType" column="lock_status" />
+	</class>
+</hibernate-mapping>

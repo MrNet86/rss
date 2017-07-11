@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<custom-sql>
+	<sql id="getAssetManageReq">
+		<![CDATA[
+			select a.*
+			from asset_manage_req a
+		]]>
+	</sql>
+
+	<sql id="findAssetManageReq">
+		<![CDATA[
+			select a.MANAGE_REQ_ID, a.code, sg1.name as reqGroupName,
+				sg2.name as recvGroupName, su.full_name,
+				a.delegator, a.created_date, a.status, a.asset_type, a.status_ca,
+				a.req_group_id as reqGroupId, a.recv_group_id as recvGroupId
+			from asset_manage_req a
+				left join sys_group sg1 on a.req_group_id = sg1.group_id
+				left join sys_group sg2 on a.recv_group_id = sg2.group_id
+				left join sys_user su on a.creator_id = su.user_id
+			Where 1=1
+		]]>
+	</sql>
+
+</custom-sql>

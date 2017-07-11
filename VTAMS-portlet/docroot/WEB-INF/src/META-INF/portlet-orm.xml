@@ -1,0 +1,522 @@
+<?xml version="1.0"?>
+
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd">
+	<persistence-unit-metadata>
+		<xml-mapping-metadata-complete/>
+		<persistence-unit-defaults>
+			<access>PROPERTY</access>
+		</persistence-unit-defaults>
+	</persistence-unit-metadata>
+	<mapped-superclass class="com.viettel.ams.core.model.impl.AssetManageReqModelImpl">
+		<attributes>
+			<id name="manageReqId">
+				<column name="MANAGE_REQ_ID" />
+			</id>
+			<basic name="reqGroupId">
+				<column name="REQ_GROUP_ID" />
+			</basic>
+			<basic name="userId">
+				<column name="USER_ID" />
+			</basic>
+			<basic name="recvGroupId">
+				<column name="RECV_GROUP_ID" />
+			</basic>
+			<basic name="cause" />
+			<basic name="creatorId">
+				<column name="CREATOR_ID" />
+			</basic>
+			<basic name="createdDate">
+				<column name="CREATED_DATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="status">
+				<column name="STATUS" />
+			</basic>
+			<basic name="type">
+				<column name="TYPE" />
+			</basic>
+			<basic name="usedGroupId">
+				<column name="USED_GROUP_ID" />
+			</basic>
+			<basic name="code">
+				<column name="CODE" />
+			</basic>
+			<basic name="acceptorId">
+				<column name="ACCEPTOR_ID" />
+			</basic>
+			<basic name="acceptComment">
+				<column name="ACCEPT_COMMENT" />
+			</basic>
+			<basic name="retrieveCauseId">
+				<column name="RETRIEVE_CAUSE_ID" />
+			</basic>
+			<basic name="constructId">
+				<column name="CONSTRUCT_ID" />
+			</basic>
+			<basic name="delegator">
+				<column name="DELEGATOR" />
+			</basic>
+			<basic name="isFull">
+				<column name="IS_FULL" />
+			</basic>
+			<basic name="titleDelegator">
+				<column name="TITLE_DELEGATOR" />
+			</basic>
+			<basic name="mobileNumber">
+				<column name="MOBILE_NUMBER" />
+			</basic>
+			<basic name="document">
+				<column name="DOCUMENT" />
+			</basic>
+			<basic name="failCheckId">
+				<column name="FAIL_CHECK_ID" />
+			</basic>
+			<basic name="deliveryNoteId">
+				<column name="DELIVERY_NOTE_ID" />
+			</basic>
+			<basic name="isMaintain">
+				<column name="IS_MAINTAIN" />
+			</basic>
+			<basic name="causeReject">
+				<column name="CAUSE_REJECT" />
+			</basic>
+			<basic name="assetType">
+				<column name="ASSET_TYPE" />
+			</basic>
+			<basic name="retrieveType">
+				<column name="RETRIEVE_TYPE" />
+			</basic>
+			<basic name="retrieveCmdId">
+				<column name="RETRIEVE_CMD_ID" />
+			</basic>
+			<basic name="planSwapId">
+				<column name="PLAN_SWAP_ID" />
+			</basic>
+			<basic name="certificateRegistrationId">
+				<column name="CERTIFICATE_REGISTRATION_ID" />
+			</basic>
+			<basic name="contractid">
+				<column name="CONTRACT_ID" />
+			</basic>
+			<basic name="partnerId">
+				<column name="PARTNER_ID" />
+			</basic>
+			<basic name="statusCa">
+				<column name="STATUS_CA" />
+			</basic>
+			<basic name="commentCa">
+				<column name="COMMENT_CA" />
+			</basic>
+			<basic name="documentCaId">
+				<column name="DOCUMENT_CA_ID" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.viettel.ams.core.model.impl.AssetManageReqEntityModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID" />
+			</id>
+			<basic name="reqId">
+				<column name="REQ_ID" />
+			</basic>
+			<basic name="merEntityId">
+				<column name="MER_ENTITY_ID" />
+			</basic>
+			<basic name="stationId">
+				<column name="STATION_ID" />
+			</basic>
+			<basic name="failDate">
+				<column name="FAIL_DATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="failReason">
+				<column name="FAIL_REASON" />
+			</basic>
+			<basic name="usedDate">
+				<column name="USED_DATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="preStatusId">
+				<column name="PRE_STATUS_ID" />
+			</basic>
+			<basic name="groupId">
+				<column name="GROUP_ID" />
+			</basic>
+			<basic name="quantity">
+				<column name="QUANTITY" />
+			</basic>
+			<basic name="description">
+				<column name="DESCRIPTION" />
+			</basic>
+			<basic name="unitPrice">
+				<column name="UNIT_PRICE" />
+			</basic>
+			<basic name="timeRetrieve">
+				<column name="TIME_RETRIEVE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="constructionId">
+				<column name="CONSTRUCTION_ID" />
+			</basic>
+			<basic name="conditionerId">
+				<column name="CONDITIONER_ID" />
+			</basic>
+			<basic name="catGroupMerId">
+				<column name="CAT_GROUP_MER_ID" />
+			</basic>
+			<basic name="upgradeParentId">
+				<column name="UPGRADE_PARENT_ID" />
+			</basic>
+			<basic name="partnerId">
+				<column name="PARTNER_ID" />
+			</basic>
+			<basic name="deliveryNoteId">
+				<column name="DELIVERY_NOTE_ID" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.viettel.ams.core.model.impl.AssetManageReqHandleModelImpl">
+		<attributes>
+			<id name="handleId">
+				<column name="HANDLE_ID" />
+			</id>
+			<basic name="manageReqId">
+				<column name="MANAGE_REQ_ID" />
+			</basic>
+			<basic name="description">
+				<column name="DESCRIPTION" />
+			</basic>
+			<basic name="updatorId">
+				<column name="UPDATOR_ID" />
+			</basic>
+			<basic name="updateDate">
+				<column name="UPDATE_DATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="status">
+				<column name="STATUS" />
+			</basic>
+			<basic name="code">
+				<column name="CODE" />
+			</basic>
+			<basic name="createGroupId">
+				<column name="CREATE_GROUP_ID" />
+			</basic>
+			<basic name="impReqId">
+				<column name="IMP_REQ_ID" />
+			</basic>
+			<basic name="reqDelegator">
+				<column name="REQ_DELEGATOR" />
+			</basic>
+			<basic name="reqDelegatorPosition">
+				<column name="REQ_DELEGATOR_POSITION" />
+			</basic>
+			<basic name="document">
+				<column name="DOCUMENT" />
+			</basic>
+			<basic name="beginDate">
+				<column name="BEGIN_DATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="endDate">
+				<column name="END_DATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="kcsCode">
+				<column name="KCS_CODE" />
+			</basic>
+			<basic name="handOverId">
+				<column name="HAND_OVER_ID" />
+			</basic>
+			<basic name="impReqCode">
+				<column name="IMP_REQ_CODE" />
+			</basic>
+			<basic name="baseKcsCode">
+				<column name="BASE_KCS_CODE" />
+			</basic>
+			<basic name="creatorKcs">
+				<column name="CREATOR_KCS" />
+			</basic>
+			<basic name="assetType">
+				<column name="ASSET_TYPE" />
+			</basic>
+			<basic name="isNotModify">
+				<column name="IS_NOT_MODIFY" />
+			</basic>
+			<basic name="handleDelegator">
+				<column name="HANDLE_DELEGATOR" />
+			</basic>
+			<basic name="handleDelegatorPosition">
+				<column name="HANDLE_DELEGATOR_POSITION" />
+			</basic>
+			<basic name="contractId">
+				<column name="CONTRACT_ID" />
+			</basic>
+			<basic name="statusCa">
+				<column name="STATUS_CA" />
+			</basic>
+			<basic name="commentCa">
+				<column name="COMMENT_CA" />
+			</basic>
+			<basic name="documentCaId">
+				<column name="DOCUMENT_CA_ID" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.viettel.ams.core.model.impl.AssetManageReqHandleEntityModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID" />
+			</id>
+			<basic name="handleId">
+				<column name="HANDLE_ID" />
+			</basic>
+			<basic name="merEntityId">
+				<column name="MER_ENTITY_ID" />
+			</basic>
+			<basic name="status">
+				<column name="STATUS" />
+			</basic>
+			<basic name="stationId">
+				<column name="STATION_ID" />
+			</basic>
+			<basic name="failDate">
+				<column name="FAIL_DATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="failReason">
+				<column name="FAIL_REASON" />
+			</basic>
+			<basic name="usedDate">
+				<column name="USED_DATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="handOverId">
+				<column name="HAND_OVER_ID" />
+			</basic>
+			<basic name="quantity">
+				<column name="QUANTITY" />
+			</basic>
+			<basic name="unitPrice">
+				<column name="UNIT_PRICE" />
+			</basic>
+			<basic name="description">
+				<column name="DESCRIPTION" />
+			</basic>
+			<basic name="upgradeParentId">
+				<column name="UPGRADE_PARENT_ID" />
+			</basic>
+			<basic name="parentId">
+				<column name="PARENT_ID" />
+			</basic>
+			<basic name="groupId">
+				<column name="GROUP_ID" />
+			</basic>
+			<basic name="timeRetrieve">
+				<column name="TIME_RETRIEVE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="statusId">
+				<column name="STATUS_ID" />
+			</basic>
+			<basic name="mark">
+				<column name="MARK" />
+			</basic>
+			<basic name="oldStatusId">
+				<column name="OLD_STATUS_ID" />
+			</basic>
+			<basic name="preCatEmployeeId">
+				<column name="PRE_CAT_EMPLOYEE_ID" />
+			</basic>
+			<basic name="percentQuality">
+				<column name="PERCENT_QUALITY" />
+			</basic>
+			<basic name="withdrawPrice">
+				<column name="WITHDRAW_PRICE" />
+			</basic>
+			<basic name="deliveryNoteId">
+				<column name="DELIVERY_NOTE_ID" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.viettel.ams.core.model.impl.MerEntityModelImpl">
+		<attributes>
+			<id name="merEntityId">
+				<column name="MER_ENTITY_ID" />
+			</id>
+			<basic name="serialNumber">
+				<column name="SERIAL_NUMBER" />
+			</basic>
+			<basic name="unitPrice">
+				<column name="UNIT_PRICE" />
+			</basic>
+			<basic name="merId">
+				<column name="MER_ID" />
+			</basic>
+			<basic name="contractid">
+				<column name="CONTRACT_ID" />
+			</basic>
+			<basic name="groupId">
+				<column name="GROUP_ID" />
+			</basic>
+			<basic name="warehouseId">
+				<column name="WAREHOUSE_ID" />
+			</basic>
+			<basic name="constructionId">
+				<column name="CONSTRUCTION_ID" />
+			</basic>
+			<basic name="isMerchandise">
+				<column name="IS_MERCHANDISE" />
+			</basic>
+			<basic name="statusId">
+				<column name="STATUS_ID" />
+			</basic>
+			<basic name="parentId">
+				<column name="PARENT_ID" />
+			</basic>
+			<basic name="userId">
+				<column name="USER_ID" />
+			</basic>
+			<basic name="upgradeParentId">
+				<column name="UPGRADE_PARENT_ID" />
+			</basic>
+			<basic name="partNumber">
+				<column name="PART_NUMBER" />
+			</basic>
+			<basic name="count">
+				<column name="COUNT" />
+			</basic>
+			<basic name="isTemp">
+				<column name="IS_TEMP" />
+			</basic>
+			<basic name="path">
+				<column name="PATH" />
+			</basic>
+			<basic name="originalPrice">
+				<column name="ORIGINAL_PRICE" />
+			</basic>
+			<basic name="managerName">
+				<column name="MANAGER_NAME" />
+			</basic>
+			<basic name="isExpense">
+				<column name="IS_EXPENSE" />
+			</basic>
+			<basic name="useGroupId">
+				<column name="USE_GROUP_ID" />
+			</basic>
+			<basic name="keySearch">
+				<column name="KEY_SEARCH" />
+			</basic>
+			<basic name="contractCode">
+				<column name="CONTRACT_CODE" />
+			</basic>
+			<basic name="description">
+				<column name="DESCRIPTION" />
+			</basic>
+			<basic name="stationId">
+				<column name="STATION_ID" />
+			</basic>
+			<basic name="isInventory">
+				<column name="IS_INVENTORY" />
+			</basic>
+			<basic name="entityType">
+				<column name="ENTITY_TYPE" />
+			</basic>
+			<basic name="quality">
+				<column name="QUALITY" />
+			</basic>
+			<basic name="catEmployeeId">
+				<column name="CAT_EMPLOYEE_ID" />
+			</basic>
+			<basic name="createdDate">
+				<column name="CREATED_DATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="isLock">
+				<column name="IS_LOCK" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.viettel.ams.core.model.impl.SysGroupModelImpl">
+		<attributes>
+			<id name="groupId">
+				<column name="GROUP_ID" />
+			</id>
+			<basic name="name">
+				<column name="NAME" />
+			</basic>
+			<basic name="groupCode">
+				<column name="GROUP_CODE" />
+			</basic>
+			<basic name="fullName">
+				<column name="FULL_NAME" />
+			</basic>
+			<basic name="description">
+				<column name="DESCRIPTION" />
+			</basic>
+			<basic name="provinceId">
+				<column name="PROVINCE_ID" />
+			</basic>
+			<basic name="address" />
+			<basic name="parentId">
+				<column name="PARENT_ID" />
+			</basic>
+			<basic name="path" />
+			<basic name="status">
+				<column name="STATUS" />
+			</basic>
+			<basic name="titleName">
+				<column name="TITLE_NAME" />
+			</basic>
+			<basic name="isOff">
+				<column name="IS_OFF" />
+			</basic>
+			<basic name="lockStatus">
+				<column name="LOCK_STATUS" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<entity class="com.viettel.ams.core.model.impl.AssetManageReqImpl" name="AssetManageReq">
+		<table name="Asset_Manage_Req" />
+		<attributes />
+	</entity>
+	<entity class="com.viettel.ams.core.model.impl.AssetManageReqEntityImpl" name="AssetManageReqEntity">
+		<table name="Asset_Manage_Req_Entity" />
+		<attributes />
+	</entity>
+	<entity class="com.viettel.ams.core.model.impl.AssetManageReqHandleImpl" name="AssetManageReqHandle">
+		<table name="Asset_Manage_Req_Handle" />
+		<attributes />
+	</entity>
+	<entity class="com.viettel.ams.core.model.impl.AssetManageReqHandleEntityImpl" name="AssetManageReqHandleEntity">
+		<table name="Asset_Manage_Req_Handle_Entity" />
+		<attributes />
+	</entity>
+	<entity class="com.viettel.ams.core.model.impl.MerEntityImpl" name="MerEntity">
+		<table name="Mer_Entity" />
+		<attributes />
+	</entity>
+	<entity class="com.viettel.ams.core.model.impl.SysGroupImpl" name="SysGroup">
+		<table name="Sys_Group" />
+		<attributes />
+	</entity>
+</entity-mappings>

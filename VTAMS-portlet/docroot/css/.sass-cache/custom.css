@@ -1,0 +1,252 @@
+@CHARSET "ISO-8859-1";
+.VTAMS-portlet .control-group {
+  margin-bottom: 0px !important; }
+
+.VTAMS-portlet textarea {
+  width: 50% !important;
+  margin-bottom: 7px; }
+
+.VTAMS-portlet input, .uneditable-input {
+  width: auto; }
+
+.VTAMS-portlet label, label.control-label {
+  width: 30%;
+  /* 	white-space: pre-wrap; */
+  /*     overflow: hidden; */
+  /*     text-overflow: ellipsis; */
+  /*     display: inline-block; */ }
+
+.VTAMS-portlet input[type="color"],
+.VTAMS-portlet input[type="date"],
+.VTAMS-portlet input[type="datetime"],
+.VTAMS-portlet input[type="datetime-local"],
+.VTAMS-portlet input[type="email"],
+.VTAMS-portlet input[type="month"],
+.VTAMS-portlet input[type="number"],
+.VTAMS-portlet input[type="password"],
+.VTAMS-portlet input[type="search"],
+.VTAMS-portlet input[type="tel"],
+.VTAMS-portlet input[type="text"],
+.VTAMS-portlet input[type="time"],
+.VTAMS-portlet input[type="url"],
+.VTAMS-portlet input[type="week"],
+.VTAMS-portlet .uneditable-input {
+  margin-bottom: 2px;
+  height: 20px; }
+
+.VTAMS-portlet input[type="color"].size10,
+.VTAMS-portlet input[type="date"].size10,
+.VTAMS-portlet input[type="datetime"].size10,
+.VTAMS-portlet input[type="datetime-local"].size10,
+.VTAMS-portlet input[type="email"].size10,
+.VTAMS-portlet input[type="month"].size10,
+.VTAMS-portlet input[type="number"].size10,
+.VTAMS-portlet input[type="password"].size10,
+.VTAMS-portlet input[type="search"].size10,
+.VTAMS-portlet input[type="tel"].size10,
+.VTAMS-portlet input[type="text"].size10,
+.VTAMS-portlet input[type="time"].size10,
+.VTAMS-portlet input[type="url"].size10,
+.VTAMS-portlet input[type="week"].size10,
+.VTAMS-portlet .uneditable-input.size10,
+.VTAMS-portlet select.size10 {
+  width: 10% !important; }
+
+.VTAMS-portlet input[type="color"].size20,
+.VTAMS-portlet input[type="date"].size20,
+.VTAMS-portlet input[type="datetime"].size20,
+.VTAMS-portlet input[type="datetime-local"].size20,
+.VTAMS-portlet input[type="email"].size20,
+.VTAMS-portlet input[type="month"].size20,
+.VTAMS-portlet input[type="number"].size20,
+.VTAMS-portlet input[type="password"].size20,
+.VTAMS-portlet input[type="search"].size20,
+.VTAMS-portlet input[type="tel"].size20,
+.VTAMS-portlet input[type="text"].size20,
+.VTAMS-portlet input[type="time"].size20,
+.VTAMS-portlet input[type="url"].size20,
+.VTAMS-portlet input[type="week"].size20,
+.VTAMS-portlet .uneditable-input.size20,
+.VTAMS-portlet select.size20 {
+  width: 20% !important; }
+
+.VTAMS-portlet input[type="color"].size30,
+.VTAMS-portlet input[type="date"].size30,
+.VTAMS-portlet input[type="datetime"].size30,
+.VTAMS-portlet input[type="datetime-local"].size30,
+.VTAMS-portlet input[type="email"].size30,
+.VTAMS-portlet input[type="month"].size30,
+.VTAMS-portlet input[type="number"].size30,
+.VTAMS-portlet input[type="password"].size30,
+.VTAMS-portlet input[type="search"].size30,
+.VTAMS-portlet input[type="tel"].size30,
+.VTAMS-portlet input[type="text"].size30,
+.VTAMS-portlet input[type="time"].size30,
+.VTAMS-portlet input[type="url"].size30,
+.VTAMS-portlet input[type="week"].size30,
+.VTAMS-portlet .uneditable-input.size30,
+.VTAMS-portlet select.size30 {
+  width: 30% !important; }
+
+.VTAMS-portlet input[type="color"].size40,
+.VTAMS-portlet input[type="date"].size40,
+.VTAMS-portlet input[type="datetime"].size40,
+.VTAMS-portlet input[type="datetime-local"].size40,
+.VTAMS-portlet input[type="email"].size40,
+.VTAMS-portlet input[type="month"].size40,
+.VTAMS-portlet input[type="number"].size40,
+.VTAMS-portlet input[type="password"].size40,
+.VTAMS-portlet input[type="search"].size40,
+.VTAMS-portlet input[type="tel"].size40,
+.VTAMS-portlet input[type="text"].size40,
+.VTAMS-portlet input[type="time"].size40,
+.VTAMS-portlet input[type="url"].size40,
+.VTAMS-portlet input[type="week"].size40,
+.VTAMS-portlet .uneditable-input.size40,
+.VTAMS-portlet select.size40 {
+  width: 40% !important; }
+
+.VTAMS-portlet input[type="color"].size50,
+.VTAMS-portlet input[type="date"].size50,
+.VTAMS-portlet input[type="datetime"].size50,
+.VTAMS-portlet input[type="datetime-local"].size50,
+.VTAMS-portlet input[type="email"].size50,
+.VTAMS-portlet input[type="month"].size50,
+.VTAMS-portlet input[type="number"].size50,
+.VTAMS-portlet input[type="password"].size50,
+.VTAMS-portlet input[type="search"].size50,
+.VTAMS-portlet input[type="tel"].size50,
+.VTAMS-portlet input[type="text"].size50,
+.VTAMS-portlet input[type="time"].size50,
+.VTAMS-portlet input[type="url"].size50,
+.VTAMS-portlet input[type="week"].size50,
+.VTAMS-portlet .uneditable-input.size50,
+.VTAMS-portlet select.size50 {
+  width: 50% !important; }
+
+.VTAMS-portlet input[type="color"].size60,
+.VTAMS-portlet input[type="date"].size60,
+.VTAMS-portlet input[type="datetime"].size60,
+.VTAMS-portlet input[type="datetime-local"].size60,
+.VTAMS-portlet input[type="email"].size60,
+.VTAMS-portlet input[type="month"].size60,
+.VTAMS-portlet input[type="number"].size60,
+.VTAMS-portlet input[type="password"].size60,
+.VTAMS-portlet input[type="search"].size60,
+.VTAMS-portlet input[type="tel"].size60,
+.VTAMS-portlet input[type="text"].size60,
+.VTAMS-portlet input[type="time"].size60,
+.VTAMS-portlet input[type="url"].size60,
+.VTAMS-portlet input[type="week"].size60,
+.VTAMS-portlet .uneditable-input.size60,
+.VTAMS-portlet select.size60 {
+  width: 60% !important; }
+
+.VTAMS-portlet input[type="color"].size70,
+.VTAMS-portlet input[type="date"].size70,
+.VTAMS-portlet input[type="datetime"].size70,
+.VTAMS-portlet input[type="datetime-local"].size70,
+.VTAMS-portlet input[type="email"].size70,
+.VTAMS-portlet input[type="month"].size70,
+.VTAMS-portlet input[type="number"].size70,
+.VTAMS-portlet input[type="password"].size70,
+.VTAMS-portlet input[type="search"].size70,
+.VTAMS-portlet input[type="tel"].size70,
+.VTAMS-portlet input[type="text"].size70,
+.VTAMS-portlet input[type="time"].size70,
+.VTAMS-portlet input[type="url"].size70,
+.VTAMS-portlet input[type="week"].size70,
+.VTAMS-portlet .uneditable-input.size70,
+.VTAMS-portlet select.size70 {
+  width: 70% !important; }
+
+.VTAMS-portlet input[type="color"].size75,
+.VTAMS-portlet input[type="date"].size75,
+.VTAMS-portlet input[type="datetime"].size75,
+.VTAMS-portlet input[type="datetime-local"].size75,
+.VTAMS-portlet input[type="email"].size75,
+.VTAMS-portlet input[type="month"].size75,
+.VTAMS-portlet input[type="number"].size75,
+.VTAMS-portlet input[type="password"].size75,
+.VTAMS-portlet input[type="search"].size75,
+.VTAMS-portlet input[type="tel"].size75,
+.VTAMS-portlet input[type="text"].size75,
+.VTAMS-portlet input[type="time"].size75,
+.VTAMS-portlet input[type="url"].size75,
+.VTAMS-portlet input[type="week"].size75,
+.VTAMS-portlet .uneditable-input.size75,
+.VTAMS-portlet select.size75 {
+  width: 75% !important; }
+
+.VTAMS-portlet input[type="color"].size80,
+.VTAMS-portlet input[type="date"].size80,
+.VTAMS-portlet input[type="datetime"].size80,
+.VTAMS-portlet input[type="datetime-local"].size80,
+.VTAMS-portlet input[type="email"].size80,
+.VTAMS-portlet input[type="month"].size80,
+.VTAMS-portlet input[type="number"].size80,
+.VTAMS-portlet input[type="password"].size80,
+.VTAMS-portlet input[type="search"].size80,
+.VTAMS-portlet input[type="tel"].size80,
+.VTAMS-portlet input[type="text"].size80,
+.VTAMS-portlet input[type="time"].size80,
+.VTAMS-portlet input[type="url"].size80,
+.VTAMS-portlet input[type="week"].size80,
+.VTAMS-portlet .uneditable-input.size80,
+.VTAMS-portlet select.size80 {
+  width: 80% !important; }
+
+.VTAMS-portlet input[type="color"].size85,
+.VTAMS-portlet input[type="date"].size85,
+.VTAMS-portlet input[type="datetime"].size85,
+.VTAMS-portlet input[type="datetime-local"].size85,
+.VTAMS-portlet input[type="email"].size85,
+.VTAMS-portlet input[type="month"].size85,
+.VTAMS-portlet input[type="number"].size85,
+.VTAMS-portlet input[type="password"].size85,
+.VTAMS-portlet input[type="search"].size85,
+.VTAMS-portlet input[type="tel"].size85,
+.VTAMS-portlet input[type="text"].size85,
+.VTAMS-portlet input[type="time"].size85,
+.VTAMS-portlet input[type="url"].size85,
+.VTAMS-portlet input[type="week"].size85,
+.VTAMS-portlet .uneditable-input.size85,
+.VTAMS-portlet select.size85 {
+  width: 85% !important; }
+
+.VTAMS-portlet input[type="color"].size90,
+.VTAMS-portlet input[type="date"].size90,
+.VTAMS-portlet input[type="datetime"].size90,
+.VTAMS-portlet input[type="datetime-local"].size90,
+.VTAMS-portlet input[type="email"].size90,
+.VTAMS-portlet input[type="month"].size90,
+.VTAMS-portlet input[type="number"].size90,
+.VTAMS-portlet input[type="password"].size90,
+.VTAMS-portlet input[type="search"].size90,
+.VTAMS-portlet input[type="tel"].size90,
+.VTAMS-portlet input[type="text"].size90,
+.VTAMS-portlet input[type="time"].size90,
+.VTAMS-portlet input[type="url"].size90,
+.VTAMS-portlet input[type="week"].size90,
+.VTAMS-portlet .uneditable-input.size90,
+.VTAMS-portlet select.size90 {
+  width: 90% !important; }
+
+.VTAMS-portlet input[type="color"].size100,
+.VTAMS-portlet input[type="date"].size100,
+.VTAMS-portlet input[type="datetime"].size100,
+.VTAMS-portlet input[type="datetime-local"].size100,
+.VTAMS-portlet input[type="email"].size100,
+.VTAMS-portlet input[type="month"].size100,
+.VTAMS-portlet input[type="number"].size100,
+.VTAMS-portlet input[type="password"].size100,
+.VTAMS-portlet input[type="search"].size100,
+.VTAMS-portlet input[type="tel"].size100,
+.VTAMS-portlet input[type="text"].size100,
+.VTAMS-portlet input[type="time"].size100,
+.VTAMS-portlet input[type="url"].size100,
+.VTAMS-portlet input[type="week"].size100,
+.VTAMS-portlet .uneditable-input.size100,
+.VTAMS-portlet select.size100 {
+  width: 100% !important; }
+
