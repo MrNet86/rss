@@ -1,19 +1,20 @@
 <%@ include file="init.jsp" %>
 
 <%
-String tabNames = "view-all-rss,manage-rss";
-String tab = ParamUtil.getString(request, "tab", "view-all-rss");
+String tabNames = "config-rss,manage-rss";
+String tab = ParamUtil.getString(request, "tab", "config-rss");
 
 PortletURL portletURL = renderResponse.createRenderURL();
 portletURL.setParameter("tab", tab);
 
 String pageUrl = "";
 
-if("view-all-rss".equals(tab)) {
-	portletURL.setParameter("action", RssConstants.VIEW_ALL_RSS);
-	pageUrl = "html/backend/view_all_rss.jsp";
+if("config-rss".equals(tab)) {
+	System.out.println("config-rss tab");
+	portletURL.setParameter("action", RssConstants.CONFIG_RSS);
+	pageUrl = "/html/backend/config_rss.jsp";
 }
-
+System.out.println("pageUrl :"+pageUrl);
 %>
 
 <liferay-ui:tabs
