@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 6.2.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_6_2_0.dtd">
+<service-builder package-path="com.viettel.ims.core">
+	<author>MrNet</author>
+	<namespace>VTIMS</namespace>
+
+	<!-- Thong tin hang muc dau tu -->
+	<entity name="InvestCategories" table="Invest_Categories" local-service="true" remote-service="false"
+		data-source="imsDataSource" session-factory="imsSessionFactory" tx-manager="imsTransactionManager">
+
+		<!-- PK fields-->
+		<column name="investCategoriesId" db-name="invest_Categories_Id" type="long" primary="true" id-type="increment"/>
+
+		<!-- Audit fields -->
+		<column name="objId" db-name="obj_id" type="long"/>
+
+		<column name="name" db-name="name" type="String"/>
+		<column name="description" db-name="description" type="String"/>
+		<column name="unitId" db-name="unit_id" type="long"/>
+		<column name="costType" db-name="cost_type" type="long"/>
+		<column name="quantity" db-name="quantity" type="double"/>
+		<column name="usedQuantity" db-name="used_Quantity" type="double"/>
+		<column name="unitPrice" db-name="unit_price" type="double"/>
+		<column name="catCurrencyId" db-name="cat_Currency_Id" type="long"/>
+		<column name="type" db-name="type" type="long"/>
+		<column name="vat" db-name="vat" type="double" />
+
+		<column name="isActive" db-name="is_Active" type="long"/>
+		<column name="createdId" db-name="created_id" type="long"/>
+		<column name="createdDate" db-name="created_Date" type="Date"/>
+		<column name="modifieldId" db-name="modifield_Id" type="long"/>
+		<column name="modifieldDate" db-name="modifield_Date" type="Date"/>
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="name"/>
+		</order>
+
+		<finder name="ObjId" return-type="Collection">
+	        <finder-column name="objId" />
+	        <finder-column name="isActive" />
+	    </finder>
+
+	</entity>
+
+	<!-- Thong tin chu truong dau tu -->
+	<entity name="InvestPolicy" table="Invest_Policy" local-service="true" remote-service="false"
+		data-source="imsDataSource" session-factory="imsSessionFactory" tx-manager="imsTransactionManager">
+
+		<column name="investPolicyId" db-name="invest_policy_id" type="long" primary="true" id-type="increment" />
+
+		<!-- Thong tin chung cua chu truong -->
+		<column name="infoPolicyType" db-name="info_policy_type" type="long"/>
+		<column name="infoPolicyName" db-name="info_policy_name" type="String"/>
+		<column name="infoPolicyCode" db-name="info_policy_code" type="String"/>
+		<column name="infoProposeGroupId" db-name="info_propose_group_id" type="long"/>
+		<column name="infoVerifyGroupId" db-name="info_verify_group_id" type="long"/>
+		<column name="infoPolicyDate" db-name="info_policy_date" type="Date"/>
+		<column name="infoPolicyDeployDate" db-name="info_Policy_Deploy_Date" type="Date"/>
+		<column name="infoResponsibleUserId" db-name="info_Responsible_User_Id" type="long"/>
+		<column name="infoService" db-name="info_Service" type="String"/>
+		<column name="infoInvestTarget" db-name="info_Invest_Target" type="String"/>
+		<column name="infoInvestLocation" db-name="info_Invest_Location" type="String"/>
+		<column name="infoTechnique" db-name="info_Technique" type="String"/>
+		<column name="infoInvestName" db-name="info_invest_name" type="String"/>
+		<column name="infoInvestDeadline" db-name="info_invest_deadline" type="long"/>
+		<column name="infoInvestCreateGroupId" db-name="info_Invest_Create_Group_Id" type="long"/>
+		<column name="infoInvestDeployGroupId" db-name="info_Invest_Deploy_Group_Id" type="long"/>
+
+		<!-- Thong tin hang muc cua chu truong -->
+		<column name="investCategories" type="Collection" entity="InvestCategories" />
+
+		<!-- Thong tin ve chi phi -->
+		<column name="costCapital" db-name="cost_Capital" type="long"/>
+		<column name="costCompensate" db-name="cost_Compensate" type="double"/>
+		<column name="costCompensateForeign" db-name="cost_Compensate_Foreign" type="double"/>
+		<column name="costEquiment" db-name="cost_Equiment" type="double"/>
+		<column name="costEquimentForeign" db-name="cost_Equiment_Foreign" type="double"/>
+		<column name="costContruction" db-name="cost_Contruction" type="double"/>
+		<column name="costContructionForeign" db-name="cost_Contruction_Foreign" type="double"/>
+		<column name="costAdvisory" db-name="cost_Advisory" type="double"/>
+		<column name="costAdvisoryForeign" db-name="cost_Advisory_Foreign" type="double"/>
+		<column name="costManager" db-name="cost_Manager" type="double"/>
+		<column name="costManagerForeign" db-name="cost_Manager_Foreign" type="double"/>
+		<column name="costOther" db-name="cost_Other" type="double"/>
+		<column name="costOtherForeign" db-name="cost_Other_Foreign" type="double"/>
+		<column name="costProvide" db-name="cost_Provide" type="double"/>
+		<column name="costProvideForeign" db-name="cost_Provide_Foreign" type="double"/>
+		<column name="costLocal" db-name="cost_Local" type="double"/>
+		<column name="costForeign" db-name="cost_Foreign" type="double"/>
+		<column name="costForeignRate" db-name="cost_Foreign_Rate" type="double"/>
+		<column name="costTax" db-name="cost_Tax" type="double"/>
+		<column name="costTotalValue" db-name="cost_Total_Value" type="double"/>
+		<column name="costTotalValueTax" db-name="cost_Total_Value_Tax" type="double"/>
+
+		<!-- Thong tin tham dinh chu truong -->
+		<column name="decideDelivererUserId" db-name="decide_Deliverer_User_Id" type="long"/>
+		<column name="decideReceiveUserId" db-name="decide_Receive_User_Id" type="long"/>
+		<column name="decideAskDate" db-name="decide_Ask_Date" type="Date"/>
+		<column name="decideDeadline" db-name="decide_Deadline" type="long"/>
+		<column name="decideFinishDate" db-name="decide_Finish_Date" type="Date"/>
+		<column name="decideDescription" db-name="decide_Description" type="String"/>
+		<column name="decideUserId" db-name="decide_User_Id" type="long"/>
+		<column name="decideDate" db-name="decide_Date" type="Date"/>
+		<!-- File dinh kem tham dinh -->
+
+		<!-- Thong tin phe duyet chu truong -->
+		<column name="verifyStatus" db-name="verify_Status" type="long"/>
+		<column name="verifyDocNum" db-name="verify_Doc_Num" type="String"/>
+		<column name="verifyDate" db-name="verify_Date" type="Date"/>
+		<column name="verifyUserId" db-name="verify_User_Id" type="long"/>
+		<column name="verifyDescription" db-name="verify_Description" type="String"/>
+		<!-- File dinh kem chu truong -->
+
+		<column name="isActive" db-name="is_Active" type="long"/>
+		<column name="status" db-name="status" type="long"/>
+		<column name="createdId" db-name="created_id" type="long"/>
+		<column name="createdDate" db-name="created_Date" type="Date"/>
+		<column name="modifieldId" db-name="modifield_Id" type="long"/>
+		<column name="modifieldDate" db-name="modifield_Date" type="Date"/>
+
+		<!-- Order -->
+		<order by="desc">
+			<order-column name="createdDate"/>
+		</order>
+
+		<finder return-type="Collection" name="InfoPolicyName">
+			<finder-column name="infoPolicyName" />
+			<finder-column name="isActive" />
+		</finder>
+
+	</entity>
+
+	<!-- Model no dataSource -->
+	<!-- Thong tin chu truong dau tu -->
+	<entity name="InvestPolicyExt" local-service="true" remote-service="false"
+		data-source="noDataSource" >
+
+		<column name="investPolicyId" db-name="invest_policy_id" type="long" primary="true" id-type="increment" />
+
+		<!-- Thong tin chung cua chu truong -->
+		<column name="infoPolicyType" db-name="info_policy_type" type="long"/>
+		<column name="infoPolicyName" db-name="info_policy_name" type="String"/>
+		<column name="infoPolicyCode" db-name="info_policy_code" type="String"/>
+		<column name="infoProposeGroupId" db-name="info_propose_group_id" type="long"/>
+		<column name="infoVerifyGroupId" db-name="info_verify_group_id" type="long"/>
+		<column name="infoPolicyDate" db-name="info_policy_date" type="Date"/>
+		<column name="infoPolicyDeployDate" db-name="info_Policy_Deploy_Date" type="Date"/>
+		<column name="infoResponsibleUserId" db-name="info_Responsible_User_Id" type="long"/>
+		<column name="infoService" db-name="info_Service" type="String"/>
+		<column name="infoInvestTarget" db-name="info_Invest_Target" type="String"/>
+		<column name="infoInvestLocation" db-name="info_Invest_Location" type="String"/>
+		<column name="infoTechnique" db-name="info_Technique" type="String"/>
+		<column name="infoInvestName" db-name="info_invest_name" type="String"/>
+		<column name="infoInvestDeadline" db-name="info_invest_deadline" type="long"/>
+		<column name="infoInvestCreateGroupId" db-name="info_Invest_Create_Group_Id" type="long"/>
+		<column name="infoInvestDeployGroupId" db-name="info_Invest_Deploy_Group_Id" type="long"/>
+
+		<!-- Thong tin hang muc cua chu truong -->
+		<column name="investCategories" type="Collection" entity="InvestCategories" />
+
+		<!-- Thong tin ve chi phi -->
+		<column name="costCapital" db-name="cost_Capital" type="long"/>
+		<column name="costCompensate" db-name="cost_Compensate" type="double"/>
+		<column name="costCompensateForeign" db-name="cost_Compensate_Foreign" type="double"/>
+		<column name="costEquiment" db-name="cost_Equiment" type="double"/>
+		<column name="costEquimentForeign" db-name="cost_Equiment_Foreign" type="double"/>
+		<column name="costContruction" db-name="cost_Contruction" type="double"/>
+		<column name="costContructionForeign" db-name="cost_Contruction_Foreign" type="double"/>
+		<column name="costAdvisory" db-name="cost_Advisory" type="double"/>
+		<column name="costAdvisoryForeign" db-name="cost_Advisory_Foreign" type="double"/>
+		<column name="costManager" db-name="cost_Manager" type="double"/>
+		<column name="costManagerForeign" db-name="cost_Manager_Foreign" type="double"/>
+		<column name="costOther" db-name="cost_Other" type="double"/>
+		<column name="costOtherForeign" db-name="cost_Other_Foreign" type="double"/>
+		<column name="costProvide" db-name="cost_Provide" type="double"/>
+		<column name="costProvideForeign" db-name="cost_Provide_Foreign" type="double"/>
+		<column name="costLocal" db-name="cost_Local" type="double"/>
+		<column name="costForeign" db-name="cost_Foreign" type="double"/>
+		<column name="costForeignRate" db-name="cost_Foreign_Rate" type="double"/>
+		<column name="costTax" db-name="cost_Tax" type="double"/>
+		<column name="costTotalValue" db-name="cost_Total_Value" type="double"/>
+		<column name="costTotalValueTax" db-name="cost_Total_Value_Tax" type="double"/>
+
+		<!-- Thong tin tham dinh chu truong -->
+		<column name="decideDelivererUserId" db-name="decide_Deliverer_User_Id" type="long"/>
+		<column name="decideReceiveUserId" db-name="decide_Receive_User_Id" type="long"/>
+		<column name="decideAskDate" db-name="decide_Ask_Date" type="Date"/>
+		<column name="decideDeadline" db-name="decide_Deadline" type="long"/>
+		<column name="decideFinishDate" db-name="decide_Finish_Date" type="Date"/>
+		<column name="decideDescription" db-name="decide_Description" type="String"/>
+		<column name="decideUserId" db-name="decide_User_Id" type="long"/>
+		<column name="decideDate" db-name="decide_Date" type="Date"/>
+		<!-- File dinh kem tham dinh -->
+
+		<!-- Thong tin phe duyet chu truong -->
+		<column name="verifyStatus" db-name="verify_Status" type="long"/>
+		<column name="verifyDocNum" db-name="verify_Doc_Num" type="String"/>
+		<column name="verifyDate" db-name="verify_Date" type="Date"/>
+		<column name="verifyUserId" db-name="verify_User_Id" type="long"/>
+		<column name="verifyDescription" db-name="verify_Description" type="String"/>
+		<!-- File dinh kem chu truong -->
+
+		<column name="isActive" db-name="is_Active" type="long"/>
+		<column name="status" db-name="status" type="long"/>
+		<column name="createdId" db-name="created_id" type="long"/>
+		<column name="createdDate" db-name="created_Date" type="Date"/>
+		<column name="modifieldId" db-name="modifield_Id" type="long"/>
+		<column name="modifieldDate" db-name="modifield_Date" type="Date"/>
+
+		<!-- ExtField -->
+		<column name="infoPolicyTypeName" type="String"/>
+		<column name="infoProposeGroupName" type="String"/>
+		<column name="infoVerifyGroupName" type="String"/>
+		<column name="infoResponsibleUserName" type="String"/>
+		<column name="infoInvestCreateGroupName" type="String"/>
+		<column name="infoInvestDeployGroupName" type="String"/>
+
+		<!-- Order -->
+		<order by="desc">
+			<order-column name="createdDate"/>
+		</order>
+
+		<finder return-type="Collection" name="InfoPolicyName">
+			<finder-column name="infoPolicyName" />
+			<finder-column name="isActive" />
+		</finder>
+	</entity>
+
+	<entity name="SysGroup" table="Sys_Group" local-service="true" remote-service="false"
+		data-source="imsDataSource" session-factory="imsSessionFactory" tx-manager="imsTransactionManager" >
+
+		<column name="groupId" db-name="group_id" type="long" primary="true" id-type="increment"/>
+
+		<column name="name" type="String" db-name="NAME"/>
+		<column name="groupCode" type="String" db-name="group_code"/>
+		<column name="fullName" type="String" db-name="full_name"/>
+		<column name="description" type="String" db-name="DESCRIPTION"/>
+		<column name="provinceId" type="long" db-name="province_id"/>
+		<column name="address" type="String" db-name="address"/>
+		<column name="parentId" type="long" db-name="parent_id"/>
+		<column name="path" type="String" db-name="path"/>
+		<column name="status" type="long" db-name="STATUS"/>
+		<column name="titleName" type="long" db-name="TITLE_NAME"/>
+		<column name="isOff" type="long" db-name="IS_OFF"/>
+
+		<order by="asc">
+			<order-column name="groupCode" />
+		</order>
+		<finder return-type="Collection" name="name">
+			<finder-column name="name"/>
+			<finder-column name="status"/>
+		</finder>
+		<finder return-type="Collection" name="groupCode">
+			<finder-column name="groupCode"/>
+			<finder-column name="status"/>
+		</finder>
+		<finder return-type="Collection" name="path">
+			<finder-column name="path"/>
+			<finder-column name="status"/>
+		</finder>
+	</entity>
+
+	<entity name="VInvestPolicy" table="V_INVEST_POLICY" local-service="true" remote-service="false"
+		data-source="imsDataSource" session-factory="imsSessionFactory" tx-manager="imsTransactionManager" >
+
+		<column name="investPolicyId" db-name="invest_policy_id" type="long" primary="true" id-type="increment"/>
+
+		<column name="infoPolicyTypeName" type="String"/>
+		<column name="infoPolicyName" type="String"/>
+		<column name="infoProposeGroupName" type="String"/>
+		<column name="infoVerifyGroupName" type="String"/>
+		<column name="infoPolicyDate" type="Date"/>
+		<column name="infoPolicyDeployDate" type="Date"/>
+
+	</entity>
+
+	<entity name="FileAttachment" local-service="true" table="FileAttachment"
+		data-source="imsDataSource" session-factory="imsSessionFactory" tx-manager="imsTransactionManager" >
+
+		<column name="fileAttachmentId" type="long" primary="true" id-type="increment" db-name="FileAttachmentId"/>
+
+		<column name="companyId" type="long" db-name="CompanyId"/>
+		<column name="repositoryId" type="long" db-name="RepositoryId"/>
+		<column name="folderId" type="long" db-name="FolderId"/>
+		<column name="createdDate" type="Date" db-name="CreatedDate"/>
+		<column name="createdById" type="long" db-name="CreatedById"/>
+		<column name="treePath_" type="String" db-name="TreePath_"/>
+		<column name="name" type="String" db-name="Name"/>
+		<column name="extention" type="String" db-name="Extention"/>
+		<column name="mimeType" type="String" db-name="MimeType"/>
+		<column name="title" type="String" db-name="Title"/>
+		<column name="description" type="String" db-name="Description"/>
+		<column name="extraSetting" type="String" db-name="ExtraSetting"/>
+		<column name="fileTypeId" type="long" db-name="FileTypeId"/>
+		<column name="version" type="String" db-name="Version"/>
+		<column name="size_" type="long" db-name="Size_"/>
+		<column name="readCount" type="int" db-name="ReadCount"/>
+		<column name="smallImageId" type="long" db-name="SmallImageId"/>
+		<column name="largeImageId" type="long" db-name="LargeImageId"/>
+		<column name="custom1Image" type="long" db-name="Custom1Image"/>
+		<column name="custom2Image" type="long" db-name="Custom2Image"/>
+		<column name="isManualCheckInRequired" type="boolean" db-name="IsManualCheckInRequired"/>
+		<column name="objectType" type="int" db-name="ObjectType"/>
+		<column name="objectId" type="long" />
+		<column name="modifiedById" type="long" db-name="ModifiedById"/>
+		<column name="modifiedDate" type="Date" db-name="ModifiedDate"/>
+		<order by="asc">
+            <order-column name="companyId"></order-column>
+        </order>
+        <finder name="CompanyId" return-type="Collection">
+            <finder-column name="companyId"></finder-column>
+        </finder>
+        <finder name="O_O" return-type="Collection">
+            <finder-column name="objectType"></finder-column>
+            <finder-column name="objectId"></finder-column>
+        </finder>
+	</entity>
+
+</service-builder>

@@ -1,0 +1,612 @@
+<?xml version="1.0"?>
+
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd">
+	<persistence-unit-metadata>
+		<xml-mapping-metadata-complete/>
+		<persistence-unit-defaults>
+			<access>PROPERTY</access>
+		</persistence-unit-defaults>
+	</persistence-unit-metadata>
+	<mapped-superclass class="com.viettel.ims.core.model.impl.FileAttachmentModelImpl">
+		<attributes>
+			<id name="fileAttachmentId">
+				<column name="FILEATTACHMENTID" />
+			</id>
+			<basic name="companyId">
+				<column name="COMPANYID" />
+			</basic>
+			<basic name="repositoryId">
+				<column name="REPOSITORYID" />
+			</basic>
+			<basic name="folderId">
+				<column name="FOLDERID" />
+			</basic>
+			<basic name="createdDate">
+				<column name="CREATEDDATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="createdById">
+				<column name="CREATEDBYID" />
+			</basic>
+			<basic name="treePath_">
+				<column name="TREEPATH_" />
+			</basic>
+			<basic name="name">
+				<column name="NAME" />
+			</basic>
+			<basic name="extention">
+				<column name="EXTENTION" />
+			</basic>
+			<basic name="mimeType">
+				<column name="MIMETYPE" />
+			</basic>
+			<basic name="title">
+				<column name="TITLE" />
+			</basic>
+			<basic name="description">
+				<column name="DESCRIPTION" />
+			</basic>
+			<basic name="extraSetting">
+				<column name="EXTRASETTING" />
+			</basic>
+			<basic name="fileTypeId">
+				<column name="FILETYPEID" />
+			</basic>
+			<basic name="version">
+				<column name="VERSION" />
+			</basic>
+			<basic name="size_">
+				<column name="SIZE_" />
+			</basic>
+			<basic name="readCount">
+				<column name="READCOUNT" />
+			</basic>
+			<basic name="smallImageId">
+				<column name="SMALLIMAGEID" />
+			</basic>
+			<basic name="largeImageId">
+				<column name="LARGEIMAGEID" />
+			</basic>
+			<basic name="custom1Image">
+				<column name="CUSTOM1IMAGE" />
+			</basic>
+			<basic name="custom2Image">
+				<column name="CUSTOM2IMAGE" />
+			</basic>
+			<basic name="isManualCheckInRequired">
+				<column name="ISMANUALCHECKINREQUIRED" />
+			</basic>
+			<basic name="objectType">
+				<column name="OBJECTTYPE" />
+			</basic>
+			<basic name="objectId" />
+			<basic name="modifiedById">
+				<column name="MODIFIEDBYID" />
+			</basic>
+			<basic name="modifiedDate">
+				<column name="MODIFIEDDATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.viettel.ims.core.model.impl.InvestCategoriesModelImpl">
+		<attributes>
+			<id name="investCategoriesId">
+				<column name="INVEST_CATEGORIES_ID" />
+			</id>
+			<basic name="objId">
+				<column name="OBJ_ID" />
+			</basic>
+			<basic name="name" />
+			<basic name="description" />
+			<basic name="unitId">
+				<column name="UNIT_ID" />
+			</basic>
+			<basic name="costType">
+				<column name="COST_TYPE" />
+			</basic>
+			<basic name="quantity" />
+			<basic name="usedQuantity">
+				<column name="USED_QUANTITY" />
+			</basic>
+			<basic name="unitPrice">
+				<column name="UNIT_PRICE" />
+			</basic>
+			<basic name="catCurrencyId">
+				<column name="CAT_CURRENCY_ID" />
+			</basic>
+			<basic name="type" />
+			<basic name="vat" />
+			<basic name="isActive">
+				<column name="IS_ACTIVE" />
+			</basic>
+			<basic name="createdId">
+				<column name="CREATED_ID" />
+			</basic>
+			<basic name="createdDate">
+				<column name="CREATED_DATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="modifieldId">
+				<column name="MODIFIELD_ID" />
+			</basic>
+			<basic name="modifieldDate">
+				<column name="MODIFIELD_DATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.viettel.ims.core.model.impl.InvestPolicyModelImpl">
+		<attributes>
+			<id name="investPolicyId">
+				<column name="INVEST_POLICY_ID" />
+			</id>
+			<basic name="infoPolicyType">
+				<column name="INFO_POLICY_TYPE" />
+			</basic>
+			<basic name="infoPolicyName">
+				<column name="INFO_POLICY_NAME" />
+			</basic>
+			<basic name="infoPolicyCode">
+				<column name="INFO_POLICY_CODE" />
+			</basic>
+			<basic name="infoProposeGroupId">
+				<column name="INFO_PROPOSE_GROUP_ID" />
+			</basic>
+			<basic name="infoVerifyGroupId">
+				<column name="INFO_VERIFY_GROUP_ID" />
+			</basic>
+			<basic name="infoPolicyDate">
+				<column name="INFO_POLICY_DATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="infoPolicyDeployDate">
+				<column name="INFO_POLICY_DEPLOY_DATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="infoResponsibleUserId">
+				<column name="INFO_RESPONSIBLE_USER_ID" />
+			</basic>
+			<basic name="infoService">
+				<column name="INFO_SERVICE" />
+			</basic>
+			<basic name="infoInvestTarget">
+				<column name="INFO_INVEST_TARGET" />
+			</basic>
+			<basic name="infoInvestLocation">
+				<column name="INFO_INVEST_LOCATION" />
+			</basic>
+			<basic name="infoTechnique">
+				<column name="INFO_TECHNIQUE" />
+			</basic>
+			<basic name="infoInvestName">
+				<column name="INFO_INVEST_NAME" />
+			</basic>
+			<basic name="infoInvestDeadline">
+				<column name="INFO_INVEST_DEADLINE" />
+			</basic>
+			<basic name="infoInvestCreateGroupId">
+				<column name="INFO_INVEST_CREATE_GROUP_ID" />
+			</basic>
+			<basic name="infoInvestDeployGroupId">
+				<column name="INFO_INVEST_DEPLOY_GROUP_ID" />
+			</basic>
+			<basic name="costCapital">
+				<column name="COST_CAPITAL" />
+			</basic>
+			<basic name="costCompensate">
+				<column name="COST_COMPENSATE" />
+			</basic>
+			<basic name="costCompensateForeign">
+				<column name="COST_COMPENSATE_FOREIGN" />
+			</basic>
+			<basic name="costEquiment">
+				<column name="COST_EQUIMENT" />
+			</basic>
+			<basic name="costEquimentForeign">
+				<column name="COST_EQUIMENT_FOREIGN" />
+			</basic>
+			<basic name="costContruction">
+				<column name="COST_CONTRUCTION" />
+			</basic>
+			<basic name="costContructionForeign">
+				<column name="COST_CONTRUCTION_FOREIGN" />
+			</basic>
+			<basic name="costAdvisory">
+				<column name="COST_ADVISORY" />
+			</basic>
+			<basic name="costAdvisoryForeign">
+				<column name="COST_ADVISORY_FOREIGN" />
+			</basic>
+			<basic name="costManager">
+				<column name="COST_MANAGER" />
+			</basic>
+			<basic name="costManagerForeign">
+				<column name="COST_MANAGER_FOREIGN" />
+			</basic>
+			<basic name="costOther">
+				<column name="COST_OTHER" />
+			</basic>
+			<basic name="costOtherForeign">
+				<column name="COST_OTHER_FOREIGN" />
+			</basic>
+			<basic name="costProvide">
+				<column name="COST_PROVIDE" />
+			</basic>
+			<basic name="costProvideForeign">
+				<column name="COST_PROVIDE_FOREIGN" />
+			</basic>
+			<basic name="costLocal">
+				<column name="COST_LOCAL" />
+			</basic>
+			<basic name="costForeign">
+				<column name="COST_FOREIGN" />
+			</basic>
+			<basic name="costForeignRate">
+				<column name="COST_FOREIGN_RATE" />
+			</basic>
+			<basic name="costTax">
+				<column name="COST_TAX" />
+			</basic>
+			<basic name="costTotalValue">
+				<column name="COST_TOTAL_VALUE" />
+			</basic>
+			<basic name="costTotalValueTax">
+				<column name="COST_TOTAL_VALUE_TAX" />
+			</basic>
+			<basic name="decideDelivererUserId">
+				<column name="DECIDE_DELIVERER_USER_ID" />
+			</basic>
+			<basic name="decideReceiveUserId">
+				<column name="DECIDE_RECEIVE_USER_ID" />
+			</basic>
+			<basic name="decideAskDate">
+				<column name="DECIDE_ASK_DATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="decideDeadline">
+				<column name="DECIDE_DEADLINE" />
+			</basic>
+			<basic name="decideFinishDate">
+				<column name="DECIDE_FINISH_DATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="decideDescription">
+				<column name="DECIDE_DESCRIPTION" />
+			</basic>
+			<basic name="decideUserId">
+				<column name="DECIDE_USER_ID" />
+			</basic>
+			<basic name="decideDate">
+				<column name="DECIDE_DATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="verifyStatus">
+				<column name="VERIFY_STATUS" />
+			</basic>
+			<basic name="verifyDocNum">
+				<column name="VERIFY_DOC_NUM" />
+			</basic>
+			<basic name="verifyDate">
+				<column name="VERIFY_DATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="verifyUserId">
+				<column name="VERIFY_USER_ID" />
+			</basic>
+			<basic name="verifyDescription">
+				<column name="VERIFY_DESCRIPTION" />
+			</basic>
+			<basic name="isActive">
+				<column name="IS_ACTIVE" />
+			</basic>
+			<basic name="status" />
+			<basic name="createdId">
+				<column name="CREATED_ID" />
+			</basic>
+			<basic name="createdDate">
+				<column name="CREATED_DATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="modifieldId">
+				<column name="MODIFIELD_ID" />
+			</basic>
+			<basic name="modifieldDate">
+				<column name="MODIFIELD_DATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<transient name="decideDelivererUserUuid" />
+			<transient name="decideReceiveUserUuid" />
+			<transient name="decideUserUuid" />
+			<transient name="infoResponsibleUserUuid" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+			<transient name="verifyUserUuid" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.viettel.ims.core.model.impl.InvestPolicyExtModelImpl">
+		<attributes>
+			<id name="investPolicyId">
+				<column name="INVEST_POLICY_ID" />
+			</id>
+			<basic name="infoPolicyType">
+				<column name="INFO_POLICY_TYPE" />
+			</basic>
+			<basic name="infoPolicyName">
+				<column name="INFO_POLICY_NAME" />
+			</basic>
+			<basic name="infoPolicyCode">
+				<column name="INFO_POLICY_CODE" />
+			</basic>
+			<basic name="infoProposeGroupId">
+				<column name="INFO_PROPOSE_GROUP_ID" />
+			</basic>
+			<basic name="infoVerifyGroupId">
+				<column name="INFO_VERIFY_GROUP_ID" />
+			</basic>
+			<basic name="infoPolicyDate">
+				<column name="INFO_POLICY_DATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="infoPolicyDeployDate">
+				<column name="INFO_POLICY_DEPLOY_DATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="infoResponsibleUserId">
+				<column name="INFO_RESPONSIBLE_USER_ID" />
+			</basic>
+			<basic name="infoService">
+				<column name="INFO_SERVICE" />
+			</basic>
+			<basic name="infoInvestTarget">
+				<column name="INFO_INVEST_TARGET" />
+			</basic>
+			<basic name="infoInvestLocation">
+				<column name="INFO_INVEST_LOCATION" />
+			</basic>
+			<basic name="infoTechnique">
+				<column name="INFO_TECHNIQUE" />
+			</basic>
+			<basic name="infoInvestName">
+				<column name="INFO_INVEST_NAME" />
+			</basic>
+			<basic name="infoInvestDeadline">
+				<column name="INFO_INVEST_DEADLINE" />
+			</basic>
+			<basic name="infoInvestCreateGroupId">
+				<column name="INFO_INVEST_CREATE_GROUP_ID" />
+			</basic>
+			<basic name="infoInvestDeployGroupId">
+				<column name="INFO_INVEST_DEPLOY_GROUP_ID" />
+			</basic>
+			<basic name="costCapital">
+				<column name="COST_CAPITAL" />
+			</basic>
+			<basic name="costCompensate">
+				<column name="COST_COMPENSATE" />
+			</basic>
+			<basic name="costCompensateForeign">
+				<column name="COST_COMPENSATE_FOREIGN" />
+			</basic>
+			<basic name="costEquiment">
+				<column name="COST_EQUIMENT" />
+			</basic>
+			<basic name="costEquimentForeign">
+				<column name="COST_EQUIMENT_FOREIGN" />
+			</basic>
+			<basic name="costContruction">
+				<column name="COST_CONTRUCTION" />
+			</basic>
+			<basic name="costContructionForeign">
+				<column name="COST_CONTRUCTION_FOREIGN" />
+			</basic>
+			<basic name="costAdvisory">
+				<column name="COST_ADVISORY" />
+			</basic>
+			<basic name="costAdvisoryForeign">
+				<column name="COST_ADVISORY_FOREIGN" />
+			</basic>
+			<basic name="costManager">
+				<column name="COST_MANAGER" />
+			</basic>
+			<basic name="costManagerForeign">
+				<column name="COST_MANAGER_FOREIGN" />
+			</basic>
+			<basic name="costOther">
+				<column name="COST_OTHER" />
+			</basic>
+			<basic name="costOtherForeign">
+				<column name="COST_OTHER_FOREIGN" />
+			</basic>
+			<basic name="costProvide">
+				<column name="COST_PROVIDE" />
+			</basic>
+			<basic name="costProvideForeign">
+				<column name="COST_PROVIDE_FOREIGN" />
+			</basic>
+			<basic name="costLocal">
+				<column name="COST_LOCAL" />
+			</basic>
+			<basic name="costForeign">
+				<column name="COST_FOREIGN" />
+			</basic>
+			<basic name="costForeignRate">
+				<column name="COST_FOREIGN_RATE" />
+			</basic>
+			<basic name="costTax">
+				<column name="COST_TAX" />
+			</basic>
+			<basic name="costTotalValue">
+				<column name="COST_TOTAL_VALUE" />
+			</basic>
+			<basic name="costTotalValueTax">
+				<column name="COST_TOTAL_VALUE_TAX" />
+			</basic>
+			<basic name="decideDelivererUserId">
+				<column name="DECIDE_DELIVERER_USER_ID" />
+			</basic>
+			<basic name="decideReceiveUserId">
+				<column name="DECIDE_RECEIVE_USER_ID" />
+			</basic>
+			<basic name="decideAskDate">
+				<column name="DECIDE_ASK_DATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="decideDeadline">
+				<column name="DECIDE_DEADLINE" />
+			</basic>
+			<basic name="decideFinishDate">
+				<column name="DECIDE_FINISH_DATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="decideDescription">
+				<column name="DECIDE_DESCRIPTION" />
+			</basic>
+			<basic name="decideUserId">
+				<column name="DECIDE_USER_ID" />
+			</basic>
+			<basic name="decideDate">
+				<column name="DECIDE_DATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="verifyStatus">
+				<column name="VERIFY_STATUS" />
+			</basic>
+			<basic name="verifyDocNum">
+				<column name="VERIFY_DOC_NUM" />
+			</basic>
+			<basic name="verifyDate">
+				<column name="VERIFY_DATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="verifyUserId">
+				<column name="VERIFY_USER_ID" />
+			</basic>
+			<basic name="verifyDescription">
+				<column name="VERIFY_DESCRIPTION" />
+			</basic>
+			<basic name="isActive">
+				<column name="IS_ACTIVE" />
+			</basic>
+			<basic name="status" />
+			<basic name="createdId">
+				<column name="CREATED_ID" />
+			</basic>
+			<basic name="createdDate">
+				<column name="CREATED_DATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="modifieldId">
+				<column name="MODIFIELD_ID" />
+			</basic>
+			<basic name="modifieldDate">
+				<column name="MODIFIELD_DATE" />
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="infoPolicyTypeName" />
+			<basic name="infoProposeGroupName" />
+			<basic name="infoVerifyGroupName" />
+			<basic name="infoResponsibleUserName" />
+			<basic name="infoInvestCreateGroupName" />
+			<basic name="infoInvestDeployGroupName" />
+			<transient name="decideDelivererUserUuid" />
+			<transient name="decideReceiveUserUuid" />
+			<transient name="decideUserUuid" />
+			<transient name="infoResponsibleUserUuid" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+			<transient name="verifyUserUuid" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.viettel.ims.core.model.impl.SysGroupModelImpl">
+		<attributes>
+			<id name="groupId">
+				<column name="GROUP_ID" />
+			</id>
+			<basic name="name">
+				<column name="NAME" />
+			</basic>
+			<basic name="groupCode">
+				<column name="GROUP_CODE" />
+			</basic>
+			<basic name="fullName">
+				<column name="FULL_NAME" />
+			</basic>
+			<basic name="description">
+				<column name="DESCRIPTION" />
+			</basic>
+			<basic name="provinceId">
+				<column name="PROVINCE_ID" />
+			</basic>
+			<basic name="address" />
+			<basic name="parentId">
+				<column name="PARENT_ID" />
+			</basic>
+			<basic name="path" />
+			<basic name="status">
+				<column name="STATUS" />
+			</basic>
+			<basic name="titleName">
+				<column name="TITLE_NAME" />
+			</basic>
+			<basic name="isOff">
+				<column name="IS_OFF" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.viettel.ims.core.model.impl.VInvestPolicyModelImpl">
+		<attributes>
+			<id name="investPolicyId">
+				<column name="INVEST_POLICY_ID" />
+			</id>
+			<basic name="infoPolicyTypeName" />
+			<basic name="infoPolicyName" />
+			<basic name="infoProposeGroupName" />
+			<basic name="infoVerifyGroupName" />
+			<basic name="infoPolicyDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="infoPolicyDeployDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<entity class="com.viettel.ims.core.model.impl.FileAttachmentImpl" name="FileAttachment">
+		<table name="FileAttachment" />
+		<attributes />
+	</entity>
+	<entity class="com.viettel.ims.core.model.impl.InvestCategoriesImpl" name="InvestCategories">
+		<table name="Invest_Categories" />
+		<attributes />
+	</entity>
+	<entity class="com.viettel.ims.core.model.impl.InvestPolicyImpl" name="InvestPolicy">
+		<table name="Invest_Policy" />
+		<attributes />
+	</entity>
+	<entity class="com.viettel.ims.core.model.impl.InvestPolicyExtImpl" name="InvestPolicyExt">
+		<table name="VTIMS_InvestPolicyExt" />
+		<attributes />
+	</entity>
+	<entity class="com.viettel.ims.core.model.impl.SysGroupImpl" name="SysGroup">
+		<table name="Sys_Group" />
+		<attributes />
+	</entity>
+	<entity class="com.viettel.ims.core.model.impl.VInvestPolicyImpl" name="VInvestPolicy">
+		<table name="V_INVEST_POLICY" />
+		<attributes />
+	</entity>
+</entity-mappings>

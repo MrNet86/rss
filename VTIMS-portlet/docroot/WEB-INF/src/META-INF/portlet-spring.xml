@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<bean id="com.viettel.ims.core.service.FileAttachmentLocalService" class="com.viettel.ims.core.service.impl.FileAttachmentLocalServiceImpl" />
+	<bean id="com.viettel.ims.core.service.FileAttachmentService" class="com.viettel.ims.core.service.impl.FileAttachmentServiceImpl" />
+	<bean id="com.viettel.ims.core.service.persistence.FileAttachmentPersistence" class="com.viettel.ims.core.service.persistence.FileAttachmentPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="imsDataSource" />
+		<property name="sessionFactory" ref="imsSessionFactory" />
+	</bean>
+	<bean id="com.viettel.ims.core.service.InvestCategoriesLocalService" class="com.viettel.ims.core.service.impl.InvestCategoriesLocalServiceImpl" />
+	<bean id="com.viettel.ims.core.service.persistence.InvestCategoriesPersistence" class="com.viettel.ims.core.service.persistence.InvestCategoriesPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="imsDataSource" />
+		<property name="sessionFactory" ref="imsSessionFactory" />
+	</bean>
+	<bean id="com.viettel.ims.core.service.InvestPolicyLocalService" class="com.viettel.ims.core.service.impl.InvestPolicyLocalServiceImpl" />
+	<bean id="com.viettel.ims.core.service.persistence.InvestPolicyPersistence" class="com.viettel.ims.core.service.persistence.InvestPolicyPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="imsDataSource" />
+		<property name="sessionFactory" ref="imsSessionFactory" />
+	</bean>
+	<bean id="com.viettel.ims.core.service.persistence.InvestPolicyFinder" class="com.viettel.ims.core.service.persistence.InvestPolicyFinderImpl" parent="basePersistence">
+		<property name="dataSource" ref="imsDataSource" />
+		<property name="sessionFactory" ref="imsSessionFactory" />
+	</bean>
+	<bean id="com.viettel.ims.core.service.InvestPolicyExtLocalService" class="com.viettel.ims.core.service.impl.InvestPolicyExtLocalServiceImpl" />
+	<bean id="com.viettel.ims.core.service.persistence.InvestPolicyExtPersistence" class="com.viettel.ims.core.service.persistence.InvestPolicyExtPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="noDataSource" />
+	</bean>
+	<bean id="com.viettel.ims.core.service.persistence.InvestPolicyExtFinder" class="com.viettel.ims.core.service.persistence.InvestPolicyExtFinderImpl" parent="basePersistence">
+		<property name="dataSource" ref="noDataSource" />
+	</bean>
+	<bean id="com.viettel.ims.core.service.SysGroupLocalService" class="com.viettel.ims.core.service.impl.SysGroupLocalServiceImpl" />
+	<bean id="com.viettel.ims.core.service.persistence.SysGroupPersistence" class="com.viettel.ims.core.service.persistence.SysGroupPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="imsDataSource" />
+		<property name="sessionFactory" ref="imsSessionFactory" />
+	</bean>
+	<bean id="com.viettel.ims.core.service.VInvestPolicyLocalService" class="com.viettel.ims.core.service.impl.VInvestPolicyLocalServiceImpl" />
+	<bean id="com.viettel.ims.core.service.persistence.VInvestPolicyPersistence" class="com.viettel.ims.core.service.persistence.VInvestPolicyPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="imsDataSource" />
+		<property name="sessionFactory" ref="imsSessionFactory" />
+	</bean>
+</beans>

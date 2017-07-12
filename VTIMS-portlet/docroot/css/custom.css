@@ -1,0 +1,236 @@
+@CHARSET "ISO-8859-1";
+.VTIMS-portlet {
+
+}
+
+.VTIMS-portlet .control-group {
+	margin-bottom: 0px !important;
+}
+
+.VTIMS-portlet textarea {
+	width: 50% !important;
+	margin-bottom: 7px;
+}
+
+.VTIMS-portlet input,  .uneditable-input {
+	width: auto;
+}
+
+.VTIMS-portlet label, label.control-label {
+	width: 30%;
+/* 	white-space: pre-wrap; */
+/*     overflow: hidden; */
+/*     text-overflow: ellipsis; */
+/*     display: inline-block; */
+}
+
+
+.VTIMS-portlet input[type="color"],
+.VTIMS-portlet input[type="date"],
+.VTIMS-portlet input[type="datetime"],
+.VTIMS-portlet input[type="datetime-local"],
+.VTIMS-portlet input[type="email"],
+.VTIMS-portlet input[type="month"],
+.VTIMS-portlet input[type="number"],
+.VTIMS-portlet input[type="password"],
+.VTIMS-portlet input[type="search"],
+.VTIMS-portlet input[type="tel"],
+.VTIMS-portlet input[type="text"],
+.VTIMS-portlet input[type="time"],
+.VTIMS-portlet input[type="url"],
+.VTIMS-portlet input[type="week"],
+.VTIMS-portlet .uneditable-input {
+	margin-bottom: 2px;
+	height: 20px;
+}
+
+.VTIMS-portlet input[type="color"].size10,
+.VTIMS-portlet input[type="date"].size10,
+.VTIMS-portlet input[type="datetime"].size10,
+.VTIMS-portlet input[type="datetime-local"].size10,
+.VTIMS-portlet input[type="email"].size10,
+.VTIMS-portlet input[type="month"].size10,
+.VTIMS-portlet input[type="number"].size10,
+.VTIMS-portlet input[type="password"].size10,
+.VTIMS-portlet input[type="search"].size10,
+.VTIMS-portlet input[type="tel"].size10,
+.VTIMS-portlet input[type="text"].size10,
+.VTIMS-portlet input[type="time"].size10,
+.VTIMS-portlet input[type="url"].size10,
+.VTIMS-portlet input[type="week"].size10,
+.VTIMS-portlet .uneditable-input.size10,
+.VTIMS-portlet select.size10
+{
+	width: 10% !important;
+}
+
+.VTIMS-portlet input[type="color"].size20,
+.VTIMS-portlet input[type="date"].size20,
+.VTIMS-portlet input[type="datetime"].size20,
+.VTIMS-portlet input[type="datetime-local"].size20,
+.VTIMS-portlet input[type="email"].size20,
+.VTIMS-portlet input[type="month"].size20,
+.VTIMS-portlet input[type="number"].size20,
+.VTIMS-portlet input[type="password"].size20,
+.VTIMS-portlet input[type="search"].size20,
+.VTIMS-portlet input[type="tel"].size20,
+.VTIMS-portlet input[type="text"].size20,
+.VTIMS-portlet input[type="time"].size20,
+.VTIMS-portlet input[type="url"].size20,
+.VTIMS-portlet input[type="week"].size20,
+.VTIMS-portlet .uneditable-input.size20,
+.VTIMS-portlet select.size20 {
+	width: 20% !important;
+}
+
+.VTIMS-portlet input[type="color"].size30,
+.VTIMS-portlet input[type="date"].size30,
+.VTIMS-portlet input[type="datetime"].size30,
+.VTIMS-portlet input[type="datetime-local"].size30,
+.VTIMS-portlet input[type="email"].size30,
+.VTIMS-portlet input[type="month"].size30,
+.VTIMS-portlet input[type="number"].size30,
+.VTIMS-portlet input[type="password"].size30,
+.VTIMS-portlet input[type="search"].size30,
+.VTIMS-portlet input[type="tel"].size30,
+.VTIMS-portlet input[type="text"].size30,
+.VTIMS-portlet input[type="time"].size30,
+.VTIMS-portlet input[type="url"].size30,
+.VTIMS-portlet input[type="week"].size30,
+.VTIMS-portlet .uneditable-input.size30,
+.VTIMS-portlet select.size30 {
+	width: 30% !important;
+}
+
+.VTIMS-portlet input[type="color"].size40,
+.VTIMS-portlet input[type="date"].size40,
+.VTIMS-portlet input[type="datetime"].size40,
+.VTIMS-portlet input[type="datetime-local"].size40,
+.VTIMS-portlet input[type="email"].size40,
+.VTIMS-portlet input[type="month"].size40,
+.VTIMS-portlet input[type="number"].size40,
+.VTIMS-portlet input[type="password"].size40,
+.VTIMS-portlet input[type="search"].size40,
+.VTIMS-portlet input[type="tel"].size40,
+.VTIMS-portlet input[type="text"].size40,
+.VTIMS-portlet input[type="time"].size40,
+.VTIMS-portlet input[type="url"].size40,
+.VTIMS-portlet input[type="week"].size40,
+.VTIMS-portlet .uneditable-input.size40,
+.VTIMS-portlet select.size40 {
+	width: 40% !important;
+}
+
+.VTIMS-portlet input[type="color"].size50,
+.VTIMS-portlet input[type="date"].size50,
+.VTIMS-portlet input[type="datetime"].size50,
+.VTIMS-portlet input[type="datetime-local"].size50,
+.VTIMS-portlet input[type="email"].size50,
+.VTIMS-portlet input[type="month"].size50,
+.VTIMS-portlet input[type="number"].size50,
+.VTIMS-portlet input[type="password"].size50,
+.VTIMS-portlet input[type="search"].size50,
+.VTIMS-portlet input[type="tel"].size50,
+.VTIMS-portlet input[type="text"].size50,
+.VTIMS-portlet input[type="time"].size50,
+.VTIMS-portlet input[type="url"].size50,
+.VTIMS-portlet input[type="week"].size50,
+.VTIMS-portlet .uneditable-input.size50,
+.VTIMS-portlet select.size50 {
+	width: 50% !important;
+}
+
+.VTIMS-portlet input[type="color"].size60,
+.VTIMS-portlet input[type="date"].size60,
+.VTIMS-portlet input[type="datetime"].size60,
+.VTIMS-portlet input[type="datetime-local"].size60,
+.VTIMS-portlet input[type="email"].size60,
+.VTIMS-portlet input[type="month"].size60,
+.VTIMS-portlet input[type="number"].size60,
+.VTIMS-portlet input[type="password"].size60,
+.VTIMS-portlet input[type="search"].size60,
+.VTIMS-portlet input[type="tel"].size60,
+.VTIMS-portlet input[type="text"].size60,
+.VTIMS-portlet input[type="time"].size60,
+.VTIMS-portlet input[type="url"].size60,
+.VTIMS-portlet input[type="week"].size60,
+.VTIMS-portlet .uneditable-input.size60,
+.VTIMS-portlet select.size60 {
+	width: 60% !important;
+}
+
+.VTIMS-portlet input[type="color"].size70,
+.VTIMS-portlet input[type="date"].size70,
+.VTIMS-portlet input[type="datetime"].size70,
+.VTIMS-portlet input[type="datetime-local"].size70,
+.VTIMS-portlet input[type="email"].size70,
+.VTIMS-portlet input[type="month"].size70,
+.VTIMS-portlet input[type="number"].size70,
+.VTIMS-portlet input[type="password"].size70,
+.VTIMS-portlet input[type="search"].size70,
+.VTIMS-portlet input[type="tel"].size70,
+.VTIMS-portlet input[type="text"].size70,
+.VTIMS-portlet input[type="time"].size70,
+.VTIMS-portlet input[type="url"].size70,
+.VTIMS-portlet input[type="week"].size70,
+.VTIMS-portlet .uneditable-input.size70,
+.VTIMS-portlet select.size70 {
+	width: 70% !important;
+}
+
+.VTIMS-portlet input[type="color"].size80,
+.VTIMS-portlet input[type="date"].size80,
+.VTIMS-portlet input[type="datetime"].size80,
+.VTIMS-portlet input[type="datetime-local"].size80,
+.VTIMS-portlet input[type="email"].size80,
+.VTIMS-portlet input[type="month"].size80,
+.VTIMS-portlet input[type="number"].size80,
+.VTIMS-portlet input[type="password"].size80,
+.VTIMS-portlet input[type="search"].size80,
+.VTIMS-portlet input[type="tel"].size80,
+.VTIMS-portlet input[type="text"].size80,
+.VTIMS-portlet input[type="time"].size80,
+.VTIMS-portlet input[type="url"].size80,
+.VTIMS-portlet input[type="week"].size80,
+.VTIMS-portlet .uneditable-input.size80,
+.VTIMS-portlet select.size80 {
+	width: 80% !important;
+}
+
+.VTIMS-portlet input[type="color"].size90,
+.VTIMS-portlet input[type="date"].size90,
+.VTIMS-portlet input[type="datetime"].size90,
+.VTIMS-portlet input[type="datetime-local"].size90,
+.VTIMS-portlet input[type="email"].size90,
+.VTIMS-portlet input[type="month"].size90,
+.VTIMS-portlet input[type="number"].size90,
+.VTIMS-portlet input[type="password"].size90,
+.VTIMS-portlet input[type="search"].size90,
+.VTIMS-portlet input[type="tel"].size90,
+.VTIMS-portlet input[type="text"].size90,
+.VTIMS-portlet input[type="time"].size90,
+.VTIMS-portlet input[type="url"].size90,
+.VTIMS-portlet input[type="week"].size90,
+.VTIMS-portlet .uneditable-input.size90,
+.VTIMS-portlet select.size90 {
+	width: 90% !important;
+}
+
+.VTIMS-portlet input[type="color"].size100,
+.VTIMS-portlet input[type="date"].size100,
+.VTIMS-portlet input[type="datetime"].size100,
+.VTIMS-portlet input[type="datetime-local"].size100,
+.VTIMS-portlet input[type="email"].size100,
+.VTIMS-portlet input[type="month"].size100,
+.VTIMS-portlet input[type="number"].size100,
+.VTIMS-portlet input[type="password"].size100,
+.VTIMS-portlet input[type="search"].size100,
+.VTIMS-portlet input[type="tel"].size100,
+.VTIMS-portlet input[type="text"].size100,
+.VTIMS-portlet input[type="time"].size100,
+.VTIMS-portlet input[type="url"].size100,
+.VTIMS-portlet input[type="week"].size100,
+.VTIMS-portlet .uneditable-input.size100,
+.VTIMS-portlet select.size100 {
+	width: 100% !important;
+}

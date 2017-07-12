@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<custom-sql>
+	<sql id="getInvestPolicyExt">
+		<![CDATA[
+			select a.*
+			from invest_policy a
+		]]>
+	</sql>
+
+	<sql id="searchInvestPolicyInfo">
+		<![CDATA[
+			select invest_policy_id as investPolicyId,
+			decode(info_policy_type, 1, 'Chu truong mua sam', 2, 'chu truong dau tu', '')
+				as infoPolicyTypeName,
+			  INFO_POLICY_NAME as infoPolicyName,
+			  (select name from sys_group where group_id = INFO_PROPOSE_GROUP_ID) as infoProposeGroupName,
+			  (select name from sys_group where group_id = INFO_VERIFY_GROUP_ID) as infoVerifyGroupName,
+			  INFO_POLICY_DATE as infoPolicyDate, INFO_POLICY_DEPLOY_DATE as infoPolicyDeployDate
+			from invest_policy
+			Where is_active = 1
+		]]>
+	</sql>
+</custom-sql>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans
+	default-destroy-method="destroy"
+	default-init-method="afterPropertiesSet"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-3.0.xsd"
+>
+	<!-- NoDataSource -->
+	<bean id="noDataSource" class="com.viettel.ims.utils.NoDataSource" factory-method="getDataSource" />
+
+	<!-- JDBC -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>WEB-INF/dbConfig.properties</value>
+		</property>
+	</bean>
+
+	<!-- DataSource -->
+	<bean id="imsDataSourceTarget" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${jdbc.oracle.driverClassName}" />
+		<property name="url" value="${jdbc.oracle.url}" />
+		<property name="username" value="${jdbc.oracle.username}" />
+		<property name="password" value="${jdbc.oracle.password}" />
+	</bean>
+	<bean id="imsDataSource" class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy">
+		<property name="targetDataSource">
+			<ref bean="imsDataSourceTarget" />
+		</property>
+	</bean>
+	<bean id="imsHibernateSessionFactory" class="com.liferay.portal.spring.hibernate.PortletHibernateConfiguration">
+		<property name="dataSource">
+			<ref bean="imsDataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+			    <prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">false</prop>
+				<prop key="hibernate.generate_statistics">true</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="imsSessionFactory" class="com.liferay.portal.dao.orm.hibernate.SessionFactoryImpl">
+		<property name="sessionFactoryImplementor">
+			<ref bean="imsHibernateSessionFactory" />
+		</property>
+	</bean>
+	<bean id="imsTransactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="dataSource">
+			<ref bean="imsDataSource" />
+		</property>
+		<property name="sessionFactory">
+			<ref bean="imsHibernateSessionFactory" />
+		</property>
+	</bean>
+
+</beans>

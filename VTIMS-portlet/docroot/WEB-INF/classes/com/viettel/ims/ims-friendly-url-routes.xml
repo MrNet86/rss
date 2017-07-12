@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<routes>
+
+	<route>
+        <pattern>/viewInvest</pattern>
+        <implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
+        <implicit-parameter name="action">viewInvestPolicy</implicit-parameter>
+    </route>
+
+	<!-- Edit -->
+<!-- 	<route> -->
+<!-- 		<pattern>/editInvestPolicy/{investPolicyId:\d+}</pattern> -->
+<!-- 		<pattern>/editInvestPolicy/</pattern> -->
+<!-- 		<generated-parameter name="investPolicyId">{investPolicyId}</generated-parameter> -->
+<!-- 		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter> -->
+<!-- 		<implicit-parameter name="action">editInvestPolicy</implicit-parameter> -->
+<!-- 	</route> -->
+
+	<!-- Add new -->
+	<route>
+		<pattern>/editInvestPolicy/{toolbarItem}</pattern>
+		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
+		<implicit-parameter name="action">editInvestPolicy</implicit-parameter>
+	</route>
+
+
+
+</routes>

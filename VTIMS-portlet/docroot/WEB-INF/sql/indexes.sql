@@ -1,0 +1,1 @@
+create index IX_6C331DE8 on Invest_Categories (obj_id, is_Active);

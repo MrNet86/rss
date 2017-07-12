@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!DOCTYPE resource-action-mapping PUBLIC "-//Liferay//DTD Resource Action Mapping 6.2.0//EN" "http://www.liferay.com/dtd/liferay-resource-action-mapping_6_2_0.dtd">
+
+<resource-action-mapping>
+	<portlet-resource>
+		<portlet-name>VTIMS</portlet-name>
+		<permissions>
+			<supports>
+				<action-key>ADD_TO_PAGE</action-key>
+				<action-key>CONFIGURATION</action-key>
+				<action-key>VIEW</action-key>
+			</supports>
+
+			<site-member-defaults>
+				<action-key>VIEW</action-key>
+			</site-member-defaults>
+
+			<guest-defaults />
+			<guest-unsupported>
+				<action-key>ADD_TO_PAGE</action-key>
+				<action-key>CONFIGURATION</action-key>
+				<action-key>VIEW</action-key>
+			</guest-unsupported>
+
+		</permissions>
+	</portlet-resource>
+
+	<model-resource>
+		<model-name>com.viettel.ims.core.model.InvestPolicy</model-name>
+		<portlet-ref>
+			<portlet-name>VTIMS</portlet-name>
+		</portlet-ref>
+
+		<permissions>
+			<supports>
+				<action-key>VIEW_INVEST_POLICY</action-key>
+				<action-key>ADD_INVEST_POLICY</action-key>
+				<action-key>DELETE_INVEST_POLICY</action-key>
+				<action-key>UPDATE_INVEST_POLICY</action-key>
+				<action-key>DECIDE_INVEST_POLICY</action-key>
+				<action-key>VERIFY_INVEST_POLICY</action-key>
+			</supports>
+
+			<site-member-defaults>
+				<action-key>VIEW_INVEST_POLICY</action-key>
+			</site-member-defaults>
+
+			<guest-defaults />
+			<guest-unsupported>
+				<action-key>VIEW_INVEST_POLICY</action-key>
+				<action-key>ADD_INVEST_POLICY</action-key>
+				<action-key>DELETE_INVEST_POLICY</action-key>
+				<action-key>UPDATE_INVEST_POLICY</action-key>
+				<action-key>DECIDE_INVEST_POLICY</action-key>
+				<action-key>VERIFY_INVEST_POLICY</action-key>
+			</guest-unsupported>
+
+		</permissions>
+	</model-resource>
+
+</resource-action-mapping>

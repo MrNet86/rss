@@ -1,0 +1,23 @@
+<aui:column columnWidth="50">
+	<aui:input name='<%= "investCategoriesId" + rowIdx %>' type="hidden" value="<%= invCategories.getInvestCategoriesId() %>" />
+	<aui:input fieldParam='<%= "name" + rowIdx %>' id='<%= "name" + rowIdx %>' inlineLabel="false" name="name" cssClass="size60"/>
+
+	<aui:input fieldParam='<%= "unitId" + rowIdx %>' id='<%= "unitId" + rowIdx %>' inlineLabel="false" name="unitId" cssClass="size60" />
+<%-- 						<aui:input fieldParam='<%= "unitName" + rowIdx %>' id='<%= "unitName" + rowIdx %>' inlineField="<%= true %>" name="unitName" /> --%>
+
+	<aui:input fieldParam='<%= "quantity" + rowIdx %>' id='<%= "quantity" + rowIdx %>' inlineLabel="false" name="quantity" cssClass="size60"/>
+
+	<aui:input fieldParam='<%= "vat" + rowIdx %>' id='<%= "vat" + rowIdx %>' inlineLabel="false" name="vat" cssClass="size60"/>
+</aui:column>
+
+<aui:column columnWidth="50">
+	<aui:input fieldParam='<%= "description" + rowIdx %>' id='<%= "description" + rowIdx %>' inlineLabel="false" name="description" cssClass="size60"/>
+
+	<aui:input fieldParam='<%= "catCurrencyId" + rowIdx %>' id='<%= "catCurrencyId" + rowIdx %>' inlineLabel="false" name="catCurrencyId" cssClass="size60"/>
+<%-- 						<aui:input fieldParam='<%= "catCurrencyName" + rowIdx %>' id='<%= "catCurrencyName" + rowIdx %>' inlineField="<%= true %>" name="catCurrencyName" /> --%>
+
+	<aui:input fieldParam='<%= "usedQuantity" + rowIdx %>' id='<%= "usedQuantity" + rowIdx %>' inlineLabel="false" name="usedQuantity" cssClass="size60"/>
+
+	<aui:input inlineLabel="false" label="totalAfterVat" name='aaa' />
+
+</aui:column>

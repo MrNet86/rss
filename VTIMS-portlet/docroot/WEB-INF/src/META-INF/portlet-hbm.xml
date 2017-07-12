@@ -1,0 +1,223 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="false" auto-import="false">
+	<import class="com.viettel.ims.core.model.FileAttachment" />
+	<import class="com.viettel.ims.core.model.InvestCategories" />
+	<import class="com.viettel.ims.core.model.InvestPolicy" />
+	<import class="com.viettel.ims.core.model.InvestPolicyExt" />
+	<import class="com.viettel.ims.core.model.SysGroup" />
+	<import class="com.viettel.ims.core.model.VInvestPolicy" />
+	<class name="com.viettel.ims.core.model.impl.FileAttachmentImpl" table="FileAttachment">
+		<cache usage="read-write" />
+		<id name="fileAttachmentId" column="FileAttachmentId" type="long">
+			<generator class="increment" />
+		</id>
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="CompanyId" />
+		<property name="repositoryId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="RepositoryId" />
+		<property name="folderId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="FolderId" />
+		<property name="createdDate" type="org.hibernate.type.TimestampType" column="CreatedDate" />
+		<property name="createdById" type="com.liferay.portal.dao.orm.hibernate.LongType" column="CreatedById" />
+		<property name="treePath_" type="com.liferay.portal.dao.orm.hibernate.StringType" column="TreePath_" />
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" column="Name" />
+		<property name="extention" type="com.liferay.portal.dao.orm.hibernate.StringType" column="Extention" />
+		<property name="mimeType" type="com.liferay.portal.dao.orm.hibernate.StringType" column="MimeType" />
+		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" column="Title" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" column="Description" />
+		<property name="extraSetting" type="com.liferay.portal.dao.orm.hibernate.StringType" column="ExtraSetting" />
+		<property name="fileTypeId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="FileTypeId" />
+		<property name="version" type="com.liferay.portal.dao.orm.hibernate.StringType" column="Version" />
+		<property name="size_" type="com.liferay.portal.dao.orm.hibernate.LongType" column="Size_" />
+		<property name="readCount" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="ReadCount" />
+		<property name="smallImageId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="SmallImageId" />
+		<property name="largeImageId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="LargeImageId" />
+		<property name="custom1Image" type="com.liferay.portal.dao.orm.hibernate.LongType" column="Custom1Image" />
+		<property name="custom2Image" type="com.liferay.portal.dao.orm.hibernate.LongType" column="Custom2Image" />
+		<property name="isManualCheckInRequired" type="com.liferay.portal.dao.orm.hibernate.BooleanType" column="IsManualCheckInRequired" />
+		<property name="objectType" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="ObjectType" />
+		<property name="objectId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="modifiedById" type="com.liferay.portal.dao.orm.hibernate.LongType" column="ModifiedById" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" column="ModifiedDate" />
+	</class>
+	<class name="com.viettel.ims.core.model.impl.InvestCategoriesImpl" table="Invest_Categories">
+		<cache usage="read-write" />
+		<id name="investCategoriesId" column="invest_Categories_Id" type="long">
+			<generator class="increment" />
+		</id>
+		<property name="objId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="obj_id" />
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="unitId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="unit_id" />
+		<property name="costType" type="com.liferay.portal.dao.orm.hibernate.LongType" column="cost_type" />
+		<property name="quantity" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="usedQuantity" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="used_Quantity" />
+		<property name="unitPrice" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="unit_price" />
+		<property name="catCurrencyId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="cat_Currency_Id" />
+		<property name="type" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="vat" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="isActive" type="com.liferay.portal.dao.orm.hibernate.LongType" column="is_Active" />
+		<property name="createdId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="created_id" />
+		<property name="createdDate" type="org.hibernate.type.TimestampType" column="created_Date" />
+		<property name="modifieldId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="modifield_Id" />
+		<property name="modifieldDate" type="org.hibernate.type.TimestampType" column="modifield_Date" />
+	</class>
+	<class name="com.viettel.ims.core.model.impl.InvestPolicyImpl" table="Invest_Policy">
+		<cache usage="read-write" />
+		<id name="investPolicyId" column="invest_policy_id" type="long">
+			<generator class="increment" />
+		</id>
+		<property name="infoPolicyType" type="com.liferay.portal.dao.orm.hibernate.LongType" column="info_policy_type" />
+		<property name="infoPolicyName" type="com.liferay.portal.dao.orm.hibernate.StringType" column="info_policy_name" />
+		<property name="infoPolicyCode" type="com.liferay.portal.dao.orm.hibernate.StringType" column="info_policy_code" />
+		<property name="infoProposeGroupId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="info_propose_group_id" />
+		<property name="infoVerifyGroupId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="info_verify_group_id" />
+		<property name="infoPolicyDate" type="org.hibernate.type.TimestampType" column="info_policy_date" />
+		<property name="infoPolicyDeployDate" type="org.hibernate.type.TimestampType" column="info_Policy_Deploy_Date" />
+		<property name="infoResponsibleUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="info_Responsible_User_Id" />
+		<property name="infoService" type="com.liferay.portal.dao.orm.hibernate.StringType" column="info_Service" />
+		<property name="infoInvestTarget" type="com.liferay.portal.dao.orm.hibernate.StringType" column="info_Invest_Target" />
+		<property name="infoInvestLocation" type="com.liferay.portal.dao.orm.hibernate.StringType" column="info_Invest_Location" />
+		<property name="infoTechnique" type="com.liferay.portal.dao.orm.hibernate.StringType" column="info_Technique" />
+		<property name="infoInvestName" type="com.liferay.portal.dao.orm.hibernate.StringType" column="info_invest_name" />
+		<property name="infoInvestDeadline" type="com.liferay.portal.dao.orm.hibernate.LongType" column="info_invest_deadline" />
+		<property name="infoInvestCreateGroupId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="info_Invest_Create_Group_Id" />
+		<property name="infoInvestDeployGroupId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="info_Invest_Deploy_Group_Id" />
+		<property name="costCapital" type="com.liferay.portal.dao.orm.hibernate.LongType" column="cost_Capital" />
+		<property name="costCompensate" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Compensate" />
+		<property name="costCompensateForeign" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Compensate_Foreign" />
+		<property name="costEquiment" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Equiment" />
+		<property name="costEquimentForeign" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Equiment_Foreign" />
+		<property name="costContruction" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Contruction" />
+		<property name="costContructionForeign" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Contruction_Foreign" />
+		<property name="costAdvisory" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Advisory" />
+		<property name="costAdvisoryForeign" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Advisory_Foreign" />
+		<property name="costManager" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Manager" />
+		<property name="costManagerForeign" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Manager_Foreign" />
+		<property name="costOther" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Other" />
+		<property name="costOtherForeign" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Other_Foreign" />
+		<property name="costProvide" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Provide" />
+		<property name="costProvideForeign" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Provide_Foreign" />
+		<property name="costLocal" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Local" />
+		<property name="costForeign" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Foreign" />
+		<property name="costForeignRate" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Foreign_Rate" />
+		<property name="costTax" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Tax" />
+		<property name="costTotalValue" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Total_Value" />
+		<property name="costTotalValueTax" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Total_Value_Tax" />
+		<property name="decideDelivererUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="decide_Deliverer_User_Id" />
+		<property name="decideReceiveUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="decide_Receive_User_Id" />
+		<property name="decideAskDate" type="org.hibernate.type.TimestampType" column="decide_Ask_Date" />
+		<property name="decideDeadline" type="com.liferay.portal.dao.orm.hibernate.LongType" column="decide_Deadline" />
+		<property name="decideFinishDate" type="org.hibernate.type.TimestampType" column="decide_Finish_Date" />
+		<property name="decideDescription" type="com.liferay.portal.dao.orm.hibernate.StringType" column="decide_Description" />
+		<property name="decideUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="decide_User_Id" />
+		<property name="decideDate" type="org.hibernate.type.TimestampType" column="decide_Date" />
+		<property name="verifyStatus" type="com.liferay.portal.dao.orm.hibernate.LongType" column="verify_Status" />
+		<property name="verifyDocNum" type="com.liferay.portal.dao.orm.hibernate.StringType" column="verify_Doc_Num" />
+		<property name="verifyDate" type="org.hibernate.type.TimestampType" column="verify_Date" />
+		<property name="verifyUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="verify_User_Id" />
+		<property name="verifyDescription" type="com.liferay.portal.dao.orm.hibernate.StringType" column="verify_Description" />
+		<property name="isActive" type="com.liferay.portal.dao.orm.hibernate.LongType" column="is_Active" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="createdId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="created_id" />
+		<property name="createdDate" type="org.hibernate.type.TimestampType" column="created_Date" />
+		<property name="modifieldId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="modifield_Id" />
+		<property name="modifieldDate" type="org.hibernate.type.TimestampType" column="modifield_Date" />
+	</class>
+	<class name="com.viettel.ims.core.model.impl.InvestPolicyExtImpl" table="VTIMS_InvestPolicyExt">
+		<cache usage="read-write" />
+		<id name="investPolicyId" column="invest_policy_id" type="long">
+			<generator class="increment" />
+		</id>
+		<property name="infoPolicyType" type="com.liferay.portal.dao.orm.hibernate.LongType" column="info_policy_type" />
+		<property name="infoPolicyName" type="com.liferay.portal.dao.orm.hibernate.StringType" column="info_policy_name" />
+		<property name="infoPolicyCode" type="com.liferay.portal.dao.orm.hibernate.StringType" column="info_policy_code" />
+		<property name="infoProposeGroupId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="info_propose_group_id" />
+		<property name="infoVerifyGroupId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="info_verify_group_id" />
+		<property name="infoPolicyDate" type="org.hibernate.type.TimestampType" column="info_policy_date" />
+		<property name="infoPolicyDeployDate" type="org.hibernate.type.TimestampType" column="info_Policy_Deploy_Date" />
+		<property name="infoResponsibleUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="info_Responsible_User_Id" />
+		<property name="infoService" type="com.liferay.portal.dao.orm.hibernate.StringType" column="info_Service" />
+		<property name="infoInvestTarget" type="com.liferay.portal.dao.orm.hibernate.StringType" column="info_Invest_Target" />
+		<property name="infoInvestLocation" type="com.liferay.portal.dao.orm.hibernate.StringType" column="info_Invest_Location" />
+		<property name="infoTechnique" type="com.liferay.portal.dao.orm.hibernate.StringType" column="info_Technique" />
+		<property name="infoInvestName" type="com.liferay.portal.dao.orm.hibernate.StringType" column="info_invest_name" />
+		<property name="infoInvestDeadline" type="com.liferay.portal.dao.orm.hibernate.LongType" column="info_invest_deadline" />
+		<property name="infoInvestCreateGroupId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="info_Invest_Create_Group_Id" />
+		<property name="infoInvestDeployGroupId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="info_Invest_Deploy_Group_Id" />
+		<property name="costCapital" type="com.liferay.portal.dao.orm.hibernate.LongType" column="cost_Capital" />
+		<property name="costCompensate" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Compensate" />
+		<property name="costCompensateForeign" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Compensate_Foreign" />
+		<property name="costEquiment" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Equiment" />
+		<property name="costEquimentForeign" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Equiment_Foreign" />
+		<property name="costContruction" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Contruction" />
+		<property name="costContructionForeign" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Contruction_Foreign" />
+		<property name="costAdvisory" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Advisory" />
+		<property name="costAdvisoryForeign" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Advisory_Foreign" />
+		<property name="costManager" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Manager" />
+		<property name="costManagerForeign" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Manager_Foreign" />
+		<property name="costOther" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Other" />
+		<property name="costOtherForeign" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Other_Foreign" />
+		<property name="costProvide" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Provide" />
+		<property name="costProvideForeign" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Provide_Foreign" />
+		<property name="costLocal" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Local" />
+		<property name="costForeign" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Foreign" />
+		<property name="costForeignRate" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Foreign_Rate" />
+		<property name="costTax" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Tax" />
+		<property name="costTotalValue" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Total_Value" />
+		<property name="costTotalValueTax" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="cost_Total_Value_Tax" />
+		<property name="decideDelivererUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="decide_Deliverer_User_Id" />
+		<property name="decideReceiveUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="decide_Receive_User_Id" />
+		<property name="decideAskDate" type="org.hibernate.type.TimestampType" column="decide_Ask_Date" />
+		<property name="decideDeadline" type="com.liferay.portal.dao.orm.hibernate.LongType" column="decide_Deadline" />
+		<property name="decideFinishDate" type="org.hibernate.type.TimestampType" column="decide_Finish_Date" />
+		<property name="decideDescription" type="com.liferay.portal.dao.orm.hibernate.StringType" column="decide_Description" />
+		<property name="decideUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="decide_User_Id" />
+		<property name="decideDate" type="org.hibernate.type.TimestampType" column="decide_Date" />
+		<property name="verifyStatus" type="com.liferay.portal.dao.orm.hibernate.LongType" column="verify_Status" />
+		<property name="verifyDocNum" type="com.liferay.portal.dao.orm.hibernate.StringType" column="verify_Doc_Num" />
+		<property name="verifyDate" type="org.hibernate.type.TimestampType" column="verify_Date" />
+		<property name="verifyUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="verify_User_Id" />
+		<property name="verifyDescription" type="com.liferay.portal.dao.orm.hibernate.StringType" column="verify_Description" />
+		<property name="isActive" type="com.liferay.portal.dao.orm.hibernate.LongType" column="is_Active" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="createdId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="created_id" />
+		<property name="createdDate" type="org.hibernate.type.TimestampType" column="created_Date" />
+		<property name="modifieldId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="modifield_Id" />
+		<property name="modifieldDate" type="org.hibernate.type.TimestampType" column="modifield_Date" />
+		<property name="infoPolicyTypeName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="infoProposeGroupName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="infoVerifyGroupName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="infoResponsibleUserName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="infoInvestCreateGroupName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="infoInvestDeployGroupName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.viettel.ims.core.model.impl.SysGroupImpl" table="Sys_Group">
+		<cache usage="read-write" />
+		<id name="groupId" column="group_id" type="long">
+			<generator class="increment" />
+		</id>
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" column="NAME" />
+		<property name="groupCode" type="com.liferay.portal.dao.orm.hibernate.StringType" column="group_code" />
+		<property name="fullName" type="com.liferay.portal.dao.orm.hibernate.StringType" column="full_name" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" column="DESCRIPTION" />
+		<property name="provinceId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="province_id" />
+		<property name="address" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="parentId" type="com.liferay.portal.dao.orm.hibernate.LongType" column="parent_id" />
+		<property name="path" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.LongType" column="STATUS" />
+		<property name="titleName" type="com.liferay.portal.dao.orm.hibernate.LongType" column="TITLE_NAME" />
+		<property name="isOff" type="com.liferay.portal.dao.orm.hibernate.LongType" column="IS_OFF" />
+	</class>
+	<class name="com.viettel.ims.core.model.impl.VInvestPolicyImpl" table="V_INVEST_POLICY">
+		<cache usage="read-write" />
+		<id name="investPolicyId" column="invest_policy_id" type="long">
+			<generator class="increment" />
+		</id>
+		<property name="infoPolicyTypeName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="infoPolicyName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="infoProposeGroupName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="infoVerifyGroupName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="infoPolicyDate" type="org.hibernate.type.TimestampType" />
+		<property name="infoPolicyDeployDate" type="org.hibernate.type.TimestampType" />
+	</class>
+</hibernate-mapping>

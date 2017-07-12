@@ -28,25 +28,32 @@ String rssIndexesParam = ParamUtil.getString(request, "rssIndexes");
 
 if(Validator.isNotNull(rssIndexesParam)) {
 	rssConfigs = new ArrayList<RssConfig>();
-	
+
 	rssIndexes = StringUtil.split(rssIndexesParam, 0);
-	
+
 	for(int rssIndex : rssIndexes) {
 		rssConfigs.add(new RssConfigImpl());
 	}
 }
 else {
+	System.out.println("come here");
 	rssConfigs = RssConfigLocalServiceUtil.getRssConfigs(0, 0);
-	
+
 	if(rssConfigs.isEmpty()) {
 		rssConfigs = new ArrayList<RssConfig>();
 		rssConfigs.add(new RssConfigImpl());
+
+		rssIndexes = new int[] {0};
 	}
-	
-	if(rssIndexes == null) {
-		rssIndexes = new int[0];
+	else {
+		rssIndexes = new int[rssConfigs.size()];
 	}
 }
+
+if(rssIndexes == null) {
+	rssIndexes = new int[0];
+}
+
 System.out.println("rssIndexes :"+rssIndexes.length +" || rssConfig :"+rssConfigs.size());
 
 PortletURL actionUrl = renderResponse.createActionURL();
@@ -55,27 +62,26 @@ actionUrl.setParameter("action", RssConstants.UPDATE_CONFIG_RSS);
 System.out.println("redirect :"+redirect);
 %>
 <aui:form action="<%= actionUrl %>" method="post" name="fm">
-	
+
 	<liferay-ui:error-marker key="errorSection" value="titles" />
-					
-	<aui:fieldset cssClass="subscriptions">
+<div id="rssFieldset">
+	<aui:fieldset >
 
 		<%
 
 		for (int i = 0; i < rssIndexes.length; i++) {
 			int rssIndex = rssIndexes[i];
-			
+
 			RssConfig rssConfig = rssConfigs.get(i);
 		%>
-			
 			<aui:model-context bean="<%= rssConfig %>" model="<%= RssConfig.class %>" />
-			
+
 			<div class="lfr-form-row lfr-form-row-inline">
 				<div class="row-fields">
 					<aui:input name='<%= "rssConfigId" + rssIndex %>' type="hidden" value="<%= rssConfig.getRssConfigId() %>" />
 
 					<aui:input fieldParam='<%= "title" + rssIndex %>' id='<%= "title" + rssIndex %>' inlineField="<%= true %>" name="title" />
-	
+
 					<aui:input fieldParam='<%= "url" + rssIndex %>' id='<%= "url" + rssIndex %>' inlineField="<%= true %>" name="url" />
 				</div>
 			</div>
@@ -83,30 +89,28 @@ System.out.println("redirect :"+redirect);
 		<%
 		}
 		%>
-		
-		<aui:input name="rssIndexes" type="hidden" value="<%= StringUtil.merge(rssIndexes) %>" />
-		
+
+		<aui:input name="indexes" type="hidden" value="<%= StringUtil.merge(rssIndexes) %>" />
+
 	</aui:fieldset>
-	
+</div>
 	<aui:script use="liferay-auto-fields">
-		Liferay.once(
-			'formNavigator:reveal<portlet:namespace />subscriptions',
-			function() {
-				new Liferay.AutoFields(
-					{
-						contentBox: 'fieldset.subscriptions',
-						fieldIndexes: '<portlet:namespace />rssIndexes',
-						namespace: '<portlet:namespace />'
-					}
-				).render();
-			}
-		);
+		AUI().use('liferay-auto-fields',function(A) {
+			new Liferay.AutoFields(
+			    {
+			        contentBox: '#rssFieldset',
+			        fieldIndexes: '<portlet:namespace />rssIndexes',
+			        namespace: '<portlet:namespace />'
+			    }
+			).render();
+		});
+
 	</aui:script>
 
 	<aui:button-row>
 		<aui:button onClick='<%= renderResponse.getNamespace() + "saveSettings();" %>' type="submit" />
 	</aui:button-row>
-							
+
 </aui:form>
 
 
