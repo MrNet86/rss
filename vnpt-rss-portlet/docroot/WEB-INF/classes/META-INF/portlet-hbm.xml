@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="false" auto-import="false">
+	<import class="com.vnpt.portal.rss.model.RssConfig" />
+	<class name="com.vnpt.portal.rss.model.impl.RssConfigImpl" table="eportal_rss_config">
+		<cache usage="read-write" />
+		<id name="rssConfigId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="url" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+</hibernate-mapping>

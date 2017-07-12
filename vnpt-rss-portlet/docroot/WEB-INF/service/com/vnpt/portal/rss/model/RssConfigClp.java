@@ -1,0 +1,416 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
+package com.vnpt.portal.rss.model;
+
+import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ProxyUtil;
+import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.model.BaseModel;
+import com.liferay.portal.model.impl.BaseModelImpl;
+
+import com.vnpt.portal.rss.service.ClpSerializer;
+import com.vnpt.portal.rss.service.RssConfigLocalServiceUtil;
+
+import java.io.Serializable;
+
+import java.lang.reflect.Method;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * @author MrNet
+ */
+public class RssConfigClp extends BaseModelImpl<RssConfig> implements RssConfig {
+	public RssConfigClp() {
+	}
+
+	@Override
+	public Class<?> getModelClass() {
+		return RssConfig.class;
+	}
+
+	@Override
+	public String getModelClassName() {
+		return RssConfig.class.getName();
+	}
+
+	@Override
+	public long getPrimaryKey() {
+		return _rssConfigId;
+	}
+
+	@Override
+	public void setPrimaryKey(long primaryKey) {
+		setRssConfigId(primaryKey);
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _rssConfigId;
+	}
+
+	@Override
+	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
+		setPrimaryKey(((Long)primaryKeyObj).longValue());
+	}
+
+	@Override
+	public Map<String, Object> getModelAttributes() {
+		Map<String, Object> attributes = new HashMap<String, Object>();
+
+		attributes.put("rssConfigId", getRssConfigId());
+		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
+		attributes.put("title", getTitle());
+		attributes.put("url", getUrl());
+
+		return attributes;
+	}
+
+	@Override
+	public void setModelAttributes(Map<String, Object> attributes) {
+		Long rssConfigId = (Long)attributes.get("rssConfigId");
+
+		if (rssConfigId != null) {
+			setRssConfigId(rssConfigId);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
+
+		String title = (String)attributes.get("title");
+
+		if (title != null) {
+			setTitle(title);
+		}
+
+		String url = (String)attributes.get("url");
+
+		if (url != null) {
+			setUrl(url);
+		}
+	}
+
+	@Override
+	public long getRssConfigId() {
+		return _rssConfigId;
+	}
+
+	@Override
+	public void setRssConfigId(long rssConfigId) {
+		_rssConfigId = rssConfigId;
+
+		if (_rssConfigRemoteModel != null) {
+			try {
+				Class<?> clazz = _rssConfigRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setRssConfigId", long.class);
+
+				method.invoke(_rssConfigRemoteModel, rssConfigId);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public long getGroupId() {
+		return _groupId;
+	}
+
+	@Override
+	public void setGroupId(long groupId) {
+		_groupId = groupId;
+
+		if (_rssConfigRemoteModel != null) {
+			try {
+				Class<?> clazz = _rssConfigRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setGroupId", long.class);
+
+				method.invoke(_rssConfigRemoteModel, groupId);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public long getCompanyId() {
+		return _companyId;
+	}
+
+	@Override
+	public void setCompanyId(long companyId) {
+		_companyId = companyId;
+
+		if (_rssConfigRemoteModel != null) {
+			try {
+				Class<?> clazz = _rssConfigRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setCompanyId", long.class);
+
+				method.invoke(_rssConfigRemoteModel, companyId);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public String getTitle() {
+		return _title;
+	}
+
+	@Override
+	public void setTitle(String title) {
+		_title = title;
+
+		if (_rssConfigRemoteModel != null) {
+			try {
+				Class<?> clazz = _rssConfigRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setTitle", String.class);
+
+				method.invoke(_rssConfigRemoteModel, title);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public String getUrl() {
+		return _url;
+	}
+
+	@Override
+	public void setUrl(String url) {
+		_url = url;
+
+		if (_rssConfigRemoteModel != null) {
+			try {
+				Class<?> clazz = _rssConfigRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setUrl", String.class);
+
+				method.invoke(_rssConfigRemoteModel, url);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	public BaseModel<?> getRssConfigRemoteModel() {
+		return _rssConfigRemoteModel;
+	}
+
+	public void setRssConfigRemoteModel(BaseModel<?> rssConfigRemoteModel) {
+		_rssConfigRemoteModel = rssConfigRemoteModel;
+	}
+
+	public Object invokeOnRemoteModel(String methodName,
+		Class<?>[] parameterTypes, Object[] parameterValues)
+		throws Exception {
+		Object[] remoteParameterValues = new Object[parameterValues.length];
+
+		for (int i = 0; i < parameterValues.length; i++) {
+			if (parameterValues[i] != null) {
+				remoteParameterValues[i] = ClpSerializer.translateInput(parameterValues[i]);
+			}
+		}
+
+		Class<?> remoteModelClass = _rssConfigRemoteModel.getClass();
+
+		ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
+
+		Class<?>[] remoteParameterTypes = new Class[parameterTypes.length];
+
+		for (int i = 0; i < parameterTypes.length; i++) {
+			if (parameterTypes[i].isPrimitive()) {
+				remoteParameterTypes[i] = parameterTypes[i];
+			}
+			else {
+				String parameterTypeName = parameterTypes[i].getName();
+
+				remoteParameterTypes[i] = remoteModelClassLoader.loadClass(parameterTypeName);
+			}
+		}
+
+		Method method = remoteModelClass.getMethod(methodName,
+				remoteParameterTypes);
+
+		Object returnValue = method.invoke(_rssConfigRemoteModel,
+				remoteParameterValues);
+
+		if (returnValue != null) {
+			returnValue = ClpSerializer.translateOutput(returnValue);
+		}
+
+		return returnValue;
+	}
+
+	@Override
+	public void persist() throws SystemException {
+		if (this.isNew()) {
+			RssConfigLocalServiceUtil.addRssConfig(this);
+		}
+		else {
+			RssConfigLocalServiceUtil.updateRssConfig(this);
+		}
+	}
+
+	@Override
+	public RssConfig toEscapedModel() {
+		return (RssConfig)ProxyUtil.newProxyInstance(RssConfig.class.getClassLoader(),
+			new Class[] { RssConfig.class }, new AutoEscapeBeanHandler(this));
+	}
+
+	@Override
+	public Object clone() {
+		RssConfigClp clone = new RssConfigClp();
+
+		clone.setRssConfigId(getRssConfigId());
+		clone.setGroupId(getGroupId());
+		clone.setCompanyId(getCompanyId());
+		clone.setTitle(getTitle());
+		clone.setUrl(getUrl());
+
+		return clone;
+	}
+
+	@Override
+	public int compareTo(RssConfig rssConfig) {
+		long primaryKey = rssConfig.getPrimaryKey();
+
+		if (getPrimaryKey() < primaryKey) {
+			return -1;
+		}
+		else if (getPrimaryKey() > primaryKey) {
+			return 1;
+		}
+		else {
+			return 0;
+		}
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+
+		if (!(obj instanceof RssConfigClp)) {
+			return false;
+		}
+
+		RssConfigClp rssConfig = (RssConfigClp)obj;
+
+		long primaryKey = rssConfig.getPrimaryKey();
+
+		if (getPrimaryKey() == primaryKey) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	public Class<?> getClpSerializerClass() {
+		return _clpSerializerClass;
+	}
+
+	@Override
+	public int hashCode() {
+		return (int)getPrimaryKey();
+	}
+
+	@Override
+	public String toString() {
+		StringBundler sb = new StringBundler(11);
+
+		sb.append("{rssConfigId=");
+		sb.append(getRssConfigId());
+		sb.append(", groupId=");
+		sb.append(getGroupId());
+		sb.append(", companyId=");
+		sb.append(getCompanyId());
+		sb.append(", title=");
+		sb.append(getTitle());
+		sb.append(", url=");
+		sb.append(getUrl());
+		sb.append("}");
+
+		return sb.toString();
+	}
+
+	@Override
+	public String toXmlString() {
+		StringBundler sb = new StringBundler(19);
+
+		sb.append("<model><model-name>");
+		sb.append("com.vnpt.portal.rss.model.RssConfig");
+		sb.append("</model-name>");
+
+		sb.append(
+			"<column><column-name>rssConfigId</column-name><column-value><![CDATA[");
+		sb.append(getRssConfigId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>groupId</column-name><column-value><![CDATA[");
+		sb.append(getGroupId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>companyId</column-name><column-value><![CDATA[");
+		sb.append(getCompanyId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>title</column-name><column-value><![CDATA[");
+		sb.append(getTitle());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>url</column-name><column-value><![CDATA[");
+		sb.append(getUrl());
+		sb.append("]]></column-value></column>");
+
+		sb.append("</model>");
+
+		return sb.toString();
+	}
+
+	private long _rssConfigId;
+	private long _groupId;
+	private long _companyId;
+	private String _title;
+	private String _url;
+	private BaseModel<?> _rssConfigRemoteModel;
+	private Class<?> _clpSerializerClass = com.vnpt.portal.rss.service.ClpSerializer.class;
+}

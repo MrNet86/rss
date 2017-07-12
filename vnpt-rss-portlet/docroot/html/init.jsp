@@ -121,7 +121,9 @@
 <!-- IMS Portlet -->
 
 <%@ page import="com.vnpt.portal.rss.controller.*"%>
-<%@ page import="com.vnpt.portal.rss.utils.RssConstants"%>
+<%@ page import="com.vnpt.portal.rss.utils.*"%>
+<%@ page import="com.vnpt.portal.rss.model.*"%>
+<%@ page import="com.vnpt.portal.rss.service.*"%>
 
 <liferay-theme:defineObjects />
 <portlet:defineObjects/>
