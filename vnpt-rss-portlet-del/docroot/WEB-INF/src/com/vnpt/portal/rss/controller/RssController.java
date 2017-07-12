@@ -1,12 +1,10 @@
 package com.vnpt.portal.rss.controller;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
-import javax.portlet.PortletConfig;
 import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
 import javax.portlet.ValidatorException;
@@ -33,7 +31,7 @@ import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 import com.vnpt.portal.rss.utils.RssConstants;
 
-@Controller("rssController")
+@Controller()
 @RequestMapping("VIEW")
 public class RssController {
 
@@ -63,7 +61,7 @@ public class RssController {
 		int[] subscriptionIndexes = StringUtil.split(
 			ParamUtil.getString(actionRequest, "subscriptionIndexes"), 0);
 
-		Map<String, String> subscriptions = new LinkedHashMap<String, String>();
+		Map<String, String> subscriptions = new HashMap<String, String>();
 
 		for (int subscriptionIndex : subscriptionIndexes) {
 			String url = ParamUtil.getString(

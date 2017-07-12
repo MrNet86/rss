@@ -2,5 +2,5 @@
 <!DOCTYPE project>
 
 <project name="vnpt-rss-portlet" basedir="." default="deploy">
-	<import file="../build-common-portlet.xml" />
+	<import file="E:\Liferay\liferay-plugins-sdk-6.2\portlets\build-common-portlet.xml" />
 </project>
