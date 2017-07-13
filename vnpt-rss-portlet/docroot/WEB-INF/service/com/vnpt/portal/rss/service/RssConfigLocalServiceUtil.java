@@ -275,6 +275,12 @@ public class RssConfigLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
+	public static java.util.List<com.vnpt.portal.rss.model.RssConfig> searchRssConfig(
+		int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().searchRssConfig(start, end);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

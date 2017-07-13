@@ -14,6 +14,13 @@
 
 package com.vnpt.portal.rss.service.impl;
 
+import java.util.List;
+
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vnpt.portal.rss.model.RssConfig;
+import com.vnpt.portal.rss.service.RssConfigLocalServiceUtil;
 import com.vnpt.portal.rss.service.base.RssConfigLocalServiceBaseImpl;
 
 /**
@@ -36,4 +43,15 @@ public class RssConfigLocalServiceImpl extends RssConfigLocalServiceBaseImpl {
 	 *
 	 * Never reference this interface directly. Always use {@link com.vnpt.portal.rss.service.RssConfigLocalServiceUtil} to access the rss config local service.
 	 */
+	
+	public List<RssConfig> searchRssConfig(int start, int end) throws SystemException {
+		DynamicQuery dynamicQuery = (DynamicQuery) DynamicQueryFactoryUtil
+				.forClass(RssConfig.class);
+		
+		List<RssConfig> lstResults = (List<RssConfig>) RssConfigLocalServiceUtil
+				.dynamicQuery(dynamicQuery, start, end);
+
+		return lstResults;
+	}
+	
 }

@@ -1,3 +1,5 @@
+<%@page import="com.liferay.portal.WebsiteURLException"%>
+<%@page import="com.liferay.portal.NoSuchListTypeException"%>
 <%@page import="com.vnpt.portal.rss.model.impl.RssConfigImpl"%>
 <%@page import="com.vnpt.portal.rss.service.persistence.RssConfigUtil"%>
 <%@page import="java.util.Collections"%>
@@ -8,24 +10,12 @@
 <%@ include file="../init.jsp" %>
 <%
 
-String redirect = ParamUtil.getString(request, "redirect");
-
-String typeSelection = ParamUtil.getString(request, "typeSelection");
-
-int assetOrder = ParamUtil.getInteger(request, "assetOrder", -1);
-
-// String[] urls = portletPreferences.getValues("urls", new String[0]);
-
-// String[] titles = portletPreferences.getValues("titles", new String[0]);
-
-
-
 List<RssConfig> rssConfigs = Collections.emptyList();
 
 int[] rssIndexes = null;
 
 String rssIndexesParam = ParamUtil.getString(request, "rssIndexes");
-
+System.out.println("rssIndexesParam :"+rssIndexesParam);
 if(Validator.isNotNull(rssIndexesParam)) {
 	rssConfigs = new ArrayList<RssConfig>();
 
@@ -37,7 +27,7 @@ if(Validator.isNotNull(rssIndexesParam)) {
 }
 else {
 	System.out.println("come here");
-	rssConfigs = RssConfigLocalServiceUtil.getRssConfigs(0, 0);
+	rssConfigs = RssConfigLocalServiceUtil.searchRssConfig(-1, -1);
 
 	if(rssConfigs.isEmpty()) {
 		rssConfigs = new ArrayList<RssConfig>();
@@ -47,6 +37,9 @@ else {
 	}
 	else {
 		rssIndexes = new int[rssConfigs.size()];
+		for (int i = 0; i < rssConfigs.size() ; i++) {
+			rssIndexes[i] = i;
+		}
 	}
 }
 
@@ -59,41 +52,46 @@ System.out.println("rssIndexes :"+rssIndexes.length +" || rssConfig :"+rssConfig
 PortletURL actionUrl = renderResponse.createActionURL();
 actionUrl.setParameter("action", RssConstants.UPDATE_CONFIG_RSS);
 
-System.out.println("redirect :"+redirect);
 %>
 <aui:form action="<%= actionUrl %>" method="post" name="fm">
 
 	<liferay-ui:error-marker key="errorSection" value="titles" />
-<div id="rssFieldset">
-	<aui:fieldset >
+	
+	<liferay-ui:error exception="<%= WebsiteURLException.class %>" message="please-enter-a-valid-url" />
 
-		<%
-
-		for (int i = 0; i < rssIndexes.length; i++) {
-			int rssIndex = rssIndexes[i];
-
-			RssConfig rssConfig = rssConfigs.get(i);
-		%>
-			<aui:model-context bean="<%= rssConfig %>" model="<%= RssConfig.class %>" />
-
-			<div class="lfr-form-row lfr-form-row-inline">
-				<div class="row-fields">
-					<aui:input name='<%= "rssConfigId" + rssIndex %>' type="hidden" value="<%= rssConfig.getRssConfigId() %>" />
-
-					<aui:input fieldParam='<%= "title" + rssIndex %>' id='<%= "title" + rssIndex %>' inlineField="<%= true %>" name="title" />
-
-					<aui:input fieldParam='<%= "url" + rssIndex %>' id='<%= "url" + rssIndex %>' inlineField="<%= true %>" name="url" />
+	<div id="rssFieldset">
+		<aui:fieldset >
+	
+			<%
+	
+			for (int i = 0; i < rssIndexes.length; i++) {
+				int rssIndex = rssIndexes[i];
+	
+				RssConfig rssConfig = rssConfigs.get(i);
+			%>
+				<aui:model-context bean="<%= rssConfig %>" model="<%= RssConfig.class %>" />
+	
+				<div class="lfr-form-row lfr-form-row-inline">
+					<div class="row-fields">
+						<aui:input name='<%= "rssConfigId" + rssIndex %>' type="hidden" value="<%= rssConfig.getRssConfigId() %>" />
+	
+						<aui:input fieldParam='<%= "title" + rssIndex %>' id='<%= "title" + rssIndex %>' inlineField="<%= true %>" name="title" />
+	
+						<aui:input cssClass="url-field" fieldParam='<%= "url" + rssIndex %>' id='<%= "url" + rssIndex %>' inlineField="<%= true %>" name="url" >
+							<aui:validator name="url"/>
+						</aui:input>
+					</div>
 				</div>
-			</div>
-
-		<%
-		}
-		%>
-
-		<aui:input name="indexes" type="hidden" value="<%= StringUtil.merge(rssIndexes) %>" />
-
-	</aui:fieldset>
-</div>
+	
+			<%
+			}
+			%>
+	
+			<aui:input name="indexes" type="hidden" value="<%= StringUtil.merge(rssIndexes) %>" />
+	
+		</aui:fieldset>
+	</div>
+	
 	<aui:script use="liferay-auto-fields">
 		AUI().use('liferay-auto-fields',function(A) {
 			new Liferay.AutoFields(
@@ -104,7 +102,7 @@ System.out.println("redirect :"+redirect);
 			    }
 			).render();
 		});
-
+	
 	</aui:script>
 
 	<aui:button-row>
@@ -113,10 +111,8 @@ System.out.println("redirect :"+redirect);
 
 </aui:form>
 
-
-
 <aui:script>
-function <portlet:namespace />saveSettings() {
-	submitForm(document.<portlet:namespace />fm, '<%= HtmlUtil.escapeJS(actionUrl.toString()) %>');
-}
+	function <portlet:namespace />saveSettings() {
+		submitForm(document.<portlet:namespace />fm, '<%= HtmlUtil.escapeJS(actionUrl.toString()) %>');
+	}
 </aui:script>

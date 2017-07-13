@@ -282,6 +282,13 @@ public class RssConfigLocalServiceWrapper implements RssConfigLocalService,
 			arguments);
 	}
 
+	@Override
+	public java.util.List<com.vnpt.portal.rss.model.RssConfig> searchRssConfig(
+		int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _rssConfigLocalService.searchRssConfig(start, end);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

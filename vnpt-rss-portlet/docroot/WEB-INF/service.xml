@@ -9,7 +9,7 @@
 
 		<!-- PK fields -->
 
-		<column name="rssConfigId" type="long" primary="true" />
+		<column name="rssConfigId" type="long" primary="true" id-type="increment"/>
 
 		<!-- Group instance -->
 
