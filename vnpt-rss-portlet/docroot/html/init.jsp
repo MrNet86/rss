@@ -1,4 +1,6 @@
 <%-- For Common  --%>
+<%@page import="java.text.Format"%>
+<%@page import="com.liferay.portal.kernel.util.FastDateFormatFactoryUtil"%>
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" 		uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt"     uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -83,6 +85,7 @@
 <%@ page import="com.liferay.portal.kernel.util.StringPool" %>
 <%@ page import="com.liferay.portal.kernel.util.HttpUtil" %>
 <%@ page import="com.liferay.portal.kernel.util.Validator" %>
+<%@ page import="com.liferay.portal.kernel.util.ObjectValuePair" %>
 <%@ page import="com.liferay.portal.kernel.xml.Document" %>
 <%@ page import="com.liferay.portal.kernel.xml.Element" %>
 <%@ page import="com.liferay.portal.kernel.xml.SAXReaderUtil" %>
@@ -91,7 +94,6 @@
 <%@ page import="com.liferay.portal.UserEmailAddressException" %>
 <%@ page import="com.liferay.portal.model.User" %>
 <%@ page import="com.liferay.util.JS" %>
-
 
 <%@ page import="com.liferay.portal.NoSuchResourceException" %>
 <%@ page import="com.liferay.portal.security.auth.PrincipalException" %>
@@ -118,7 +120,7 @@
 <%@page import="com.liferay.portal.model.Group"%>
 <%@page import="com.liferay.portal.model.ResourceConstants"%>
 
-<!-- IMS Portlet -->
+<!-- RSS Portlet -->
 
 <%@ page import="com.vnpt.portal.rss.controller.*"%>
 <%@ page import="com.vnpt.portal.rss.utils.*"%>
@@ -160,5 +162,6 @@
 	String contextPath = request.getContextPath();
 
 	DateFormat dateFormatDate = new SimpleDateFormat("dd/MM/yyyy", locale);
+	Format dateFormatDateTime = FastDateFormatFactoryUtil.getDateTime(locale, timeZone);
 
 %>
