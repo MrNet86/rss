@@ -13,6 +13,9 @@
  * details.
  */
 --%>
+<%@page import="com.liferay.portal.kernel.util.ClassResolverUtil"%>
+<%@page import="com.liferay.portal.kernel.util.PortalClassInvoker"%>
+<%@page import="com.liferay.portal.kernel.util.MethodKey"%>
 <%@page import="com.sun.syndication.feed.synd.SyndImage"%>
 <%@page import="com.liferay.portal.kernel.sanitizer.Sanitizer"%>
 <%@page import="com.liferay.portal.kernel.sanitizer.SanitizerException"%>
@@ -26,16 +29,22 @@
 
 <%
 SyndFeed feed = null;
-
+final String className = "com.liferay.portlet.rss.util.RSSUtil";
+String portletContext="ROOT";
+MethodKey mKey = new MethodKey(ClassResolverUtil.resolveByPortletClassLoader(className, portletContext), "getFeed", String.class);
 try {
-	ObjectValuePair ovp = com.vnpt.portal.rss.utils.RSSUtil.getFeed(url);
-	System.out.println("ovp key :");
+	ObjectValuePair ovp = (ObjectValuePair)PortalClassInvoker.invoke(true, mKey , url);
+
+	if(ovp != null && ovp.getValue() != null) {
+		System.out.println("ovp value :"+ovp.getValue());
+	}
+
 	feed = (SyndFeed)ovp.getValue();
 
 	if (Validator.isNull(title)) {
 		title = feed.getTitle();
 	}
-	
+
 	System.out.println("feed :"+feed +" url :"+url);
 }
 catch (Exception e) {
@@ -161,7 +170,7 @@ catch (Exception e) {
 							break;
 						}
 					}
-					
+
 					System.out.println("feed.jspf entryLink :" + entryLink +" || enclosureLink :"+enclosureLink +" || author :"+author);
 				%>
 

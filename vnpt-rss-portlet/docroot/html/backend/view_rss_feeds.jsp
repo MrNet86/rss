@@ -9,11 +9,11 @@ for(RssConfig rssConfig : lstRssConfig) {
 	url = rssConfig.getUrl();
 	title = rssConfig.getTitle();
 	System.out.println("url :"+url +" || title :"+title);
-	
+
 %>
 
 	<%@ include file="feed.jspf" %>
-	
+
 <%
 }
 %>
