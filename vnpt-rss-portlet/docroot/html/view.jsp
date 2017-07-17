@@ -6,7 +6,7 @@ String tab = ParamUtil.getString(request, "tab", "config-rss");
 
 PortletURL portletURL = renderResponse.createRenderURL();
 portletURL.setParameter("tab", tab);
-
+System.out.println("tab :"+tab);
 String pageUrl = "";
 
 if("config-rss".equals(tab)) {
@@ -15,7 +15,7 @@ if("config-rss".equals(tab)) {
 	pageUrl = "/html/backend/config_rss.jsp";
 }
 else if("view-rss-feeds".equals(tab)) {
-	portletURL.setParameter("action", RssConstants.CONFIG_RSS);
+	portletURL.setParameter("action", RssConstants.VIEW_ALL_RSS);
 	pageUrl = "/html/backend/view_rss_feeds.jsp";
 }
 System.out.println("pageUrl :"+pageUrl);

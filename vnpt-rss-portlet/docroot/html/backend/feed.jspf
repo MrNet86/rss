@@ -35,17 +35,12 @@ MethodKey mKey = new MethodKey(ClassResolverUtil.resolveByPortletClassLoader(cla
 try {
 	ObjectValuePair ovp = (ObjectValuePair)PortalClassInvoker.invoke(true, mKey , url);
 
-	if(ovp != null && ovp.getValue() != null) {
-		System.out.println("ovp value :"+ovp.getValue());
-	}
-
 	feed = (SyndFeed)ovp.getValue();
 
 	if (Validator.isNull(title)) {
 		title = feed.getTitle();
 	}
 
-	System.out.println("feed :"+feed +" url :"+url);
 }
 catch (Exception e) {
 	System.out.println("Exception eee :"+e.getMessage());
@@ -171,7 +166,6 @@ catch (Exception e) {
 						}
 					}
 
-					System.out.println("feed.jspf entryLink :" + entryLink +" || enclosureLink :"+enclosureLink +" || author :"+author);
 				%>
 
 					<div class="feed-entry">
