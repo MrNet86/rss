@@ -1,3 +1,4 @@
+<%@page import="com.liferay.portal.kernel.util.ListUtil"%>
 <%@page import="com.liferay.portal.kernel.sanitizer.Sanitizer"%>
 <%@page import="com.liferay.portal.kernel.sanitizer.SanitizerException"%>
 <%@page import="com.liferay.portal.kernel.sanitizer.SanitizerUtil"%>
@@ -44,6 +45,9 @@ for(RssConfig rssConfig : lstRssConfig) {
 
 		feed = (SyndFeed)ovp.getValue();
 
+		if(Validator.isNull(title)) {
+			title = feed.getTitle();
+		}
 		// get base url from feedLink
 		String baseURL = null;
 		String feedLink = feed.getLink();
@@ -61,19 +65,19 @@ for(RssConfig rssConfig : lstRssConfig) {
 			baseURL = HttpUtil.getProtocol(feedLink).concat(Http.PROTOCOL_DELIMITER)
 						.concat(HttpUtil.getDomain(feedLink));
 		}
-		
+
 		// get feed entry
 		List entries = feed.getEntries();
 		for(int i = 0; i < entries.size(); i++) {
 			SyndEntry entry = (SyndEntry) entries.get(i);
-			
+
 			String entryLink = entry.getLink();
 
 			if (Validator.isNotNull(entryLink) && !HttpUtil.hasDomain(entryLink)) {
 				entryLink = baseURL + entryLink;
 				entry.setLink(entryLink);
 			}
-			
+
 			SyndContent content = entry.getDescription();
 			List contents = new ArrayList();
 
@@ -106,60 +110,81 @@ for(RssConfig rssConfig : lstRssConfig) {
 					catch (SanitizerException se) {
 						sanitizedValue = StringPool.BLANK;
 					}
-					
+
 					entry.setAuthor(sanitizedValue);
 				}
 			}
-			
-			
-			lstResults.add(entry); 
+
+
+			lstResults.add(entry);
 		}
-		
+
 	}
 	catch (Exception e) {
 		System.out.println("Exception eee :"+e.getMessage());
 	}
 
-	
+
 }
 
 PortletURL portletURL = renderResponse.createRenderURL();
-portletURL.setParameter("action", RssConstants.CONFIG_RSS);
-portletURL.setParameter("tab", "view-rss-feeds");	
+pageContext.setAttribute("portletURL", portletURL);
+
+
 %>
 <aui:form action="<%= portletURL.toString() %>" method="post" name="name">
-	<liferay-ui:search-container>
-		<liferay-ui:search-container-results
-			results="<%= lstResults %>"
-			total="<%= lstResults.size() %>"
-		/>
-		
+	<liferay-ui:search-container delta="20">
+		<liferay-ui:search-container-results>
+		<%
+			results = ListUtil.subList(lstResults, searchContainer.getStart(),
+                searchContainer.getEnd());
+			if(lstResults.size()<searchContainer.getEnd()){
+	            results = ListUtil.subList(lstResults, searchContainer.getStart(),
+	            		lstResults.size());
+	            total = lstResults.size();
+	        }else{
+	            results = ListUtil.subList(lstResults, searchContainer.getStart(),
+	                    searchContainer.getEnd());
+	            total = lstResults.size();
+	        }
+
+	        pageContext.setAttribute("results", results);
+	        pageContext.setAttribute("total", total);
+		%>
+		</liferay-ui:search-container-results>
+
+
 		<liferay-ui:search-container-row
 			className="com.sun.syndication.feed.synd.SyndEntry"
 			modelVar="aSyndFeed"
 		>
-			
-			<liferay-ui:search-container-column-text 
+
+			<liferay-ui:search-container-column-text
+				name="urlFeed"
+				value="<%= title %>"
+			/>
+
+			<liferay-ui:search-container-column-text
 				name="title"
 				value="<%= HtmlUtil.escape(aSyndFeed.getTitle()) %>"
 				href="<%= _escapeJavaScriptLink(aSyndFeed.getLink()) %>"
 				target="_blank"
 			/>
-			
-			<liferay-ui:search-container-column-text 
+
+			<liferay-ui:search-container-column-text
 				name="publicDate"
-				value='<%= aSyndFeed.getPublishedDate() != null ? dateFormatDateTime.format(aSyndFeed.getPublishedDate()) : ""%>'
+				value='<%= aSyndFeed.getPublishedDate() != null ? dateFormatDate.format(aSyndFeed.getPublishedDate()) : ""%>'
 			/>
-			
-			<liferay-ui:search-container-column-text 
+
+			<liferay-ui:search-container-column-text
 				name="description"
 				value='<%= aSyndFeed.getAuthor() != null ? aSyndFeed.getAuthor() : ""%>'
 			/>
-			
+
 		</liferay-ui:search-container-row>
 		<liferay-ui:search-iterator />
-		
-	</liferay-ui:search-container>	
+
+	</liferay-ui:search-container>
 </aui:form>
 
 <%!

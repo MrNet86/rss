@@ -1,8 +1,8 @@
 <%@ include file="init.jsp" %>
 
 <%
-String tabNames = "config-rss,view-rss-feeds";
-String tab = ParamUtil.getString(request, "tab", "config-rss");
+String tabNames = "view-rss-feeds,config-rss";
+String tab = ParamUtil.getString(request, "tab", "view-rss-feeds");
 
 PortletURL portletURL = renderResponse.createRenderURL();
 portletURL.setParameter("tab", tab);
