@@ -14,13 +14,60 @@
 		<!-- Group instance -->
 
 		<column name="groupId" type="long" />
-
-		<!-- Audit fields -->
-
 		<column name="companyId" type="long" />
+		<!-- Audit fields -->
 		
 		<column name="title" type="String" />
 		<column name="url" type="String" />
-				
+		
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="CompanyId" return-type="Collection">
+			<finder-column name="companyId" />
+		</finder>
+						
 	</entity>
+
+	<entity name="RssFeeds" table="eportal_rss_feeds" local-service="true" remote-service="false"
+		data-source="eGovDataSource" session-factory="eGovSessionFactory" tx-manager="eGovTransactionManager">
+
+		<!-- PK fields -->
+
+		<column name="rssFeedsId" type="long" primary="true" id-type="increment"/>
+
+		<!-- Group instance -->
+
+		<column name="groupId" type="long" />
+		<column name="companyId" type="long" />
+
+		<!-- Audit fields -->		
+		
+		<column name="title" type="String" />
+		<column name="url" type="String" />
+		<column name="description" type="String" />
+		<column name="content" type="String" />
+		<column name="author" type="String" />
+		<column name="publishedDate" type="Date" />
+		
+		<column name="status" type="int" />
+		<column name="createdId" type="long" />
+		<column name="createdDate" type="Date" />
+		<column name="approvedId" type="long" />
+		<column name="approvedDate" type="Date" />
+				
+		<order>
+			<order-column name="groupId" order-by="asc" />
+			<order-column name="title" order-by="asc" />
+		</order>
+
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="CompanyId" return-type="Collection">
+			<finder-column name="companyId" />
+		</finder>
+
+	</entity>
+
 </service-builder>

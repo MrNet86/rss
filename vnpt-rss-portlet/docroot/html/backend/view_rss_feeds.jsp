@@ -54,7 +54,7 @@ for(RssConfig rssConfig : lstRssConfig) {
 		if(Validator.isNull(feedLink) || !HttpUtil.hasDomain(feedLink)) {
 			baseURL = HttpUtil.getProtocol(url)
 						.concat(Http.PROTOCOL_DELIMITER).concat(HttpUtil.getDomain(url));
-			if(Validator.isNotNull(feedLink)){
+			if(Validator.isNotNull(feedLink)) {
 				feedLink = baseURL.concat(feedLink);
 			}
 			else {
@@ -78,15 +78,18 @@ for(RssConfig rssConfig : lstRssConfig) {
 				entry.setLink(entryLink);
 			}
 
+
+			// get feed content
 			SyndContent content = entry.getDescription();
 			List contents = new ArrayList();
-
+			
 			if (content == null) {
 				contents = entry.getContents();
 			}
 			else {
 				contents.add(content);
 			}
+			
 			for (int k = 0; k < contents.size(); k++) {
 				content = (SyndContent)contents.get(k);
 
@@ -111,6 +114,7 @@ for(RssConfig rssConfig : lstRssConfig) {
 						sanitizedValue = StringPool.BLANK;
 					}
 
+					// set feed content to author 
 					entry.setAuthor(sanitizedValue);
 				}
 			}
@@ -138,11 +142,12 @@ pageContext.setAttribute("portletURL", portletURL);
 		<%
 			results = ListUtil.subList(lstResults, searchContainer.getStart(),
                 searchContainer.getEnd());
+                
 			if(lstResults.size()<searchContainer.getEnd()){
 	            results = ListUtil.subList(lstResults, searchContainer.getStart(),
 	            		lstResults.size());
 	            total = lstResults.size();
-	        }else{
+	        } else{
 	            results = ListUtil.subList(lstResults, searchContainer.getStart(),
 	                    searchContainer.getEnd());
 	            total = lstResults.size();
@@ -172,13 +177,18 @@ pageContext.setAttribute("portletURL", portletURL);
 			/>
 
 			<liferay-ui:search-container-column-text
-				name="publicDate"
+				name="publishedDate"
 				value='<%= aSyndFeed.getPublishedDate() != null ? dateFormatDate.format(aSyndFeed.getPublishedDate()) : ""%>'
 			/>
 
 			<liferay-ui:search-container-column-text
 				name="description"
 				value='<%= aSyndFeed.getAuthor() != null ? aSyndFeed.getAuthor() : ""%>'
+			/>
+			
+			<liferay-ui:search-container-column-jsp
+				align="center"
+				path="/html/backend/action.jsp"
 			/>
 
 		</liferay-ui:search-container-row>
