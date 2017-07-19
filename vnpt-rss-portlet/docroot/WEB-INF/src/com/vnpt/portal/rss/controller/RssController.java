@@ -1,5 +1,7 @@
 package com.vnpt.portal.rss.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,9 +17,14 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.theme.ThemeDisplay;
 import com.vnpt.portal.rss.model.RssConfig;
+import com.vnpt.portal.rss.model.RssFeeds;
 import com.vnpt.portal.rss.model.impl.RssConfigImpl;
+import com.vnpt.portal.rss.model.impl.RssFeedsImpl;
 import com.vnpt.portal.rss.service.RssConfigLocalServiceUtil;
+import com.vnpt.portal.rss.service.RssFeedsLocalServiceUtil;
 import com.vnpt.portal.rss.utils.RssConstants;
 
 @Controller()
@@ -36,6 +43,10 @@ public class RssController {
 	public void updateConfigRss(ActionRequest actionRequest, 
 			ActionResponse actionResponse) throws Exception {
 		System.out.println("updateConfigRss");
+		
+		ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
+		long groupId = themeDisplay.getScopeGroupId();
+		long companyId = themeDisplay.getCompanyId();
 		
 		RssConfig rssConfig = null;
 		Set<Long> rssConfigIds = new HashSet<Long>();
@@ -58,12 +69,17 @@ public class RssController {
 				
 				rssConfig.setTitle(title);
 				rssConfig.setUrl(url);
+				
+				rssConfig.setGroupId(groupId);
+				rssConfig.setCompanyId(companyId);
+				
 				rssConfig = RssConfigLocalServiceUtil.addRssConfig(rssConfig);
 			} else {
 				rssConfig = RssConfigLocalServiceUtil.fetchRssConfig(rssConfigId);
 				
 				rssConfig.setTitle(title);
 				rssConfig.setUrl(url);				
+				
 				rssConfig = RssConfigLocalServiceUtil.updateRssConfig(rssConfig);
 			}
 			
@@ -81,4 +97,38 @@ public class RssController {
 		return ;
 	}
 	
+	@ActionMapping(params="action=" + RssConstants.SEND_FOR_APPROVE)
+	public void sendForApprove(ActionRequest actionRequest, 
+			ActionResponse actionResponse) throws Exception {
+		
+		System.out.println("send for approve");
+		ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
+		long groupId = themeDisplay.getScopeGroupId();
+		long companyId = themeDisplay.getCompanyId();
+		
+		String url = ParamUtil.getString(actionRequest, "url");
+		String title = ParamUtil.getString(actionRequest, "title");
+		String publishedDate = ParamUtil.getString(actionRequest, "publishedDate");
+		String content = ParamUtil.getString(actionRequest, "content");
+		
+		RssFeeds rssFeeds = new RssFeedsImpl();
+		rssFeeds.setTitle(title);
+		rssFeeds.setUrl(url);
+		rssFeeds.setContent(content);
+		
+		DateFormat dateFormatDate = new SimpleDateFormat("dd/MM/yyyy");
+		if(dateFormatDate != null && !"".equals(publishedDate)) {
+			rssFeeds.setPublishedDate(dateFormatDate.parse(publishedDate));
+		}
+		
+		rssFeeds.setStatus(0); // wait for approve
+		
+		rssFeeds.setGroupId(groupId);
+		rssFeeds.setCompanyId(companyId);
+		
+		RssFeedsLocalServiceUtil.addRssFeeds(rssFeeds);
+		
+		System.out.println("url :"+url);
+		
+	}
 }

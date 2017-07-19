@@ -3,6 +3,7 @@
 
 <display>
 	<category name="category.sample">
-		<portlet id="vnpt-rss" />
+		<portlet id="conf-rss" />
+		<portlet id="view-rss"></portlet>
 	</category>
 </display>

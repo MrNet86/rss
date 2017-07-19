@@ -126,6 +126,7 @@
 <%@ page import="com.vnpt.portal.rss.utils.RssConstants"%>
 <%@ page import="com.vnpt.portal.rss.model.*"%>
 <%@ page import="com.vnpt.portal.rss.service.*"%>
+<%@ page import="com.vnpt.portal.rss.search.*"%>
 
 <liferay-theme:defineObjects />
 <portlet:defineObjects/>
