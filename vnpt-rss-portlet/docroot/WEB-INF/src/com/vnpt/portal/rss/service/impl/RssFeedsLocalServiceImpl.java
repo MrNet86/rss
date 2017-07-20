@@ -29,6 +29,7 @@ import com.vnpt.portal.rss.model.RssFeeds;
 import com.vnpt.portal.rss.search.RssFeedsSearchTerms;
 import com.vnpt.portal.rss.service.RssFeedsLocalServiceUtil;
 import com.vnpt.portal.rss.service.base.RssFeedsLocalServiceBaseImpl;
+import com.vnpt.portal.rss.service.persistence.RssFeedsUtil;
 import com.vnpt.portal.rss.utils.RssConstants;
 
 /**
@@ -118,4 +119,11 @@ public class RssFeedsLocalServiceImpl extends RssFeedsLocalServiceBaseImpl {
 		return count.intValue();
 		
 	}
+
+	public List<RssFeeds> findByUrl (Long groupId, String url) throws SystemException {
+		
+		return RssFeedsUtil.findByUrl(groupId, url);
+	}
+	
+	
 }
