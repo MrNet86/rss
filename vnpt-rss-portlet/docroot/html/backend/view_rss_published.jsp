@@ -14,8 +14,8 @@ PortletURL portletURL = (PortletURL)renderResponse.createRenderURL();
 		/>
 		
 		<liferay-ui:search-container-results
-			results="<%= RssFeedsLocalServiceUtil.getRssFeedsPublished(searchContainer, searchContainer.getStart(), searchContainer.getEnd(), RssConstants.RSS_STATUS_PUBLISHED, scopeGroupId) %>"
-			total="<%= RssFeedsLocalServiceUtil.countRssFeedsPublished(searchContainer, RssConstants.RSS_STATUS_PUBLISHED, scopeGroupId) %>"
+			results="<%= RssFeedsLocalServiceUtil.getRssFeeds(searchContainer, searchContainer.getStart(), searchContainer.getEnd(), RssConstants.RSS_STATUS_PUBLISHED, scopeGroupId) %>"
+			total="<%= RssFeedsLocalServiceUtil.countRssFeeds(searchContainer, RssConstants.RSS_STATUS_PUBLISHED, scopeGroupId) %>"
 		/>
 	
 		<liferay-ui:search-container-row
@@ -24,16 +24,22 @@ PortletURL portletURL = (PortletURL)renderResponse.createRenderURL();
 		>
 				
 			<liferay-ui:search-container-column-text
-				name="title"
+				name="rss-title"
 				value="<%= HtmlUtil.escape(aRssFeeds.getTitle()) %>"
 				href="<%= _escapeJavaScriptLink(aRssFeeds.getUrl()) %>"
 				target="_blank"
 			/>
 			
-			<liferay-ui:search-container-column-text property="status" />
-	
-			<liferay-ui:search-container-column-text property="content" />
-	
+			<liferay-ui:search-container-column-text 
+				name="rss-content"
+				value='<%= aRssFeeds.getContent() == null ? "" : aRssFeeds.getContent() %>' 
+			/>
+
+			<liferay-ui:search-container-column-text 
+				name="published-date"
+				value='<%= aRssFeeds.getPublishedDate() == null ? "" : dateFormatDateTime.format(aRssFeeds.getPublishedDate()) %>' 
+			/>
+				
 		</liferay-ui:search-container-row>
 	
 		<liferay-ui:search-iterator />

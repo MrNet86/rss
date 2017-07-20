@@ -14,8 +14,8 @@ System.out.println("userId :"+ user.getUserId() + " || scopeGroupId :"+ scopeGro
 	/>
 		
 	<liferay-ui:search-container-results
-		results="<%= RssFeedsLocalServiceUtil.getRssFeedsPublished(searchContainer, searchContainer.getStart(), searchContainer.getEnd(), RssConstants.RSS_STATUS_WAITING, scopeGroupId) %>"
-		total="<%= RssFeedsLocalServiceUtil.countRssFeedsPublished(searchContainer, RssConstants.RSS_STATUS_WAITING, scopeGroupId) %>"
+		results="<%= RssFeedsLocalServiceUtil.getRssFeeds(searchContainer, searchContainer.getStart(), searchContainer.getEnd(), RssConstants.RSS_STATUS_WAITING, scopeGroupId) %>"
+		total="<%= RssFeedsLocalServiceUtil.countRssFeeds(searchContainer, RssConstants.RSS_STATUS_WAITING, scopeGroupId) %>"
 	/>
 
 	<liferay-ui:search-container-row
@@ -24,7 +24,7 @@ System.out.println("userId :"+ user.getUserId() + " || scopeGroupId :"+ scopeGro
 	>
 			
 		<liferay-ui:search-container-column-text
-			name="title"
+			name="rss-title"
 			value="<%= HtmlUtil.escape(aRssFeeds.getTitle()) %>"
 			href="<%= _escapeJavaScriptLink(aRssFeeds.getUrl()) %>"
 			target="_blank"
@@ -32,8 +32,15 @@ System.out.println("userId :"+ user.getUserId() + " || scopeGroupId :"+ scopeGro
 		
 		<liferay-ui:search-container-column-text property="status" />
 
-		<liferay-ui:search-container-column-text property="content" />
+		<liferay-ui:search-container-column-text 
+			name="rss-content"
+			value='<%= aRssFeeds.getContent() == null ? "" : aRssFeeds.getContent() %>' 
+		/>
 
+		<liferay-ui:search-container-column-jsp
+			align="center"
+			path="/html/backend/action_wait_feed.jsp"
+		/>
 		
 	</liferay-ui:search-container-row>
 

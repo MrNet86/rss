@@ -2,6 +2,7 @@ package com.vnpt.portal.rss.controller;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -123,6 +124,8 @@ public class RssController {
 		
 		rssFeeds.setStatus(0); // wait for approve
 		
+		rssFeeds.setCreatedId(themeDisplay.getUserId());
+		rssFeeds.setCreatedDate(new Date());
 		rssFeeds.setGroupId(groupId);
 		rssFeeds.setCompanyId(companyId);
 		
@@ -131,4 +134,26 @@ public class RssController {
 		System.out.println("url :"+url);
 		
 	}
+	
+	@ActionMapping(params="action=" + RssConstants.PROCESS_FEED)
+	public void processFeed(ActionRequest actionRequest, 
+			ActionResponse actionResponse) throws Exception {
+		
+		System.out.println("process feed");
+		ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
+		
+		long rssFeedsId = ParamUtil.getLong(actionRequest, "rssFeedsId", 0);
+		int rssStatus = ParamUtil.getInteger(actionRequest, "rssStatus");
+		
+		if(rssFeedsId > 0) {
+			RssFeeds rssFeeds = RssFeedsLocalServiceUtil.fetchRssFeeds(rssFeedsId);
+			rssFeeds.setStatus(rssStatus);
+			rssFeeds.setApprovedId(themeDisplay.getUserId());
+			rssFeeds.setApprovedDate(new Date());
+			
+			RssFeedsLocalServiceUtil.updateRssFeeds(rssFeeds);
+		}
+		
+	}
+	
 }

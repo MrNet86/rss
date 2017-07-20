@@ -10,7 +10,13 @@ public class RssConstants {
 
 	public static final String VIEW_RSS_FEEDS = "view-rss-feeds";
 	
-	public static final String SEND_FOR_APPROVE = "view-rss-feeds";
+	public static final String PROCESS_FEED = "process-feed";
+	
+	public static final String SEND_FOR_APPROVE = "send-for-approve";
+//	
+//	public static final String APPROVE = "approve";
+//	
+//	public static final String REJECT = "reject";
 	
 	public static final String VIEW_RSS_WAIT_FOR_APPROVE = "view-rss-wait-for-approve";
 	

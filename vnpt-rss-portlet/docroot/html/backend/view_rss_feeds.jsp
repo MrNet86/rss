@@ -170,7 +170,7 @@ pageContext.setAttribute("portletURL", portletURL);
 			/>
 
 			<liferay-ui:search-container-column-text
-				name="title"
+				name="rss-title"
 				value="<%= HtmlUtil.escape(aSyndFeed.getTitle()) %>"
 				href="<%= _escapeJavaScriptLink(aSyndFeed.getLink()) %>"
 				target="_blank"
@@ -182,13 +182,13 @@ pageContext.setAttribute("portletURL", portletURL);
 			/>
 
 			<liferay-ui:search-container-column-text
-				name="description"
+				name="rss-content"
 				value='<%= aSyndFeed.getAuthor() != null ? aSyndFeed.getAuthor() : ""%>'
 			/>
 			
 			<liferay-ui:search-container-column-jsp
 				align="center"
-				path="/html/backend/action.jsp"
+				path="/html/backend/action_feed.jsp"
 			/>
 
 		</liferay-ui:search-container-row>

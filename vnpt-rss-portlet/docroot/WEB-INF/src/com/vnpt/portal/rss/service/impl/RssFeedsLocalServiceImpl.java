@@ -17,17 +17,19 @@ package com.vnpt.portal.rss.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.liferay.portal.kernel.dao.orm.Disjunction;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.theme.ThemeDisplay;
 import com.vnpt.portal.rss.model.RssFeeds;
 import com.vnpt.portal.rss.search.RssFeedsSearchTerms;
 import com.vnpt.portal.rss.service.RssFeedsLocalServiceUtil;
 import com.vnpt.portal.rss.service.base.RssFeedsLocalServiceBaseImpl;
+import com.vnpt.portal.rss.utils.RssConstants;
 
 /**
  * The implementation of the rss feeds local service.
@@ -50,15 +52,25 @@ public class RssFeedsLocalServiceImpl extends RssFeedsLocalServiceBaseImpl {
 	 * Never reference this interface directly. Always use {@link com.vnpt.portal.rss.service.RssFeedsLocalServiceUtil} to access the rss feeds local service.
 	 */
 	
-	public List<RssFeeds> getRssFeedsPublished (SearchContainer searchContainer, int start, int end, int status, long scopeGroupId) 
+	public List<RssFeeds> getRssFeeds (SearchContainer searchContainer, int start, int end, int status, long scopeGroupId) 
 			throws SystemException{
 		List<RssFeeds> lstResults = new ArrayList<RssFeeds>();
 		
 		RssFeedsSearchTerms searchTerms = (RssFeedsSearchTerms) searchContainer.getSearchTerms();
 		DynamicQuery query = (DynamicQuery) DynamicQueryFactoryUtil.forClass(RssFeeds.class);
 		
-		query.add(PropertyFactoryUtil.forName("status").eq(status)) ;
+		// only user in the same Site can see this site'rss
 		query.add(PropertyFactoryUtil.forName("groupId").eq(scopeGroupId)) ;
+				
+		if(status == 0) { // get rssFeeds waiting and reject
+			Disjunction disjunction = RestrictionsFactoryUtil.disjunction();
+			disjunction.add(PropertyFactoryUtil.forName("status").eq(RssConstants.RSS_STATUS_WAITING)) ;
+			disjunction.add(PropertyFactoryUtil.forName("status").eq(RssConstants.RSS_STATUS_REJECT)) ;
+
+			query.add(disjunction);
+		} else {
+			query.add(PropertyFactoryUtil.forName("status").eq(status)) ;
+		}
 		
 		if(searchTerms.getUrl() != null && !"".equals(searchTerms.getUrl())) {
 			query.add(PropertyFactoryUtil.forName("url").like("%" + searchTerms.getUrl() + "%"));
@@ -68,18 +80,30 @@ public class RssFeedsLocalServiceImpl extends RssFeedsLocalServiceBaseImpl {
 			query.add(PropertyFactoryUtil.forName("title").like("%" + searchTerms.getTitle() + "%"));
 		}
 		
+		query.addOrder(OrderFactoryUtil.desc("publishedDate"));
+		
 		lstResults = RssFeedsLocalServiceUtil.dynamicQuery(query, start, end - start) ;
 		
 		return lstResults;
 	}
 	
-	public int countRssFeedsPublished (SearchContainer searchContainer, int status, long scopeGroupId) throws SystemException {
+	public int countRssFeeds (SearchContainer searchContainer, int status, long scopeGroupId) throws SystemException {
 		
 		RssFeedsSearchTerms searchTerms = (RssFeedsSearchTerms) searchContainer.getSearchTerms();
 		DynamicQuery query = (DynamicQuery) DynamicQueryFactoryUtil.forClass(RssFeeds.class);
 		
-		query.add(PropertyFactoryUtil.forName("status").eq(status));
+		// only user in the same Site can see this site'rss
 		query.add(PropertyFactoryUtil.forName("groupId").eq(scopeGroupId));
+				
+		if(status == 0) { // get rssFeeds waiting and reject
+			Disjunction disjunction = RestrictionsFactoryUtil.disjunction();
+			disjunction.add(PropertyFactoryUtil.forName("status").eq(RssConstants.RSS_STATUS_WAITING)) ;
+			disjunction.add(PropertyFactoryUtil.forName("status").eq(RssConstants.RSS_STATUS_REJECT)) ;
+
+			query.add(disjunction);
+		} else {
+			query.add(PropertyFactoryUtil.forName("status").eq(status)) ;
+		}
 		
 		if(searchTerms.getUrl() != null && !"".equals(searchTerms.getUrl())) {
 			query.add(PropertyFactoryUtil.forName("url").like("%" + searchTerms.getUrl() + "%"));
