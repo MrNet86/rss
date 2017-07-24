@@ -1,13 +1,6 @@
 <%@page import="com.liferay.portal.WebsiteURLException"%>
-<%@page import="com.liferay.portal.NoSuchListTypeException"%>
-<%@page import="com.vnpt.portal.rss.model.impl.RssConfigImpl"%>
-<%@page import="com.vnpt.portal.rss.service.persistence.RssConfigUtil"%>
 <%@page import="java.util.Collections"%>
-<%@page import="com.liferay.portal.kernel.util.Constants"%>
-<%@page import="java.util.Enumeration"%>
-<%@page import="javax.portlet.RenderResponse"%>
-<%@page import="javax.portlet.PortletURL"%>
-<%@ include file="../init.jsp" %>
+<%-- <%@ include file="../init.jsp" %> --%>
 <%
 
 List<RssConfig> rssConfigs = Collections.emptyList();
@@ -15,7 +8,7 @@ List<RssConfig> rssConfigs = Collections.emptyList();
 int[] rssIndexes = null;
 
 String rssIndexesParam = ParamUtil.getString(request, "rssIndexes");
-
+System.out.println("rssIndexesParam :"+rssIndexesParam);
 if(Validator.isNotNull(rssIndexesParam)) {
 	rssConfigs = new ArrayList<RssConfig>();
 
@@ -26,7 +19,7 @@ if(Validator.isNotNull(rssIndexesParam)) {
 	}
 }
 else {
-
+	System.out.println("come here");
 	rssConfigs = RssConfigLocalServiceUtil.searchRssConfig(-1, -1);
 
 	if(rssConfigs.isEmpty()) {
@@ -47,7 +40,11 @@ if(rssIndexes == null) {
 	rssIndexes = new int[0];
 }
 
+System.out.println("rssIndexes :"+rssIndexes.length +" || rssConfig :"+rssConfigs.size());
+
 PortletURL actionUrl = renderResponse.createActionURL();
+actionUrl.setParameter("tabs1", tabs1);
+
 actionUrl.setParameter("action", RssConstants.UPDATE_CONFIG_RSS);
 
 %>
@@ -61,6 +58,7 @@ actionUrl.setParameter("action", RssConstants.UPDATE_CONFIG_RSS);
 		<aui:fieldset >
 
 			<%
+
 			for (int i = 0; i < rssIndexes.length; i++) {
 				int rssIndex = rssIndexes[i];
 
@@ -72,23 +70,11 @@ actionUrl.setParameter("action", RssConstants.UPDATE_CONFIG_RSS);
 					<div class="row-fields">
 						<aui:input name='<%= "rssConfigId" + rssIndex %>' type="hidden" value="<%= rssConfig.getRssConfigId() %>" />
 
-						<aui:input fieldParam='<%= "title" + rssIndex %>' id='<%= "title" + rssIndex %>' inlineField="<%= true %>" name="title" >
-							<aui:validator name="maxLength">150</aui:validator>
-						</aui:input>
+						<aui:input fieldParam='<%= "title" + rssIndex %>' id='<%= "title" + rssIndex %>' inlineField="<%= true %>" name="title" />
 
 						<aui:input cssClass="url-field" fieldParam='<%= "url" + rssIndex %>' id='<%= "url" + rssIndex %>' inlineField="<%= true %>" name="url" >
 							<aui:validator name="url"/>
-							<aui:validator name="maxLength">150</aui:validator>
 						</aui:input>
-						
-						<aui:select name='<%="totalFeed" + rssIndex%>' label="rss-total-feed" inlineField="<%= true %>" 
-							id='<%="totalFeed" + rssIndex%>'>
-							<aui:option value='10' selected="<%= rssConfig.getTotalFeed() == 10 %>">10</aui:option>
-							<aui:option value='20' selected="<%= rssConfig.getTotalFeed() == 20 %>">20</aui:option>
-							<aui:option value='30' selected="<%= rssConfig.getTotalFeed() == 30 %>">30</aui:option>
-							<aui:option value='40' selected="<%= rssConfig.getTotalFeed() == 40 %>">40</aui:option>
-							<aui:option value='50' selected="<%= rssConfig.getTotalFeed() == 50 %>">50</aui:option>
-						</aui:select>
 					</div>
 				</div>
 

@@ -9,12 +9,16 @@ import java.util.Set;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
+import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -33,60 +37,91 @@ import com.vnpt.portal.rss.utils.RssConstants;
 public class RssController {
 
 	public static final String PREFERENCES_PREFIX = "preferences--";
-	
+
 	@RenderMapping
 	public String renderHomePage() {
-		
+
 		return "view";
 	}
-	
+
+	@RequestMapping(params="action="+RssConstants.CONFIG_RSS)
+	public String viewConfigRss (RenderRequest request, RenderResponse response) {
+		System.out.println("viewConfigRss ");
+
+		return "view";
+	}
+
+	@RequestMapping(params="action="+RssConstants.VIEW_RSS_FEEDS)
+	public String viewRssFeeds (RenderRequest request, RenderResponse response) {
+		System.out.println("viewRssFeeds ");
+
+		return "view";
+	}
+
+	@RequestMapping(params="action="+RssConstants.VIEW_RSS_WAIT_FOR_APPROVE)
+	public String viewRssWait (RenderRequest request, RenderResponse response) {
+		System.out.println("viewRssWait ");
+
+		return "view";
+	}
+
+	@RequestMapping(params="action="+RssConstants.VIEW_RSS_PUBLISHED)
+	public String viewRssPublished (RenderRequest request, RenderResponse response) {
+		System.out.println("viewRssPublished ");
+
+		return "view";
+	}
+
 	@ActionMapping(params="action=" + RssConstants.UPDATE_CONFIG_RSS)
-	public void updateConfigRss(ActionRequest actionRequest, 
+	public void updateConfigRss(ActionRequest actionRequest,
 			ActionResponse actionResponse) throws Exception {
 		System.out.println("updateConfigRss");
-		
+
 		ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		long groupId = themeDisplay.getScopeGroupId();
 		long companyId = themeDisplay.getCompanyId();
-		
+
 		RssConfig rssConfig = null;
 		Set<Long> rssConfigIds = new HashSet<Long>();
-		
+
 		int[] rowIndexes = StringUtil.split(
 				ParamUtil.getString(actionRequest, "rssIndexes"), 0);
 		for (int rowIndex : rowIndexes) {
-			
-			Long rssConfigId = ParamUtil.getLong(actionRequest, "rssConfigId" + rowIndex); 
+
+			Long rssConfigId = ParamUtil.getLong(actionRequest, "rssConfigId" + rowIndex);
 			String url = ParamUtil.getString(actionRequest, "url" + rowIndex);
 			String title = ParamUtil.getString(actionRequest, "title" + rowIndex);
+			int totalFeed = ParamUtil.getInteger(actionRequest, "totalFeed" + rowIndex, 10);
 
 			if (Validator.isNull(url)) {
 				continue;
 			}
-			
+
 			// update or insert into table eportal_rss_config
 			if(rssConfigId <= 0) {
 				rssConfig = new RssConfigImpl();
-				
+
 				rssConfig.setTitle(title);
 				rssConfig.setUrl(url);
+				rssConfig.setTotalFeed(totalFeed);
 				
 				rssConfig.setGroupId(groupId);
 				rssConfig.setCompanyId(companyId);
-				
+
 				rssConfig = RssConfigLocalServiceUtil.addRssConfig(rssConfig);
 			} else {
 				rssConfig = RssConfigLocalServiceUtil.fetchRssConfig(rssConfigId);
-				
+
 				rssConfig.setTitle(title);
-				rssConfig.setUrl(url);				
+				rssConfig.setUrl(url);
+				rssConfig.setTotalFeed(totalFeed);
 				
 				rssConfig = RssConfigLocalServiceUtil.updateRssConfig(rssConfig);
 			}
-			
+
 			rssConfigIds.add(rssConfig.getRssConfigId());
 		}
-		
+
 		// delete unsaved rssConfig
 		List<RssConfig> lstRssConfig = RssConfigLocalServiceUtil.getRssConfigs(-1, -1);
 		for (RssConfig rssConfig2 : lstRssConfig) {
@@ -94,66 +129,81 @@ public class RssController {
 				RssConfigLocalServiceUtil.deleteRssConfig(rssConfig2.getRssConfigId());
 			}
 		}
-		
+
 		return ;
 	}
-	
+
 	@ActionMapping(params="action=" + RssConstants.SEND_FOR_APPROVE)
-	public void sendForApprove(ActionRequest actionRequest, 
+	public void sendForApprove(ActionRequest actionRequest,
 			ActionResponse actionResponse) throws Exception {
-		
+
 		System.out.println("send for approve");
 		ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		long groupId = themeDisplay.getScopeGroupId();
 		long companyId = themeDisplay.getCompanyId();
-		
+
 		String url = ParamUtil.getString(actionRequest, "url");
 		String title = ParamUtil.getString(actionRequest, "title");
 		String publishedDate = ParamUtil.getString(actionRequest, "publishedDate");
 		String content = ParamUtil.getString(actionRequest, "content");
-		
+
+		// check if url exists then do nothing
+		if(RssFeedsLocalServiceUtil.checkIsExistsUrl(groupId, url)){
+			SessionErrors.add(actionRequest, "rss-feed-is-exists");
+			actionResponse.setRenderParameter("tabs1", RssConstants.VIEW_RSS_FEEDS);
+			return;
+		}
 		RssFeeds rssFeeds = new RssFeedsImpl();
 		rssFeeds.setTitle(title);
 		rssFeeds.setUrl(url);
 		rssFeeds.setContent(content);
-		
+
 		DateFormat dateFormatDate = new SimpleDateFormat("dd/MM/yyyy");
 		if(dateFormatDate != null && !"".equals(publishedDate)) {
 			rssFeeds.setPublishedDate(dateFormatDate.parse(publishedDate));
 		}
-		
+
 		rssFeeds.setStatus(0); // wait for approve
-		
+
 		rssFeeds.setCreatedId(themeDisplay.getUserId());
 		rssFeeds.setCreatedDate(new Date());
 		rssFeeds.setGroupId(groupId);
 		rssFeeds.setCompanyId(companyId);
-		
+
 		RssFeedsLocalServiceUtil.addRssFeeds(rssFeeds);
-		
-		System.out.println("url :"+url);
-		
+
+		SessionMessages.add(actionRequest, "rss-feed-send-success");
+
+		actionResponse.setRenderParameter("tabs1", RssConstants.VIEW_RSS_FEEDS);
 	}
-	
+
 	@ActionMapping(params="action=" + RssConstants.PROCESS_FEED)
-	public void processFeed(ActionRequest actionRequest, 
+	public void processFeed(ActionRequest actionRequest,
 			ActionResponse actionResponse) throws Exception {
-		
+
 		System.out.println("process feed");
 		ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
-		
+
 		long rssFeedsId = ParamUtil.getLong(actionRequest, "rssFeedsId", 0);
 		int rssStatus = ParamUtil.getInteger(actionRequest, "rssStatus");
-		
+
 		if(rssFeedsId > 0) {
 			RssFeeds rssFeeds = RssFeedsLocalServiceUtil.fetchRssFeeds(rssFeedsId);
 			rssFeeds.setStatus(rssStatus);
 			rssFeeds.setApprovedId(themeDisplay.getUserId());
 			rssFeeds.setApprovedDate(new Date());
-			
+
 			RssFeedsLocalServiceUtil.updateRssFeeds(rssFeeds);
 		}
-		
+
+		if(rssStatus == 1) {
+//			SessionErrors.add(actionRequest, "rss-feed-reject");
+			SessionMessages.add(actionRequest, "rss-feed-reject");
+		} else {
+			SessionMessages.add(actionRequest, "rss-feed-publish-success");
+		}
+
+		actionResponse.setRenderParameter("tabs1", RssConstants.VIEW_RSS_WAIT_FOR_APPROVE);
 	}
-	
+
 }

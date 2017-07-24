@@ -21,6 +21,10 @@ public class RssConstants {
 	public static final String VIEW_RSS_WAIT_FOR_APPROVE = "view-rss-wait-for-approve";
 	
 	public static final String VIEW_RSS_PUBLISHED = "view-rss-published";
+
+	public static final String VIEW_RSS_CATEGORY = "view-rss-category";
+	
+	public static final String UPDATE_RSS_CATEGORY = "update-rss-category";
 	
 	public static final int RSS_STATUS_PUBLISHED = 2 ;
 	

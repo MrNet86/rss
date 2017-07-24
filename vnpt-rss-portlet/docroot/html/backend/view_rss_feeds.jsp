@@ -1,3 +1,4 @@
+<%@page import="com.liferay.portal.kernel.servlet.SessionErrors"%>
 <%@page import="com.liferay.portal.kernel.util.ListUtil"%>
 <%@page import="com.liferay.portal.kernel.sanitizer.Sanitizer"%>
 <%@page import="com.liferay.portal.kernel.sanitizer.SanitizerException"%>
@@ -14,27 +15,17 @@
 <%
 String url = StringPool.BLANK;
 String title = StringPool.BLANK;
+int totalFeed = 10;
+int size = 0;
 
 List<RssConfig> lstRssConfig = RssConfigLocalServiceUtil.searchRssConfig(-1, -1);
-for(RssConfig rssConfig : lstRssConfig) {
-	url = rssConfig.getUrl();
-	title = rssConfig.getTitle();
-	System.out.println("url :"+url +" || title :"+title);
 
-%>
-
-<%-- 	<%@ include file="feed.jspf" %> --%>
-
-<%
-}
-%>
-
-<%
 List<SyndEntry> lstResults = new ArrayList<SyndEntry>();
 for(RssConfig rssConfig : lstRssConfig) {
 	url = rssConfig.getUrl();
-	title = rssConfig.getTitle();
-
+	title = rssConfig.getTitle();		
+	totalFeed = rssConfig.getTotalFeed();
+	
 	// get syndFeed from url
 	SyndFeed feed = null;
 	final String className = "com.liferay.portlet.rss.util.RSSUtil";
@@ -45,9 +36,11 @@ for(RssConfig rssConfig : lstRssConfig) {
 
 		feed = (SyndFeed)ovp.getValue();
 
+		// set title
 		if(Validator.isNull(title)) {
 			title = feed.getTitle();
 		}
+
 		// get base url from feedLink
 		String baseURL = null;
 		String feedLink = feed.getLink();
@@ -68,8 +61,13 @@ for(RssConfig rssConfig : lstRssConfig) {
 
 		// get feed entry
 		List entries = feed.getEntries();
-		for(int i = 0; i < entries.size(); i++) {
+		size = (entries.size() > totalFeed) ? totalFeed : entries.size(); 
+		
+		for(int i = 0; i < size ; i++) {
 			SyndEntry entry = (SyndEntry) entries.get(i);
+
+			// set rss resource to title
+			entry.setUri(title);
 
 			String entryLink = entry.getLink();
 
@@ -78,18 +76,17 @@ for(RssConfig rssConfig : lstRssConfig) {
 				entry.setLink(entryLink);
 			}
 
-
 			// get feed content
 			SyndContent content = entry.getDescription();
 			List contents = new ArrayList();
-			
+
 			if (content == null) {
 				contents = entry.getContents();
 			}
 			else {
 				contents.add(content);
 			}
-			
+
 			for (int k = 0; k < contents.size(); k++) {
 				content = (SyndContent)contents.get(k);
 
@@ -114,35 +111,44 @@ for(RssConfig rssConfig : lstRssConfig) {
 						sanitizedValue = StringPool.BLANK;
 					}
 
-					// set feed content to author 
+					// set feed content to author
 					entry.setAuthor(sanitizedValue);
 				}
 			}
-
 
 			lstResults.add(entry);
 		}
 
 	}
-	catch (Exception e) {
+	catch (NullPointerException e) {
 		System.out.println("Exception eee :"+e.getMessage());
+	%>
+		<font color="red">
+			<liferay-ui:message key="rss-cannot-parse" /> : <%= url %>
+			<br/>
+			<br/>
+		</font>
+	<%
 	}
-
-
+	catch (Exception ex) {}
 }
 
-PortletURL portletURL = renderResponse.createRenderURL();
-pageContext.setAttribute("portletURL", portletURL);
-
+PortletURL portletURL = (PortletURL)request.getAttribute("view.jsp-portletURL");
+System.out.println("view_rss_feeds.jsp portletURL :"+portletURL);
 
 %>
+<liferay-ui:error key="rss-feed-is-exists" message="rss-feed-is-exists"/>
+
+<liferay-ui:success key="rss-feed-send-success" message="rss-feed-send-success"/>
+
 <aui:form action="<%= portletURL.toString() %>" method="post" name="name">
+
 	<liferay-ui:search-container delta="20">
 		<liferay-ui:search-container-results>
 		<%
 			results = ListUtil.subList(lstResults, searchContainer.getStart(),
                 searchContainer.getEnd());
-                
+
 			if(lstResults.size()<searchContainer.getEnd()){
 	            results = ListUtil.subList(lstResults, searchContainer.getStart(),
 	            		lstResults.size());
@@ -158,15 +164,14 @@ pageContext.setAttribute("portletURL", portletURL);
 		%>
 		</liferay-ui:search-container-results>
 
-
 		<liferay-ui:search-container-row
 			className="com.sun.syndication.feed.synd.SyndEntry"
 			modelVar="aSyndFeed"
 		>
 
 			<liferay-ui:search-container-column-text
-				name="urlFeed"
-				value="<%= title %>"
+				name="rss-source"
+				value="<%= HtmlUtil.escape(aSyndFeed.getUri()) %>"
 			/>
 
 			<liferay-ui:search-container-column-text
@@ -177,7 +182,7 @@ pageContext.setAttribute("portletURL", portletURL);
 			/>
 
 			<liferay-ui:search-container-column-text
-				name="publishedDate"
+				name="rss-publishedDate"
 				value='<%= aSyndFeed.getPublishedDate() != null ? dateFormatDate.format(aSyndFeed.getPublishedDate()) : ""%>'
 			/>
 
@@ -185,7 +190,7 @@ pageContext.setAttribute("portletURL", portletURL);
 				name="rss-content"
 				value='<%= aSyndFeed.getAuthor() != null ? aSyndFeed.getAuthor() : ""%>'
 			/>
-			
+
 			<liferay-ui:search-container-column-jsp
 				align="center"
 				path="/html/backend/action_feed.jsp"

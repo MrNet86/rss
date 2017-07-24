@@ -1,41 +1,42 @@
 <%@ include file="init.jsp" %>
 
 <%
-String tabNames = "view-rss-feeds,config-rss,view-rss-wait-for-approve,view-rss-published";
-String tab = ParamUtil.getString(request, "tab", "view-rss-feeds");
+String tabs1 = ParamUtil.getString(request, "tabs1", RssConstants.VIEW_RSS_PUBLISHED);
+System.out.println("view.jsp tabs1 :" + tabs1);
 
 PortletURL portletURL = renderResponse.createRenderURL();
-portletURL.setParameter("tab", tab);
-System.out.println("tab :"+tab);
-String pageUrl = "";
+portletURL.setParameter("tabs1", tabs1);
 
-if("config-rss".equals(tab)) {
-	System.out.println("config-rss tab");
-	portletURL.setParameter("action", RssConstants.CONFIG_RSS);
-	pageUrl = "/html/backend/config_rss.jsp";
-}
-else if("view-rss-feeds".equals(tab)) {
-	portletURL.setParameter("action", RssConstants.VIEW_ALL_RSS);
-	pageUrl = "/html/backend/view_rss_feeds.jsp";
-}
-else if("view-rss-wait-for-approve".equals(tab)) {
-	portletURL.setParameter("action", RssConstants.VIEW_RSS_WAIT_FOR_APPROVE);
-	pageUrl = "/html/backend/view_rss_wait_for_approve.jsp";
-}
-else if("view-rss-published".equals(tab)) {
-	portletURL.setParameter("action", RssConstants.VIEW_RSS_PUBLISHED);
-	pageUrl = "/html/backend/view_rss_published.jsp";
-}
-System.out.println("pageUrl :"+pageUrl);
+String portletURLString = portletURL.toString();
+
+request.setAttribute("view.jsp-portletURL", portletURL);
+request.setAttribute("view.jsp-portletURLString", portletURLString);
+
+pageContext.setAttribute("portletURL", portletURL);
 %>
 
-<liferay-ui:tabs
-	names="<%= tabNames %>"
-	value="<%= tab %>"
-	portletURL="<%= portletURL %>"
-	param="tab"
-	refresh="<%= true %>"
-/>
+<liferay-util:include page="/html/backend/tabs1.jsp"
+	servletContext="<%= this.getServletContext() %>"/>
 
-<liferay-util:include page="<%= pageUrl %>"
-	servletContext="<%=this.getServletContext()%>" />
+<c:choose>	
+	<c:when test='<%= RssConstants.VIEW_RSS_PUBLISHED.equals(tabs1) %>'>
+		<liferay-util:include page="/html/backend/view_rss_published.jsp"
+			servletContext="<%= this.getServletContext() %>"/>
+	</c:when>
+	<c:when test='<%= RssConstants.VIEW_RSS_FEEDS.equals(tabs1) %>'>
+		<liferay-util:include page="/html/backend/view_rss_feeds.jsp"
+			servletContext="<%= this.getServletContext() %>"/>
+	</c:when>
+	<c:when test='<%= RssConstants.VIEW_RSS_WAIT_FOR_APPROVE.equals(tabs1) %>'>
+		<liferay-util:include page="/html/backend/view_rss_wait_for_approve.jsp"
+			servletContext="<%= this.getServletContext() %>"/>
+	</c:when>	
+	<c:when test='<%= RssConstants.CONFIG_RSS.equals(tabs1) %>'>
+		<liferay-util:include page="/html/backend/config_rss.jsp"
+			servletContext="<%= this.getServletContext() %>"/>
+	</c:when>
+	<c:when test='<%= RssConstants.VIEW_RSS_CATEGORY.equals(tabs1) %>'>
+		<liferay-util:include page="/html/backend/view_rss_category.jsp"
+			servletContext="<%= this.getServletContext() %>"/>
+	</c:when>
+</c:choose>

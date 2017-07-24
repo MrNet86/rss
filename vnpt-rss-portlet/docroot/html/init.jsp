@@ -165,4 +165,18 @@
 	DateFormat dateFormatDate = new SimpleDateFormat("dd/MM/yyyy", locale);
 	Format dateFormatDateTime = FastDateFormatFactoryUtil.getDateTime(locale, timeZone);
 
+	// Language
+	String language = locale.getLanguage();
+	String country = locale.getCountry();
+	ResourceBundle res = ResourceBundle.getBundle("content.languagues.Language-listcontents", new Locale(language, country));
+
+	// Number item display per page
+	int displayItem = GetterUtil.getInteger(portletPreferences.getValue("displayItem", null), 5);
+
+	//Kieu phan  trang
+	String paginationType = GetterUtil.getString(portletPreferences.getValue("paginationType", "none"));
+
+	//Do dai tieu de
+	int titleLength = GetterUtil.getInteger(portletPreferences.getValue("titleLength", null), 500);
+
 %>

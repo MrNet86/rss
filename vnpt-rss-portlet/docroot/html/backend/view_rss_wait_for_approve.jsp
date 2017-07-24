@@ -1,18 +1,22 @@
 <%@ include file="../init.jsp" %>
 <%
-PortletURL portletURL = (PortletURL)renderResponse.createRenderURL();
-System.out.println("userId :"+ user.getUserId() + " || scopeGroupId :"+ scopeGroupId +" || companyId :" + company.getCompanyId());
+PortletURL portletURL = (PortletURL)request.getAttribute("view.jsp-portletURL");
+
 %>
+
+<liferay-ui:success key="rss-feed-reject" message="rss-feed-reject"/> 
+
+<liferay-ui:success key="rss-feed-publish-success" message="rss-feed-publish-success"/>
+
 <aui:form action="<%= portletURL.toString() %>" method="post" name="fm">
 <liferay-ui:search-container
-	rowChecker="<%= new RowChecker(renderResponse) %>"
 	searchContainer="<%= new RssFeedsSearch(renderRequest, portletURL) %>"
 >
 	<liferay-ui:search-form page="/html/backend/search.jsp"
 		searchContainer="<%= searchContainer %>"
 		servletContext="<%= this.getServletContext() %>"
 	/>
-		
+
 	<liferay-ui:search-container-results
 		results="<%= RssFeedsLocalServiceUtil.getRssFeeds(searchContainer, searchContainer.getStart(), searchContainer.getEnd(), RssConstants.RSS_STATUS_WAITING, scopeGroupId) %>"
 		total="<%= RssFeedsLocalServiceUtil.countRssFeeds(searchContainer, RssConstants.RSS_STATUS_WAITING, scopeGroupId) %>"
@@ -22,26 +26,29 @@ System.out.println("userId :"+ user.getUserId() + " || scopeGroupId :"+ scopeGro
 		className="com.vnpt.portal.rss.model.RssFeeds"
 		modelVar="aRssFeeds"
 	>
-			
+
 		<liferay-ui:search-container-column-text
 			name="rss-title"
 			value="<%= HtmlUtil.escape(aRssFeeds.getTitle()) %>"
 			href="<%= _escapeJavaScriptLink(aRssFeeds.getUrl()) %>"
 			target="_blank"
 		/>
-		
-		<liferay-ui:search-container-column-text property="status" />
 
-		<liferay-ui:search-container-column-text 
+		<liferay-ui:search-container-column-text
 			name="rss-content"
-			value='<%= aRssFeeds.getContent() == null ? "" : aRssFeeds.getContent() %>' 
+			value='<%= aRssFeeds.getContent() == null ? "" : aRssFeeds.getContent() %>'
+		/>
+
+		<liferay-ui:search-container-column-text
+			name="status"
+			value='<%= aRssFeeds.getStatus() == 0 ? "Waiting" : "Rejected" %>'
 		/>
 
 		<liferay-ui:search-container-column-jsp
 			align="center"
 			path="/html/backend/action_wait_feed.jsp"
 		/>
-		
+
 	</liferay-ui:search-container-row>
 
 	<liferay-ui:search-iterator />
