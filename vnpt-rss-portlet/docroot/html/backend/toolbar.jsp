@@ -1,9 +1,12 @@
 <%@ include file="../init.jsp"%>
 
 <%
+String backURL = ParamUtil.getString(request, "backURL");
+
 PortletURL portletURL = renderResponse.createRenderURL();
 
 String toolbarItem = ParamUtil.getString(request, "toolbarItem", "view-all");
+
 %>
 
 <aui:nav-bar>
@@ -19,7 +22,7 @@ String toolbarItem = ParamUtil.getString(request, "toolbarItem", "view-all");
 		/>
 
 		<portlet:renderURL var="createRssCatURL">
-			<portlet:param name="action" value="<%= RssConstants.UPDATE_RSS_CATEGORY %>"/>
+			<portlet:param name="action" value="<%= RssConstants.CREATE_RSS_CATEGORY %>"/>
 			<portlet:param name="toolbarItem" value="add"/>
 		</portlet:renderURL>
 		<aui:nav-item label="Common.Add" iconCssClass="icon-plus"

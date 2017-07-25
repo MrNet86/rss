@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!DOCTYPE resource-action-mapping PUBLIC "-//Liferay//DTD Resource Action Mapping 6.2.0//EN" "http://www.liferay.com/dtd/liferay-resource-action-mapping_6_2_0.dtd">
+
+<resource-action-mapping>
+	<portlet-resource>
+		<portlet-name>conf-rss</portlet-name>
+		<permissions>
+			<supports>
+				<action-key>ADD_TO_PAGE</action-key>
+				<action-key>CONFIGURATION</action-key>
+				<action-key>VIEW</action-key>
+			</supports>
+
+			<site-member-defaults>
+				<action-key>VIEW</action-key>
+			</site-member-defaults>
+
+			<guest-defaults />
+			<guest-unsupported>
+				<action-key>ADD_TO_PAGE</action-key>
+				<action-key>CONFIGURATION</action-key>
+				<action-key>VIEW</action-key>
+			</guest-unsupported>
+
+		</permissions>
+	</portlet-resource>
+
+	<model-resource>
+		<model-name>com.vnpt.portal.model.RssFeeds</model-name>
+		<portlet-ref>
+			<portlet-name>conf-rss</portlet-name>
+		</portlet-ref>
+
+		<permissions>
+			<supports>
+				<action-key>CONFIG_RSS</action-key>
+				<action-key>APPROVE_FEED</action-key>
+				<action-key>EDIT_FEED</action-key>
+			</supports>
+
+			<site-member-defaults>
+				<action-key>VIEW_PUBLISH_FEED</action-key>
+			</site-member-defaults>
+
+			<guest-defaults />
+			<guest-unsupported>
+				<action-key>CONFIG_RSS</action-key>
+				<action-key>APPROVE_FEED</action-key>
+				<action-key>EDIT_FEED</action-key>
+				<action-key>VIEW_PUBLISH_FEED</action-key>
+			</guest-unsupported>
+
+		</permissions>
+	</model-resource>
+
+</resource-action-mapping>

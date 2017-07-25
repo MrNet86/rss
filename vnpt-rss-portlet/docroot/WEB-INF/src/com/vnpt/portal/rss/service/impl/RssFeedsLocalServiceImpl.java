@@ -52,17 +52,17 @@ public class RssFeedsLocalServiceImpl extends RssFeedsLocalServiceBaseImpl {
 	 *
 	 * Never reference this interface directly. Always use {@link com.vnpt.portal.rss.service.RssFeedsLocalServiceUtil} to access the rss feeds local service.
 	 */
-	
-	public List<RssFeeds> getRssFeeds (SearchContainer searchContainer, int start, int end, int status, long scopeGroupId) 
+
+	public List<RssFeeds> getRssFeeds (SearchContainer searchContainer, int start, int end, int status, long scopeGroupId)
 			throws SystemException{
 		List<RssFeeds> lstResults = new ArrayList<RssFeeds>();
-		
+
 		RssFeedsSearchTerms searchTerms = (RssFeedsSearchTerms) searchContainer.getSearchTerms();
 		DynamicQuery query = (DynamicQuery) DynamicQueryFactoryUtil.forClass(RssFeeds.class);
-		
+
 		// only user in the same Site can see this site'rss
 		query.add(PropertyFactoryUtil.forName("groupId").eq(scopeGroupId)) ;
-				
+
 		if(status == 0) { // get rssFeeds waiting and reject
 			Disjunction disjunction = RestrictionsFactoryUtil.disjunction();
 			disjunction.add(PropertyFactoryUtil.forName("status").eq(RssConstants.RSS_STATUS_WAITING)) ;
@@ -72,30 +72,32 @@ public class RssFeedsLocalServiceImpl extends RssFeedsLocalServiceBaseImpl {
 		} else {
 			query.add(PropertyFactoryUtil.forName("status").eq(status)) ;
 		}
-		
-		if(searchTerms.getUrl() != null && !"".equals(searchTerms.getUrl())) {
-			query.add(PropertyFactoryUtil.forName("url").like("%" + searchTerms.getUrl() + "%"));
+
+		if(searchTerms != null) {
+			if(searchTerms.getUrl() != null && !"".equals(searchTerms.getUrl())) {
+				query.add(PropertyFactoryUtil.forName("url").like("%" + searchTerms.getUrl() + "%"));
+			}
+
+			if(searchTerms.getTitle() != null && !"".equals(searchTerms.getTitle())) {
+				query.add(PropertyFactoryUtil.forName("title").like("%" + searchTerms.getTitle() + "%"));
+			}
 		}
-		
-		if(searchTerms.getTitle() != null && !"".equals(searchTerms.getTitle())) {
-			query.add(PropertyFactoryUtil.forName("title").like("%" + searchTerms.getTitle() + "%"));
-		}
-		
+
 		query.addOrder(OrderFactoryUtil.desc("publishedDate"));
-		
+
 		lstResults = RssFeedsLocalServiceUtil.dynamicQuery(query, start, end - start) ;
-		
+
 		return lstResults;
 	}
-	
+
 	public int countRssFeeds (SearchContainer searchContainer, int status, long scopeGroupId) throws SystemException {
-		
+
 		RssFeedsSearchTerms searchTerms = (RssFeedsSearchTerms) searchContainer.getSearchTerms();
 		DynamicQuery query = (DynamicQuery) DynamicQueryFactoryUtil.forClass(RssFeeds.class);
-		
+
 		// only user in the same Site can see this site'rss
 		query.add(PropertyFactoryUtil.forName("groupId").eq(scopeGroupId));
-				
+
 		if(status == 0) { // get rssFeeds waiting and reject
 			Disjunction disjunction = RestrictionsFactoryUtil.disjunction();
 			disjunction.add(PropertyFactoryUtil.forName("status").eq(RssConstants.RSS_STATUS_WAITING)) ;
@@ -105,25 +107,32 @@ public class RssFeedsLocalServiceImpl extends RssFeedsLocalServiceBaseImpl {
 		} else {
 			query.add(PropertyFactoryUtil.forName("status").eq(status)) ;
 		}
-		
-		if(searchTerms.getUrl() != null && !"".equals(searchTerms.getUrl())) {
-			query.add(PropertyFactoryUtil.forName("url").like("%" + searchTerms.getUrl() + "%"));
+
+		if(searchTerms != null) {
+			if(searchTerms.getUrl() != null && !"".equals(searchTerms.getUrl())) {
+				query.add(PropertyFactoryUtil.forName("url").like("%" + searchTerms.getUrl() + "%"));
+			}
+
+			if(searchTerms.getTitle() != null && !"".equals(searchTerms.getTitle())) {
+				query.add(PropertyFactoryUtil.forName("title").like("%" + searchTerms.getTitle() + "%"));
+			}
 		}
-		
-		if(searchTerms.getTitle() != null && !"".equals(searchTerms.getTitle())) {
-			query.add(PropertyFactoryUtil.forName("title").like("%" + searchTerms.getTitle() + "%"));
-		}
-		
+
 		Long count = RssFeedsLocalServiceUtil.dynamicQueryCount(query) ;
-		
+
 		return count.intValue();
-		
+
 	}
 
-	public List<RssFeeds> findByUrl (Long groupId, String url) throws SystemException {
-		
-		return RssFeedsUtil.findByUrl(groupId, url);
+	public boolean checkIsExistsUrl (Long groupId, String url) throws SystemException {
+		List lst = RssFeedsUtil.findByUrl(groupId, url);
+		if(lst.isEmpty()) {
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
-	
-	
+
+
 }
