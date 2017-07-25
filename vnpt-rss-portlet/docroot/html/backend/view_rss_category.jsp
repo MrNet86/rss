@@ -4,13 +4,15 @@ PortletURL portletURL = (PortletURL)request.getAttribute("view.jsp-portletURL");
 System.out.println("viewCategory :"+portletURL.toString());
 %>
 
+<liferay-ui:success key="update-rss-category-success" message="update-rss-category-success"/>
+
 <aui:form action="<%= portletURL.toString() %>" method="post" name="fm">
-	
+
 	<liferay-util:include page="/html/backend/toolbar.jsp"
 		servletContext="<%= this.getServletContext() %>"
 	/>
-	
-	<liferay-ui:search-container>		
+
+	<liferay-ui:search-container>
 
 		<liferay-ui:search-container-results
 			results="<%= RssCategoryLocalServiceUtil.getRssCategories(-1, -1) %>"

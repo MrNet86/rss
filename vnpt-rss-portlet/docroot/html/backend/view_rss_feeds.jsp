@@ -1,3 +1,4 @@
+<%@page import="com.vnpt.portal.rss.model.impl.RssFeedsImpl"%>
 <%@page import="com.liferay.portal.kernel.servlet.SessionErrors"%>
 <%@page import="com.liferay.portal.kernel.util.ListUtil"%>
 <%@page import="com.liferay.portal.kernel.sanitizer.Sanitizer"%>
@@ -20,7 +21,9 @@ int size = 0;
 
 List<RssConfig> lstRssConfig = RssConfigLocalServiceUtil.searchRssConfig(-1, -1);
 
-List<SyndEntry> lstResults = new ArrayList<SyndEntry>();
+List<RssFeeds> lstResults = new ArrayList<RssFeeds>();
+RssFeeds rssFeeds = null;
+
 for(RssConfig rssConfig : lstRssConfig) {
 	url = rssConfig.getUrl();
 	title = rssConfig.getTitle();		
@@ -65,9 +68,10 @@ for(RssConfig rssConfig : lstRssConfig) {
 		
 		for(int i = 0; i < size ; i++) {
 			SyndEntry entry = (SyndEntry) entries.get(i);
+			rssFeeds = new RssFeedsImpl();
 
 			// set rss resource to title
-			entry.setUri(title);
+// 			entry.setUri(title);
 
 			String entryLink = entry.getLink();
 
@@ -111,12 +115,18 @@ for(RssConfig rssConfig : lstRssConfig) {
 						sanitizedValue = StringPool.BLANK;
 					}
 
-					// set feed content to author
-					entry.setAuthor(sanitizedValue);
+					// set feed content
+// 					entry.setAuthor(sanitizedValue);
+					rssFeeds.setContent(sanitizedValue);
 				}
 			}
 
-			lstResults.add(entry);
+			// set rssFeeds
+			rssFeeds.setTitle(entry.getTitle());
+			rssFeeds.setUrl(entryLink);
+			rssFeeds.setDescription(title);
+			rssFeeds.setPublishedDate(entry.getPublishedDate());
+			lstResults.add(rssFeeds);
 		}
 
 	}
@@ -135,6 +145,8 @@ for(RssConfig rssConfig : lstRssConfig) {
 
 PortletURL portletURL = (PortletURL)request.getAttribute("view.jsp-portletURL");
 System.out.println("view_rss_feeds.jsp portletURL :"+portletURL);
+
+List<RssCategory> lstCategory = RssCategoryLocalServiceUtil.getRssCategories(-1, -1);
 
 %>
 <liferay-ui:error key="rss-feed-is-exists" message="rss-feed-is-exists"/>
@@ -165,31 +177,49 @@ System.out.println("view_rss_feeds.jsp portletURL :"+portletURL);
 		</liferay-ui:search-container-results>
 
 		<liferay-ui:search-container-row
-			className="com.sun.syndication.feed.synd.SyndEntry"
-			modelVar="aSyndFeed"
+			className="com.vnpt.portal.rss.model.RssFeeds"
+			modelVar="aRssFeed"
 		>
 
 			<liferay-ui:search-container-column-text
 				name="rss-source"
-				value="<%= HtmlUtil.escape(aSyndFeed.getUri()) %>"
+				value="<%= HtmlUtil.escape(aRssFeed.getDescription()) %>"
 			/>
 
 			<liferay-ui:search-container-column-text
 				name="rss-title"
-				value="<%= HtmlUtil.escape(aSyndFeed.getTitle()) %>"
-				href="<%= _escapeJavaScriptLink(aSyndFeed.getLink()) %>"
+				value="<%= HtmlUtil.escape(aRssFeed.getTitle()) %>"
+				href="<%= _escapeJavaScriptLink(aRssFeed.getUrl()) %>"
 				target="_blank"
 			/>
 
 			<liferay-ui:search-container-column-text
 				name="rss-publishedDate"
-				value='<%= aSyndFeed.getPublishedDate() != null ? dateFormatDate.format(aSyndFeed.getPublishedDate()) : ""%>'
+				value='<%= aRssFeed.getPublishedDate() != null ? dateFormatDate.format(aRssFeed.getPublishedDate()) : ""%>'
 			/>
 
 			<liferay-ui:search-container-column-text
 				name="rss-content"
-				value='<%= aSyndFeed.getAuthor() != null ? aSyndFeed.getAuthor() : ""%>'
+				value='<%= aRssFeed.getContent() != null ? aRssFeed.getContent() : ""%>'
 			/>
+
+			<liferay-ui:search-container-column-text
+				name="rss-content"
+			>
+				<select name="<portlet:namespace />rssCategoryId" id="<portlet:namespace />rssCategoryId" >
+				  <%
+					for(RssCategory rssCategory : lstCategory) {
+					%>
+						<option value="<%= rssCategory.getRssCategoryId() %>"><%= rssCategory.getName() %></option>
+					<%}%>
+				</select>
+			</liferay-ui:search-container-column-text>
+			
+			<%-- <liferay-ui:search-container-column-jsp
+				name="rss-category"
+				align="center"
+				path="/html/backend/select_category.jsp"
+			/> --%>
 
 			<liferay-ui:search-container-column-jsp
 				align="center"

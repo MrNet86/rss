@@ -9,14 +9,19 @@ import java.util.Set;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
+import com.liferay.portal.kernel.portlet.LiferayPortletMode;
+import com.liferay.portal.kernel.portlet.LiferayWindowState;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -24,10 +29,14 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.portlet.PortletURLFactoryUtil;
+import com.vnpt.portal.rss.model.RssCategory;
 import com.vnpt.portal.rss.model.RssConfig;
 import com.vnpt.portal.rss.model.RssFeeds;
+import com.vnpt.portal.rss.model.impl.RssCategoryImpl;
 import com.vnpt.portal.rss.model.impl.RssConfigImpl;
 import com.vnpt.portal.rss.model.impl.RssFeedsImpl;
+import com.vnpt.portal.rss.service.RssCategoryLocalServiceUtil;
 import com.vnpt.portal.rss.service.RssConfigLocalServiceUtil;
 import com.vnpt.portal.rss.service.RssFeedsLocalServiceUtil;
 import com.vnpt.portal.rss.utils.RssConstants;
@@ -72,6 +81,31 @@ public class RssController {
 		return "view";
 	}
 
+	@RequestMapping(params="action="+RssConstants.CREATE_RSS_CATEGORY)
+	public String createRssCategory (Model model, RenderRequest renderRequest,
+			RenderResponse response) throws Exception {
+		System.out.println("createRssCategory ");
+
+		RssCategory rssCategory = new RssCategoryImpl();
+		long rssCategoryId = ParamUtil.getLong(renderRequest, "rssCategoryId", 0L);
+		if(rssCategoryId > 0) {
+			rssCategory = RssCategoryLocalServiceUtil.fetchRssCategory(rssCategoryId);
+		}
+
+		ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
+		PortletURL renderUrl = PortletURLFactoryUtil.create(renderRequest,
+				themeDisplay.getPortletDisplay().getId(),
+				themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
+		renderUrl.setWindowState(LiferayWindowState.NORMAL);
+		renderUrl.setPortletMode(LiferayPortletMode.VIEW);
+		renderUrl.setParameter("action", RssConstants.VIEW_RSS_CATEGORY);
+		renderUrl.setParameter("tabs1", RssConstants.VIEW_RSS_CATEGORY);
+		model.addAttribute("backURL", renderUrl.toString());
+
+		model.addAttribute("rssCategory", rssCategory);
+		return "/backend/edit_category";
+	}
+
 	@ActionMapping(params="action=" + RssConstants.UPDATE_CONFIG_RSS)
 	public void updateConfigRss(ActionRequest actionRequest,
 			ActionResponse actionResponse) throws Exception {
@@ -104,7 +138,7 @@ public class RssController {
 				rssConfig.setTitle(title);
 				rssConfig.setUrl(url);
 				rssConfig.setTotalFeed(totalFeed);
-				
+
 				rssConfig.setGroupId(groupId);
 				rssConfig.setCompanyId(companyId);
 
@@ -115,7 +149,7 @@ public class RssController {
 				rssConfig.setTitle(title);
 				rssConfig.setUrl(url);
 				rssConfig.setTotalFeed(totalFeed);
-				
+
 				rssConfig = RssConfigLocalServiceUtil.updateRssConfig(rssConfig);
 			}
 
@@ -146,9 +180,12 @@ public class RssController {
 		String title = ParamUtil.getString(actionRequest, "title");
 		String publishedDate = ParamUtil.getString(actionRequest, "publishedDate");
 		String content = ParamUtil.getString(actionRequest, "content");
+		long rssCategoryId = 0L;
+		String id = ParamUtil.getString(actionRequest, "rssCategoryId");
+		System.out.println("sendForApprove rssCategoryId :"+id);
 
 		// check if url exists then do nothing
-		if(RssFeedsLocalServiceUtil.checkIsExistsUrl(groupId, url)){
+		if(RssFeedsLocalServiceUtil.checkIsExistsUrl(groupId, url)) {
 			SessionErrors.add(actionRequest, "rss-feed-is-exists");
 			actionResponse.setRenderParameter("tabs1", RssConstants.VIEW_RSS_FEEDS);
 			return;
@@ -157,6 +194,7 @@ public class RssController {
 		rssFeeds.setTitle(title);
 		rssFeeds.setUrl(url);
 		rssFeeds.setContent(content);
+		rssFeeds.setRssCategoryId(rssCategoryId);
 
 		DateFormat dateFormatDate = new SimpleDateFormat("dd/MM/yyyy");
 		if(dateFormatDate != null && !"".equals(publishedDate)) {
@@ -206,4 +244,46 @@ public class RssController {
 		actionResponse.setRenderParameter("tabs1", RssConstants.VIEW_RSS_WAIT_FOR_APPROVE);
 	}
 
+	@ActionMapping(params="action=" + RssConstants.UPDATE_RSS_CATEGORY)
+	public void updateRssCategory(ActionRequest actionRequest,
+			ActionResponse actionResponse) throws Exception {
+		System.out.println("updateRssCategory");
+
+		ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
+		long groupId = themeDisplay.getScopeGroupId();
+		long companyId = themeDisplay.getCompanyId();
+
+		long rssCategoryId = ParamUtil.getLong(actionRequest, "rssCategoryId", 0L);
+		String name = ParamUtil.getString(actionRequest, "name");
+		String description = ParamUtil.getString(actionRequest, "description");
+
+		RssCategory rssCategory = null;
+		if(rssCategoryId > 0) {
+			rssCategory = RssCategoryLocalServiceUtil.fetchRssCategory(rssCategoryId);
+			if(rssCategory != null) {
+				rssCategory.setName(name);
+				rssCategory.setDescription(description);
+			}
+
+			RssCategoryLocalServiceUtil.updateRssCategory(rssCategory);
+		}
+		else {
+			rssCategory = new RssCategoryImpl();
+
+			rssCategory.setName(name);
+			rssCategory.setDescription(description);
+
+			rssCategory.setGroupId(groupId);
+			rssCategory.setCompanyId(companyId);
+			rssCategory.setCreatedId(themeDisplay.getUserId());
+			rssCategory.setCreatedDate(new Date());
+			rssCategory.setStatus(1);
+
+			RssCategoryLocalServiceUtil.addRssCategory(rssCategory);
+		}
+
+		SessionMessages.add(actionRequest, "update-rss-category-success");
+
+		actionResponse.setRenderParameter("tabs1", RssConstants.VIEW_RSS_CATEGORY);
+	}
 }

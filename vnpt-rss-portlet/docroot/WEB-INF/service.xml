@@ -57,6 +57,8 @@
 		<column name="approvedId" type="long" />
 		<column name="approvedDate" type="Date" />
 
+		<column name="rssCategoryId" type="long" />
+
 		<order>
 			<order-column name="groupId" order-by="asc" />
 			<order-column name="title" order-by="asc" />
