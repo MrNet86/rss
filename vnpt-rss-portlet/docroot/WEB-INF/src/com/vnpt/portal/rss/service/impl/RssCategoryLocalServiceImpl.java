@@ -14,6 +14,15 @@
 
 package com.vnpt.portal.rss.service.impl;
 
+import java.util.List;
+
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vnpt.portal.rss.model.RssCategory;
+import com.vnpt.portal.rss.service.RssCategoryLocalServiceUtil;
 import com.vnpt.portal.rss.service.base.RssCategoryLocalServiceBaseImpl;
 
 /**
@@ -36,4 +45,31 @@ public class RssCategoryLocalServiceImpl extends RssCategoryLocalServiceBaseImpl
 	 *
 	 * Never reference this interface directly. Always use {@link com.vnpt.portal.rss.service.RssCategoryLocalServiceUtil} to access the rss category local service.
 	 */
+	public List<RssCategory> searchRssCategory(int start, int end, long scopeGroupId) throws SystemException {
+		
+		DynamicQuery dynamicQuery = (DynamicQuery) DynamicQueryFactoryUtil.forClass(RssCategory.class);
+		
+		dynamicQuery.add(PropertyFactoryUtil.forName("status").eq(1));
+		dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(scopeGroupId));
+		
+		dynamicQuery.addOrder(OrderFactoryUtil.asc("name"));
+		if(start == -1 && end == -1) {
+			return RssCategoryLocalServiceUtil.dynamicQuery(dynamicQuery);
+		}
+		else {
+			return RssCategoryLocalServiceUtil.dynamicQuery(dynamicQuery, start, end - start);
+		}
+	} 
+	
+	public int countRssCategory(long scopeGroupId) throws SystemException {
+		
+		DynamicQuery dynamicQuery = (DynamicQuery) DynamicQueryFactoryUtil.forClass(RssCategory.class);
+		
+		dynamicQuery.add(PropertyFactoryUtil.forName("status").eq(1));
+		dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(scopeGroupId));
+		
+		Long count =  RssCategoryLocalServiceUtil.dynamicQueryCount(dynamicQuery);
+		
+		return count.intValue();
+	}
 }

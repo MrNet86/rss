@@ -8,7 +8,7 @@ feed.setRssCategoryId(5);
 List<RssCategory> lstCategory = RssCategoryLocalServiceUtil.getRssCategories(-1, -1);
 System.out.println("lstCategory :"+lstCategory.size());
 %>
-<select name="rssCategoryId" id="rssCategoryId" >
+<select name="<portlet:namespace />rssCategoryId" id="<portlet:namespace />rssCategoryId" >
   <%
 	for(RssCategory rssCategory : lstCategory) {
 	%>

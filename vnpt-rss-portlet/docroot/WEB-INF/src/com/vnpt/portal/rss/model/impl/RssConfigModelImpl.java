@@ -62,9 +62,10 @@ public class RssConfigModelImpl extends BaseModelImpl<RssConfig>
 			{ "groupId", Types.BIGINT },
 			{ "companyId", Types.BIGINT },
 			{ "title", Types.VARCHAR },
-			{ "url", Types.VARCHAR }
+			{ "url", Types.VARCHAR },
+			{ "totalFeed", Types.INTEGER }
 		};
-	public static final String TABLE_SQL_CREATE = "create table eportal_rss_config (rssConfigId LONG not null primary key,groupId LONG,companyId LONG,title VARCHAR(75) null,url VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table eportal_rss_config (rssConfigId LONG not null primary key,groupId LONG,companyId LONG,title VARCHAR(75) null,url VARCHAR(75) null,totalFeed INTEGER)";
 	public static final String TABLE_SQL_DROP = "drop table eportal_rss_config";
 	public static final String ORDER_BY_JPQL = " ORDER BY rssConfig.rssConfigId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY eportal_rss_config.rssConfigId ASC";
@@ -77,7 +78,12 @@ public class RssConfigModelImpl extends BaseModelImpl<RssConfig>
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.finder.cache.enabled.com.vnpt.portal.rss.model.RssConfig"),
 			true);
-	public static final boolean COLUMN_BITMASK_ENABLED = false;
+	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
+				"value.object.column.bitmask.enabled.com.vnpt.portal.rss.model.RssConfig"),
+			true);
+	public static long COMPANYID_COLUMN_BITMASK = 1L;
+	public static long GROUPID_COLUMN_BITMASK = 2L;
+	public static long RSSCONFIGID_COLUMN_BITMASK = 4L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
 				"lock.expiration.time.com.vnpt.portal.rss.model.RssConfig"));
 
@@ -123,6 +129,7 @@ public class RssConfigModelImpl extends BaseModelImpl<RssConfig>
 		attributes.put("companyId", getCompanyId());
 		attributes.put("title", getTitle());
 		attributes.put("url", getUrl());
+		attributes.put("totalFeed", getTotalFeed());
 
 		return attributes;
 	}
@@ -158,6 +165,12 @@ public class RssConfigModelImpl extends BaseModelImpl<RssConfig>
 		if (url != null) {
 			setUrl(url);
 		}
+
+		Integer totalFeed = (Integer)attributes.get("totalFeed");
+
+		if (totalFeed != null) {
+			setTotalFeed(totalFeed);
+		}
 	}
 
 	@Override
@@ -177,7 +190,19 @@ public class RssConfigModelImpl extends BaseModelImpl<RssConfig>
 
 	@Override
 	public void setGroupId(long groupId) {
+		_columnBitmask |= GROUPID_COLUMN_BITMASK;
+
+		if (!_setOriginalGroupId) {
+			_setOriginalGroupId = true;
+
+			_originalGroupId = _groupId;
+		}
+
 		_groupId = groupId;
+	}
+
+	public long getOriginalGroupId() {
+		return _originalGroupId;
 	}
 
 	@Override
@@ -187,7 +212,19 @@ public class RssConfigModelImpl extends BaseModelImpl<RssConfig>
 
 	@Override
 	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!_setOriginalCompanyId) {
+			_setOriginalCompanyId = true;
+
+			_originalCompanyId = _companyId;
+		}
+
 		_companyId = companyId;
+	}
+
+	public long getOriginalCompanyId() {
+		return _originalCompanyId;
 	}
 
 	@Override
@@ -218,6 +255,20 @@ public class RssConfigModelImpl extends BaseModelImpl<RssConfig>
 	@Override
 	public void setUrl(String url) {
 		_url = url;
+	}
+
+	@Override
+	public int getTotalFeed() {
+		return _totalFeed;
+	}
+
+	@Override
+	public void setTotalFeed(int totalFeed) {
+		_totalFeed = totalFeed;
+	}
+
+	public long getColumnBitmask() {
+		return _columnBitmask;
 	}
 
 	@Override
@@ -252,6 +303,7 @@ public class RssConfigModelImpl extends BaseModelImpl<RssConfig>
 		rssConfigImpl.setCompanyId(getCompanyId());
 		rssConfigImpl.setTitle(getTitle());
 		rssConfigImpl.setUrl(getUrl());
+		rssConfigImpl.setTotalFeed(getTotalFeed());
 
 		rssConfigImpl.resetOriginalValues();
 
@@ -302,6 +354,17 @@ public class RssConfigModelImpl extends BaseModelImpl<RssConfig>
 
 	@Override
 	public void resetOriginalValues() {
+		RssConfigModelImpl rssConfigModelImpl = this;
+
+		rssConfigModelImpl._originalGroupId = rssConfigModelImpl._groupId;
+
+		rssConfigModelImpl._setOriginalGroupId = false;
+
+		rssConfigModelImpl._originalCompanyId = rssConfigModelImpl._companyId;
+
+		rssConfigModelImpl._setOriginalCompanyId = false;
+
+		rssConfigModelImpl._columnBitmask = 0;
 	}
 
 	@Override
@@ -330,12 +393,14 @@ public class RssConfigModelImpl extends BaseModelImpl<RssConfig>
 			rssConfigCacheModel.url = null;
 		}
 
+		rssConfigCacheModel.totalFeed = getTotalFeed();
+
 		return rssConfigCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{rssConfigId=");
 		sb.append(getRssConfigId());
@@ -347,6 +412,8 @@ public class RssConfigModelImpl extends BaseModelImpl<RssConfig>
 		sb.append(getTitle());
 		sb.append(", url=");
 		sb.append(getUrl());
+		sb.append(", totalFeed=");
+		sb.append(getTotalFeed());
 		sb.append("}");
 
 		return sb.toString();
@@ -354,7 +421,7 @@ public class RssConfigModelImpl extends BaseModelImpl<RssConfig>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(22);
 
 		sb.append("<model><model-name>");
 		sb.append("com.vnpt.portal.rss.model.RssConfig");
@@ -380,6 +447,10 @@ public class RssConfigModelImpl extends BaseModelImpl<RssConfig>
 			"<column><column-name>url</column-name><column-value><![CDATA[");
 		sb.append(getUrl());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>totalFeed</column-name><column-value><![CDATA[");
+		sb.append(getTotalFeed());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -392,8 +463,14 @@ public class RssConfigModelImpl extends BaseModelImpl<RssConfig>
 		};
 	private long _rssConfigId;
 	private long _groupId;
+	private long _originalGroupId;
+	private boolean _setOriginalGroupId;
 	private long _companyId;
+	private long _originalCompanyId;
+	private boolean _setOriginalCompanyId;
 	private String _title;
 	private String _url;
+	private int _totalFeed;
+	private long _columnBitmask;
 	private RssConfig _escapedModel;
 }

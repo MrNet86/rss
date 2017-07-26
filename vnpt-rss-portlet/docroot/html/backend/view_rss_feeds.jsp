@@ -24,6 +24,8 @@ List<RssConfig> lstRssConfig = RssConfigLocalServiceUtil.searchRssConfig(-1, -1)
 List<RssFeeds> lstResults = new ArrayList<RssFeeds>();
 RssFeeds rssFeeds = null;
 
+int indexRow = 0;
+
 for(RssConfig rssConfig : lstRssConfig) {
 	url = rssConfig.getUrl();
 	title = rssConfig.getTitle();		
@@ -70,9 +72,6 @@ for(RssConfig rssConfig : lstRssConfig) {
 			SyndEntry entry = (SyndEntry) entries.get(i);
 			rssFeeds = new RssFeedsImpl();
 
-			// set rss resource to title
-// 			entry.setUri(title);
-
 			String entryLink = entry.getLink();
 
 			if (Validator.isNotNull(entryLink) && !HttpUtil.hasDomain(entryLink)) {
@@ -116,7 +115,6 @@ for(RssConfig rssConfig : lstRssConfig) {
 					}
 
 					// set feed content
-// 					entry.setAuthor(sanitizedValue);
 					rssFeeds.setContent(sanitizedValue);
 				}
 			}
@@ -126,6 +124,9 @@ for(RssConfig rssConfig : lstRssConfig) {
 			rssFeeds.setUrl(entryLink);
 			rssFeeds.setDescription(title);
 			rssFeeds.setPublishedDate(entry.getPublishedDate());
+			rssFeeds.setRssFeedsId(indexRow);
+			indexRow ++;
+			
 			lstResults.add(rssFeeds);
 		}
 
@@ -146,16 +147,23 @@ for(RssConfig rssConfig : lstRssConfig) {
 PortletURL portletURL = (PortletURL)request.getAttribute("view.jsp-portletURL");
 System.out.println("view_rss_feeds.jsp portletURL :"+portletURL);
 
-List<RssCategory> lstCategory = RssCategoryLocalServiceUtil.getRssCategories(-1, -1);
+List<RssCategory> lstCategory = RssCategoryLocalServiceUtil.searchRssCategory(-1, -1, scopeGroupId);
 
 %>
 <liferay-ui:error key="rss-feed-is-exists" message="rss-feed-is-exists"/>
 
 <liferay-ui:success key="rss-feed-send-success" message="rss-feed-send-success"/>
 
-<aui:form action="<%= portletURL.toString() %>" method="post" name="name">
+<portlet:actionURL var="sendURL">
+	<portlet:param name="action" value="<%= RssConstants.SEND_FOR_APPROVE %>" />
+</portlet:actionURL>
 
-	<liferay-ui:search-container delta="20">
+<aui:form action="<%= sendURL %>" method="post" name="fm">
+
+	<liferay-ui:search-container 
+		searchContainer="<%= new RssFeedsSearch(renderRequest, portletURL) %>"
+		rowChecker="<%= new RowChecker(renderResponse) %>"
+	>
 		<liferay-ui:search-container-results>
 		<%
 			results = ListUtil.subList(lstResults, searchContainer.getStart(),
@@ -179,8 +187,10 @@ List<RssCategory> lstCategory = RssCategoryLocalServiceUtil.getRssCategories(-1,
 		<liferay-ui:search-container-row
 			className="com.vnpt.portal.rss.model.RssFeeds"
 			modelVar="aRssFeed"
+			keyProperty="rssFeedsId"
 		>
-
+			<aui:input name="sendId" type="hidden"/>
+			
 			<liferay-ui:search-container-column-text
 				name="rss-source"
 				value="<%= HtmlUtil.escape(aRssFeed.getDescription()) %>"
@@ -230,7 +240,30 @@ List<RssCategory> lstCategory = RssCategoryLocalServiceUtil.getRssCategories(-1,
 		<liferay-ui:search-iterator />
 
 	</liferay-ui:search-container>
+	
+	<aui:button value="sendApprove"
+                onClick='<%= renderResponse.getNamespace() + "sendApprove();" %>' />
 </aui:form>
+
+<aui:script>
+Liferay.provide(
+    window,
+    '<portlet:namespace />sendApprove',
+    function() {
+    	var checkBoxValue = Liferay.Util.listCheckedExcept(document.<portlet:namespace />fm, "<portlet:namespace />allRowIds");
+    	
+     	if(checkBoxValue==""||checkBoxValue==null){
+	    	alert('<%= UnicodeLanguageUtil.get(pageContext, "Please select atleast one student to assign") %>');
+	     	return false;
+     	}
+     	if (confirm('<%= UnicodeLanguageUtil.get(pageContext, "Are you sure you want to assign the selected students? ") %>')) {
+	     	document.<portlet:namespace />fm.<portlet:namespace />sendId.value = checkBoxValue;
+	     	submitForm(document.<portlet:namespace />fm, "<%= sendURL %>");                
+     	}
+   	},
+    ['liferay-util-list-fields']
+);
+</aui:script>
 
 <%!
 private String _escapeJavaScriptLink(String link) {

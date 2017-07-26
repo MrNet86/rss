@@ -19,7 +19,6 @@ if(rssId != null) {
 	}
 }
 
-System.out.println("feed  rssCategoryId :"+feed.getRssCategoryId());
 %>
 
 <portlet:actionURL var="sendApproveURL">

@@ -27,6 +27,8 @@ public class RssConstants {
 	public static final String UPDATE_RSS_CATEGORY = "update-rss-category";
 
 	public static final String CREATE_RSS_CATEGORY = "create-rss-category";
+	
+	public static final String DELETE_RSS_CATEGORY = "delete-rss-category";
 
 	public static final int RSS_STATUS_PUBLISHED = 2 ;
 

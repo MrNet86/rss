@@ -4,7 +4,7 @@
 String backURL = (String)request.getAttribute("backURL");
 
 RssCategory rssCategory = (RssCategory) request.getAttribute("rssCategory");
-
+System.out.println("edit rssCategory :"+rssCategory.getRssCategoryId());
 %>
 <liferay-ui:header backLabel="Back"
 	backURL="<%= backURL %>" localizeTitle="<%= false %>"
@@ -19,11 +19,11 @@ RssCategory rssCategory = (RssCategory) request.getAttribute("rssCategory");
 
 	<aui:input name='rssCategoryId' type="hidden" value="<%= rssCategory.getRssCategoryId() %>" />
 
-	<aui:input name="name" label="name" type="text" >
+	<aui:input name="name" label="name" type="text" value="<%= rssCategory.getName() %>">
 		<aui:validator name="maxLength">250</aui:validator>
 	</aui:input>
 
-	<aui:input name="description" label="description" type="textarea" cols="100" rows="5" >
+	<aui:input name="description" label="description" type="textarea" cols="100" rows="5" value="<%= rssCategory.getDescription() %>">
 		<aui:validator name="maxLength">250</aui:validator>
 	</aui:input>
 

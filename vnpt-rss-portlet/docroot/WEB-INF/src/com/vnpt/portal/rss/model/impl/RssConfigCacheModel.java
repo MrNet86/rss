@@ -36,7 +36,7 @@ public class RssConfigCacheModel implements CacheModel<RssConfig>,
 	Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{rssConfigId=");
 		sb.append(rssConfigId);
@@ -48,6 +48,8 @@ public class RssConfigCacheModel implements CacheModel<RssConfig>,
 		sb.append(title);
 		sb.append(", url=");
 		sb.append(url);
+		sb.append(", totalFeed=");
+		sb.append(totalFeed);
 		sb.append("}");
 
 		return sb.toString();
@@ -75,6 +77,8 @@ public class RssConfigCacheModel implements CacheModel<RssConfig>,
 			rssConfigImpl.setUrl(url);
 		}
 
+		rssConfigImpl.setTotalFeed(totalFeed);
+
 		rssConfigImpl.resetOriginalValues();
 
 		return rssConfigImpl;
@@ -87,6 +91,7 @@ public class RssConfigCacheModel implements CacheModel<RssConfig>,
 		companyId = objectInput.readLong();
 		title = objectInput.readUTF();
 		url = objectInput.readUTF();
+		totalFeed = objectInput.readInt();
 	}
 
 	@Override
@@ -109,6 +114,8 @@ public class RssConfigCacheModel implements CacheModel<RssConfig>,
 		else {
 			objectOutput.writeUTF(url);
 		}
+
+		objectOutput.writeInt(totalFeed);
 	}
 
 	public long rssConfigId;
@@ -116,4 +123,5 @@ public class RssConfigCacheModel implements CacheModel<RssConfig>,
 	public long companyId;
 	public String title;
 	public String url;
+	public int totalFeed;
 }
