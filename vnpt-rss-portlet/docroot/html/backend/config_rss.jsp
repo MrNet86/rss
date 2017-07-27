@@ -50,6 +50,9 @@ if(rssIndexes == null) {
 PortletURL actionUrl = renderResponse.createActionURL();
 actionUrl.setParameter("action", RssConstants.UPDATE_CONFIG_RSS);
 
+// Get list of rssCategory
+List<RssCategory> lstCategory = RssCategoryLocalServiceUtil.searchRssCategory(-1, -1, scopeGroupId);
+
 %>
 <aui:form action="<%= actionUrl %>" method="post" name="fm">
 
@@ -70,25 +73,45 @@ actionUrl.setParameter("action", RssConstants.UPDATE_CONFIG_RSS);
 
 				<div class="lfr-form-row lfr-form-row-inline">
 					<div class="row-fields">
-						<aui:input name='<%= "rssConfigId" + rssIndex %>' type="hidden" value="<%= rssConfig.getRssConfigId() %>" />
-
-						<aui:input fieldParam='<%= "title" + rssIndex %>' id='<%= "title" + rssIndex %>' inlineField="<%= true %>" name="title" >
-							<aui:validator name="maxLength">150</aui:validator>
-						</aui:input>
-
-						<aui:input cssClass="url-field" fieldParam='<%= "url" + rssIndex %>' id='<%= "url" + rssIndex %>' inlineField="<%= true %>" name="url" >
-							<aui:validator name="url"/>
-							<aui:validator name="maxLength">150</aui:validator>
-						</aui:input>
 						
-						<aui:select name='<%="totalFeed" + rssIndex%>' label="rss-total-feed" inlineField="<%= true %>" 
-							id='<%="totalFeed" + rssIndex%>'>
-							<aui:option value='10' selected="<%= rssConfig.getTotalFeed() == 10 %>">10</aui:option>
-							<aui:option value='20' selected="<%= rssConfig.getTotalFeed() == 20 %>">20</aui:option>
-							<aui:option value='30' selected="<%= rssConfig.getTotalFeed() == 30 %>">30</aui:option>
-							<aui:option value='40' selected="<%= rssConfig.getTotalFeed() == 40 %>">40</aui:option>
-							<aui:option value='50' selected="<%= rssConfig.getTotalFeed() == 50 %>">50</aui:option>
-						</aui:select>
+						<aui:row>
+							<aui:input name='<%= "rssConfigId" + rssIndex %>' type="hidden" value="<%= rssConfig.getRssConfigId() %>" />
+
+							<aui:input fieldParam='<%= "title" + rssIndex %>' id='<%= "title" + rssIndex %>' inlineField="<%= true %>" name="title" >
+								<aui:validator name="maxLength">150</aui:validator>
+							</aui:input>
+							
+							<aui:input cssClass="url-field" fieldParam='<%= "url" + rssIndex %>' id='<%= "url" + rssIndex %>' inlineField="<%= true %>" name="url" >
+								<aui:validator name="required" />
+								<aui:validator name="url"/>
+								<aui:validator name="maxLength">150</aui:validator>
+							</aui:input>
+														
+						</aui:row>
+						
+						<aui:row>
+							<aui:select name='<%= "totalFeed" + rssIndex %>' label="rss-total-feed" inlineField="<%= true %>"  required="true"
+								id='<%="totalFeed" + rssIndex%>'>
+								<aui:option value='10' selected="<%= rssConfig.getTotalFeed() == 10 %>">10</aui:option>
+								<aui:option value='20' selected="<%= rssConfig.getTotalFeed() == 20 %>">20</aui:option>
+								<aui:option value='30' selected="<%= rssConfig.getTotalFeed() == 30 %>">30</aui:option>
+								<aui:option value='40' selected="<%= rssConfig.getTotalFeed() == 40 %>">40</aui:option>
+								<aui:option value='50' selected="<%= rssConfig.getTotalFeed() == 50 %>">50</aui:option>								
+							</aui:select>
+							
+							<aui:select label="rss-category" name='<%= "rssCategoryId" + rssIndex %>' inlineField="<%= true %>" required="true">
+								<%
+								for(RssCategory rssCategory : lstCategory) {
+								%>
+									<aui:option label="<%= rssCategory.getName() %>" value="<%= rssCategory.getRssCategoryId() %>" 
+											selected="<%= rssCategory.getRssCategoryId() == rssConfig.getRssCategoryId() %>"/>
+								<%
+								}
+								%>
+							</aui:select>
+														
+						</aui:row>
+												
 					</div>
 				</div>
 

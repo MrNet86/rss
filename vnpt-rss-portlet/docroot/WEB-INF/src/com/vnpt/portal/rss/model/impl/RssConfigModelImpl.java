@@ -63,9 +63,10 @@ public class RssConfigModelImpl extends BaseModelImpl<RssConfig>
 			{ "companyId", Types.BIGINT },
 			{ "title", Types.VARCHAR },
 			{ "url", Types.VARCHAR },
-			{ "totalFeed", Types.INTEGER }
+			{ "totalFeed", Types.INTEGER },
+			{ "rssCategoryId", Types.BIGINT }
 		};
-	public static final String TABLE_SQL_CREATE = "create table eportal_rss_config (rssConfigId LONG not null primary key,groupId LONG,companyId LONG,title VARCHAR(75) null,url VARCHAR(75) null,totalFeed INTEGER)";
+	public static final String TABLE_SQL_CREATE = "create table eportal_rss_config (rssConfigId LONG not null primary key,groupId LONG,companyId LONG,title VARCHAR(75) null,url VARCHAR(75) null,totalFeed INTEGER,rssCategoryId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table eportal_rss_config";
 	public static final String ORDER_BY_JPQL = " ORDER BY rssConfig.rssConfigId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY eportal_rss_config.rssConfigId ASC";
@@ -130,6 +131,7 @@ public class RssConfigModelImpl extends BaseModelImpl<RssConfig>
 		attributes.put("title", getTitle());
 		attributes.put("url", getUrl());
 		attributes.put("totalFeed", getTotalFeed());
+		attributes.put("rssCategoryId", getRssCategoryId());
 
 		return attributes;
 	}
@@ -170,6 +172,12 @@ public class RssConfigModelImpl extends BaseModelImpl<RssConfig>
 
 		if (totalFeed != null) {
 			setTotalFeed(totalFeed);
+		}
+
+		Long rssCategoryId = (Long)attributes.get("rssCategoryId");
+
+		if (rssCategoryId != null) {
+			setRssCategoryId(rssCategoryId);
 		}
 	}
 
@@ -267,6 +275,16 @@ public class RssConfigModelImpl extends BaseModelImpl<RssConfig>
 		_totalFeed = totalFeed;
 	}
 
+	@Override
+	public long getRssCategoryId() {
+		return _rssCategoryId;
+	}
+
+	@Override
+	public void setRssCategoryId(long rssCategoryId) {
+		_rssCategoryId = rssCategoryId;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -304,6 +322,7 @@ public class RssConfigModelImpl extends BaseModelImpl<RssConfig>
 		rssConfigImpl.setTitle(getTitle());
 		rssConfigImpl.setUrl(getUrl());
 		rssConfigImpl.setTotalFeed(getTotalFeed());
+		rssConfigImpl.setRssCategoryId(getRssCategoryId());
 
 		rssConfigImpl.resetOriginalValues();
 
@@ -395,12 +414,14 @@ public class RssConfigModelImpl extends BaseModelImpl<RssConfig>
 
 		rssConfigCacheModel.totalFeed = getTotalFeed();
 
+		rssConfigCacheModel.rssCategoryId = getRssCategoryId();
+
 		return rssConfigCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{rssConfigId=");
 		sb.append(getRssConfigId());
@@ -414,6 +435,8 @@ public class RssConfigModelImpl extends BaseModelImpl<RssConfig>
 		sb.append(getUrl());
 		sb.append(", totalFeed=");
 		sb.append(getTotalFeed());
+		sb.append(", rssCategoryId=");
+		sb.append(getRssCategoryId());
 		sb.append("}");
 
 		return sb.toString();
@@ -421,7 +444,7 @@ public class RssConfigModelImpl extends BaseModelImpl<RssConfig>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(22);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("<model><model-name>");
 		sb.append("com.vnpt.portal.rss.model.RssConfig");
@@ -451,6 +474,10 @@ public class RssConfigModelImpl extends BaseModelImpl<RssConfig>
 			"<column><column-name>totalFeed</column-name><column-value><![CDATA[");
 		sb.append(getTotalFeed());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>rssCategoryId</column-name><column-value><![CDATA[");
+		sb.append(getRssCategoryId());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -471,6 +498,7 @@ public class RssConfigModelImpl extends BaseModelImpl<RssConfig>
 	private String _title;
 	private String _url;
 	private int _totalFeed;
+	private long _rssCategoryId;
 	private long _columnBitmask;
 	private RssConfig _escapedModel;
 }

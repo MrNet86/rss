@@ -2,7 +2,6 @@
 
 <%
 String tabs1 = ParamUtil.getString(request, "tabs1", RssConstants.VIEW_RSS_PUBLISHED);
-System.out.println("view.jsp tabs1 :" + tabs1);
 
 PortletURL portletURL = renderResponse.createRenderURL();
 portletURL.setParameter("tabs1", tabs1);

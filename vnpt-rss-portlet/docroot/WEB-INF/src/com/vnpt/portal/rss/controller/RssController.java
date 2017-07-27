@@ -101,7 +101,8 @@ public class RssController {
 			String url = ParamUtil.getString(actionRequest, "url" + rowIndex);
 			String title = ParamUtil.getString(actionRequest, "title" + rowIndex);
 			int totalFeed = ParamUtil.getInteger(actionRequest, "totalFeed" + rowIndex, 10);
-
+			long rssCategoryId = ParamUtil.getInteger(actionRequest, "rssCategoryId" + rowIndex, 0);
+			System.out.println("rssCategoryId :"+rssCategoryId);
 			if (Validator.isNull(url)) {
 				continue;
 			}
@@ -113,7 +114,8 @@ public class RssController {
 				rssConfig.setTitle(title);
 				rssConfig.setUrl(url);
 				rssConfig.setTotalFeed(totalFeed);
-
+				rssConfig.setRssCategoryId(rssCategoryId);
+				
 				rssConfig.setGroupId(groupId);
 				rssConfig.setCompanyId(companyId);
 
@@ -124,7 +126,8 @@ public class RssController {
 				rssConfig.setTitle(title);
 				rssConfig.setUrl(url);
 				rssConfig.setTotalFeed(totalFeed);
-
+				rssConfig.setRssCategoryId(rssCategoryId);
+				
 				rssConfig = RssConfigLocalServiceUtil.updateRssConfig(rssConfig);
 			}
 
@@ -148,20 +151,6 @@ public class RssController {
 
 		System.out.println("send for approve");
 		
-		long[] studentIds = StringUtil.split(ParamUtil.getString(actionRequest, "sendId"), 0L);
-		if(studentIds != null) {
-			for(int i=0 ; i < studentIds.length; i++) {
-				long ids = studentIds[i];
-				String sUrl = ParamUtil.getString(actionRequest, "url" + ids);
-				String sTitle = ParamUtil.getString(actionRequest, "title" + ids);
-				
-				System.out.println("ids :"+ ids + " ||sUrl :"+sUrl + "|| sTitle :"+sTitle);
-			}
-		}
-		
-		
-		
-		
 		ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		long groupId = themeDisplay.getScopeGroupId();
 		long companyId = themeDisplay.getCompanyId();
@@ -170,9 +159,7 @@ public class RssController {
 		String title = ParamUtil.getString(actionRequest, "title");
 		String publishedDate = ParamUtil.getString(actionRequest, "publishedDate");
 		String content = ParamUtil.getString(actionRequest, "content");
-		long rssCategoryId = 0L;
-		String id = ParamUtil.getString(actionRequest, "rssCategoryId");
-		System.out.println("sendForApprove rssCategoryId :"+id +  " ||url : "+url + "|| title :"+ title);
+		Long rssCategoryId = ParamUtil.getLong(actionRequest, "rssCategoryId");				
 
 		// check if url exists then do nothing
 		if(RssFeedsLocalServiceUtil.checkIsExistsUrl(groupId, url)) {
@@ -225,7 +212,6 @@ public class RssController {
 		}
 
 		if(rssStatus == 1) {
-//			SessionErrors.add(actionRequest, "rss-feed-reject");
 			SessionMessages.add(actionRequest, "rss-feed-reject");
 		} else {
 			SessionMessages.add(actionRequest, "rss-feed-publish-success");
@@ -241,7 +227,6 @@ public class RssController {
 
 		RssCategory rssCategory = new RssCategoryImpl();
 		long rssCategoryId = ParamUtil.getLong(renderRequest, "rssCategoryId", 0L);
-		System.out.println("rssCategoryId :"+rssCategoryId);
 		if(rssCategoryId > 0) {
 			rssCategory = RssCategoryLocalServiceUtil.fetchRssCategory(rssCategoryId);
 		}
@@ -315,6 +300,10 @@ public class RssController {
 		}
 		
 		if(rssCategory != null) {
+			
+			// check if rssCategory is used in rssConfig or rssFeed
+			
+			
 			rssCategory.setStatus(0);
 			rssCategory.setCreatedId(themeDisplay.getUserId());
 			rssCategory.setCreatedDate(new Date());

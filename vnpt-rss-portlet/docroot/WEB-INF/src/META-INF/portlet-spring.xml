@@ -1,8 +1,18 @@
 <?xml version="1.0"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<bean id="com.vnpt.portal.rss.service.RssCategoryLocalService" class="com.vnpt.portal.rss.service.impl.RssCategoryLocalServiceImpl" />
+	<bean id="com.vnpt.portal.rss.service.persistence.RssCategoryPersistence" class="com.vnpt.portal.rss.service.persistence.RssCategoryPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="eGovDataSource" />
+		<property name="sessionFactory" ref="eGovSessionFactory" />
+	</bean>
 	<bean id="com.vnpt.portal.rss.service.RssConfigLocalService" class="com.vnpt.portal.rss.service.impl.RssConfigLocalServiceImpl" />
 	<bean id="com.vnpt.portal.rss.service.persistence.RssConfigPersistence" class="com.vnpt.portal.rss.service.persistence.RssConfigPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="eGovDataSource" />
+		<property name="sessionFactory" ref="eGovSessionFactory" />
+	</bean>
+	<bean id="com.vnpt.portal.rss.service.RssFeedsLocalService" class="com.vnpt.portal.rss.service.impl.RssFeedsLocalServiceImpl" />
+	<bean id="com.vnpt.portal.rss.service.persistence.RssFeedsPersistence" class="com.vnpt.portal.rss.service.persistence.RssFeedsPersistenceImpl" parent="basePersistence">
 		<property name="dataSource" ref="eGovDataSource" />
 		<property name="sessionFactory" ref="eGovSessionFactory" />
 	</bean>

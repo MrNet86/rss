@@ -1,7 +1,6 @@
 <%@ include file="../init.jsp" %>
 <%
 PortletURL portletURL = (PortletURL)request.getAttribute("view.jsp-portletURL");
-System.out.println("viewCategory :"+portletURL.toString());
 %>
 
 <liferay-ui:success key="update-rss-category-success" message="update-rss-category-success"/>

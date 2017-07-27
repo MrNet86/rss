@@ -21,12 +21,14 @@
 		<column name="url" type="String" />
 		<column name="totalFeed" type="int"/>
 		
+		<column name="rssCategoryId" type="long" />
+		
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="groupId" />
 		</finder>
 		<finder name="CompanyId" return-type="Collection">
 			<finder-column name="companyId" />
-		</finder>
+		</finder>		
 
 	</entity>
 
@@ -73,7 +75,8 @@
 		<finder name="Url" return-type="Collection">
 			<finder-column name="groupId" />
 			<finder-column name="url" />
-		</finder>
+		</finder>		
+		
 	</entity>
 
 	<entity name="RssCategory" table="eportal_rss_category" local-service="true" remote-service="false"

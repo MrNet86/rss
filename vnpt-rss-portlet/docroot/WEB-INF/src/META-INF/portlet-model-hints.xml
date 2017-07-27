@@ -1,11 +1,40 @@
 <?xml version="1.0"?>
 
 <model-hints>
+	<model name="com.vnpt.portal.rss.model.RssCategory">
+		<field name="rssCategoryId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="name" type="String" />
+		<field name="description" type="String" />
+		<field name="status" type="int" />
+		<field name="createdId" type="long" />
+		<field name="createdDate" type="Date" />
+	</model>
 	<model name="com.vnpt.portal.rss.model.RssConfig">
 		<field name="rssConfigId" type="long" />
 		<field name="groupId" type="long" />
 		<field name="companyId" type="long" />
 		<field name="title" type="String" />
 		<field name="url" type="String" />
+		<field name="totalFeed" type="int" />
+		<field name="rssCategoryId" type="long" />
+	</model>
+	<model name="com.vnpt.portal.rss.model.RssFeeds">
+		<field name="rssFeedsId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="title" type="String" />
+		<field name="url" type="String" />
+		<field name="description" type="String" />
+		<field name="content" type="String" />
+		<field name="author" type="String" />
+		<field name="publishedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="createdId" type="long" />
+		<field name="createdDate" type="Date" />
+		<field name="approvedId" type="long" />
+		<field name="approvedDate" type="Date" />
+		<field name="rssCategoryId" type="long" />
 	</model>
 </model-hints>

@@ -7,6 +7,23 @@
 			<access>PROPERTY</access>
 		</persistence-unit-defaults>
 	</persistence-unit-metadata>
+	<mapped-superclass class="com.vnpt.portal.rss.model.impl.RssCategoryModelImpl">
+		<attributes>
+			<id name="rssCategoryId" />
+			<basic name="groupId" />
+			<basic name="companyId" />
+			<basic name="name" />
+			<basic name="description" />
+			<basic name="status" />
+			<basic name="createdId" />
+			<basic name="createdDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="com.vnpt.portal.rss.model.impl.RssConfigModelImpl">
 		<attributes>
 			<id name="rssConfigId" />
@@ -14,13 +31,51 @@
 			<basic name="companyId" />
 			<basic name="title" />
 			<basic name="url" />
+			<basic name="totalFeed" />
+			<basic name="rssCategoryId" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="com.vnpt.portal.rss.model.impl.RssFeedsModelImpl">
+		<attributes>
+			<id name="rssFeedsId" />
+			<basic name="groupId" />
+			<basic name="companyId" />
+			<basic name="title" />
+			<basic name="url" />
+			<basic name="description" />
+			<basic name="content" />
+			<basic name="author" />
+			<basic name="publishedDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="status" />
+			<basic name="createdId" />
+			<basic name="createdDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="approvedId" />
+			<basic name="approvedDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="rssCategoryId" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<entity class="com.vnpt.portal.rss.model.impl.RssCategoryImpl" name="RssCategory">
+		<table name="eportal_rss_category" />
+		<attributes />
+	</entity>
 	<entity class="com.vnpt.portal.rss.model.impl.RssConfigImpl" name="RssConfig">
 		<table name="eportal_rss_config" />
+		<attributes />
+	</entity>
+	<entity class="com.vnpt.portal.rss.model.impl.RssFeedsImpl" name="RssFeeds">
+		<table name="eportal_rss_feeds" />
 		<attributes />
 	</entity>
 </entity-mappings>

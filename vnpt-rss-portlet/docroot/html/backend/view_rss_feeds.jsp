@@ -18,6 +18,7 @@ String url = StringPool.BLANK;
 String title = StringPool.BLANK;
 int totalFeed = 10;
 int size = 0;
+long rssCategoryId = 0;
 
 List<RssConfig> lstRssConfig = RssConfigLocalServiceUtil.searchRssConfig(-1, -1);
 
@@ -30,6 +31,7 @@ for(RssConfig rssConfig : lstRssConfig) {
 	url = rssConfig.getUrl();
 	title = rssConfig.getTitle();		
 	totalFeed = rssConfig.getTotalFeed();
+	rssCategoryId = rssConfig.getRssCategoryId();
 	
 	// get syndFeed from url
 	SyndFeed feed = null;
@@ -124,7 +126,7 @@ for(RssConfig rssConfig : lstRssConfig) {
 			rssFeeds.setUrl(entryLink);
 			rssFeeds.setDescription(title);
 			rssFeeds.setPublishedDate(entry.getPublishedDate());
-			rssFeeds.setRssFeedsId(indexRow);
+			rssFeeds.setRssCategoryId(rssCategoryId);
 			indexRow ++;
 			
 			lstResults.add(rssFeeds);
@@ -132,7 +134,7 @@ for(RssConfig rssConfig : lstRssConfig) {
 
 	}
 	catch (NullPointerException e) {
-		System.out.println("Exception eee :"+e.getMessage());
+		System.out.println("Exception rss cannot parse :"+e.getMessage());
 	%>
 		<font color="red">
 			<liferay-ui:message key="rss-cannot-parse" /> : <%= url %>
@@ -145,7 +147,7 @@ for(RssConfig rssConfig : lstRssConfig) {
 }
 
 PortletURL portletURL = (PortletURL)request.getAttribute("view.jsp-portletURL");
-System.out.println("view_rss_feeds.jsp portletURL :"+portletURL);
+
 
 List<RssCategory> lstCategory = RssCategoryLocalServiceUtil.searchRssCategory(-1, -1, scopeGroupId);
 
@@ -162,7 +164,6 @@ List<RssCategory> lstCategory = RssCategoryLocalServiceUtil.searchRssCategory(-1
 
 	<liferay-ui:search-container 
 		searchContainer="<%= new RssFeedsSearch(renderRequest, portletURL) %>"
-		rowChecker="<%= new RowChecker(renderResponse) %>"
 	>
 		<liferay-ui:search-container-results>
 		<%
@@ -187,7 +188,6 @@ List<RssCategory> lstCategory = RssCategoryLocalServiceUtil.searchRssCategory(-1
 		<liferay-ui:search-container-row
 			className="com.vnpt.portal.rss.model.RssFeeds"
 			modelVar="aRssFeed"
-			keyProperty="rssFeedsId"
 		>
 			<aui:input name="sendId" type="hidden"/>
 			
@@ -216,13 +216,20 @@ List<RssCategory> lstCategory = RssCategoryLocalServiceUtil.searchRssCategory(-1
 			<liferay-ui:search-container-column-text
 				name="rss-content"
 			>
-				<select name="<portlet:namespace />rssCategoryId" id="<portlet:namespace />rssCategoryId" >
-				  <%
+				<select name="<portlet:namespace />rssCatId" id="<portlet:namespace />rssCatId" disabled="disabled">
+				  	<%
 					for(RssCategory rssCategory : lstCategory) {
 					%>
-						<option value="<%= rssCategory.getRssCategoryId() %>"><%= rssCategory.getName() %></option>
+						<option value="<%= rssCategory.getRssCategoryId() %>" 
+							<% if( rssCategory.getRssCategoryId() == aRssFeed.getRssCategoryId() ){ %> 
+								selected 
+							<%}%> 
+						>
+							<%= rssCategory.getName() %>
+						</option>
 					<%}%>
 				</select>
+								
 			</liferay-ui:search-container-column-text>
 			
 			<%-- <liferay-ui:search-container-column-jsp
@@ -240,30 +247,8 @@ List<RssCategory> lstCategory = RssCategoryLocalServiceUtil.searchRssCategory(-1
 		<liferay-ui:search-iterator />
 
 	</liferay-ui:search-container>
-	
-	<aui:button value="sendApprove"
-                onClick='<%= renderResponse.getNamespace() + "sendApprove();" %>' />
+		
 </aui:form>
-
-<aui:script>
-Liferay.provide(
-    window,
-    '<portlet:namespace />sendApprove',
-    function() {
-    	var checkBoxValue = Liferay.Util.listCheckedExcept(document.<portlet:namespace />fm, "<portlet:namespace />allRowIds");
-    	
-     	if(checkBoxValue==""||checkBoxValue==null){
-	    	alert('<%= UnicodeLanguageUtil.get(pageContext, "Please select atleast one student to assign") %>');
-	     	return false;
-     	}
-     	if (confirm('<%= UnicodeLanguageUtil.get(pageContext, "Are you sure you want to assign the selected students? ") %>')) {
-	     	document.<portlet:namespace />fm.<portlet:namespace />sendId.value = checkBoxValue;
-	     	submitForm(document.<portlet:namespace />fm, "<%= sendURL %>");                
-     	}
-   	},
-    ['liferay-util-list-fields']
-);
-</aui:script>
 
 <%!
 private String _escapeJavaScriptLink(String link) {

@@ -16,7 +16,7 @@ String toolbarItem = ParamUtil.getString(request, "toolbarItem", "view-all");
 			<portlet:param name="action" value="<%= RssConstants.VIEW_RSS_CATEGORY %>"/>
 			<portlet:param name="tabs1" value="<%= RssConstants.VIEW_RSS_CATEGORY %>"/>
 		</portlet:renderURL>
-		<aui:nav-item label="Common.ViewAll" iconCssClass="icon-list"
+		<aui:nav-item label="Command.ViewAll" iconCssClass="icon-list"
 			href="<%= viewRssCatURL %>"
 			selected='<%= "view-all".equals(toolbarItem) %>'
 		/>
@@ -25,7 +25,7 @@ String toolbarItem = ParamUtil.getString(request, "toolbarItem", "view-all");
 			<portlet:param name="action" value="<%= RssConstants.CREATE_RSS_CATEGORY %>"/>
 			<portlet:param name="toolbarItem" value="add"/>
 		</portlet:renderURL>
-		<aui:nav-item label="Common.Add" iconCssClass="icon-plus"
+		<aui:nav-item label="Command.Add" iconCssClass="icon-plus"
 			href="<%= createRssCatURL %>"
 			selected='<%= "add".equals(toolbarItem) %>'
 		/>

@@ -121,6 +121,10 @@ public class RssCategoryLocalServiceClpInvoker {
 		_methodName47 = "countRssCategory";
 
 		_methodParameterTypes47 = new String[] { "long" };
+
+		_methodName48 = "getRssCategoryNameById";
+
+		_methodParameterTypes48 = new String[] { "java.util.List", "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -236,6 +240,12 @@ public class RssCategoryLocalServiceClpInvoker {
 			return RssCategoryLocalServiceUtil.countRssCategory(((Long)arguments[0]).longValue());
 		}
 
+		if (_methodName48.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes48, parameterTypes)) {
+			return RssCategoryLocalServiceUtil.getRssCategoryNameById((java.util.List<com.vnpt.portal.rss.model.RssCategory>)arguments[0],
+				((Long)arguments[1]).longValue());
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -279,4 +289,6 @@ public class RssCategoryLocalServiceClpInvoker {
 	private String[] _methodParameterTypes46;
 	private String _methodName47;
 	private String[] _methodParameterTypes47;
+	private String _methodName48;
+	private String[] _methodParameterTypes48;
 }

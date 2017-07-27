@@ -1,7 +1,6 @@
 <%@ include file="../init.jsp" %>
 <%
 PortletURL portletURL = (PortletURL)request.getAttribute("view.jsp-portletURL");
-System.out.println("view_rss_published portletURL :"+portletURL);
 
 %>
 <aui:form action="<%= portletURL.toString() %>" method="post" name="fm">

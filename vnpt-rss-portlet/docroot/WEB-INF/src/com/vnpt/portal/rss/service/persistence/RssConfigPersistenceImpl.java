@@ -1344,6 +1344,7 @@ public class RssConfigPersistenceImpl extends BasePersistenceImpl<RssConfig>
 		rssConfigImpl.setTitle(rssConfig.getTitle());
 		rssConfigImpl.setUrl(rssConfig.getUrl());
 		rssConfigImpl.setTotalFeed(rssConfig.getTotalFeed());
+		rssConfigImpl.setRssCategoryId(rssConfig.getRssCategoryId());
 
 		return rssConfigImpl;
 	}

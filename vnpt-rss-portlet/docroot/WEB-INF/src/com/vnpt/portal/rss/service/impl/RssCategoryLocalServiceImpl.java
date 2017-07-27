@@ -72,4 +72,16 @@ public class RssCategoryLocalServiceImpl extends RssCategoryLocalServiceBaseImpl
 		
 		return count.intValue();
 	}
+	
+	public String getRssCategoryNameById (List<RssCategory> rssCategories, long rssCategoryId) {		
+		
+		for (RssCategory rssCategory : rssCategories) {
+			if(rssCategory.getRssCategoryId() == rssCategoryId) {
+				return rssCategory.getName();
+			}
+		}
+		
+		return null;
+	}
+	
 }
