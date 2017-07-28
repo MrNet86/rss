@@ -27,7 +27,7 @@ if(Validator.isNotNull(rssIndexesParam)) {
 }
 else {
 
-	rssConfigs = RssConfigLocalServiceUtil.searchRssConfig(-1, -1);
+	rssConfigs = RssConfigLocalServiceUtil.searchRssConfigByGroup(scopeGroupId);
 
 	if(rssConfigs.isEmpty()) {
 		rssConfigs = new ArrayList<RssConfig>();

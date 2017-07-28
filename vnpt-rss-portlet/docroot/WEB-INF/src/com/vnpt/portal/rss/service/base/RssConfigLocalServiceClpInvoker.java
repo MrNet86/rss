@@ -117,6 +117,10 @@ public class RssConfigLocalServiceClpInvoker {
 		_methodName46 = "searchRssConfig";
 
 		_methodParameterTypes46 = new String[] { "int", "int" };
+
+		_methodName47 = "searchRssConfigByGroup";
+
+		_methodParameterTypes47 = new String[] { "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -226,6 +230,11 @@ public class RssConfigLocalServiceClpInvoker {
 				((Integer)arguments[1]).intValue());
 		}
 
+		if (_methodName47.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes47, parameterTypes)) {
+			return RssConfigLocalServiceUtil.searchRssConfigByGroup(((Long)arguments[0]).longValue());
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -267,4 +276,6 @@ public class RssConfigLocalServiceClpInvoker {
 	private String[] _methodParameterTypes41;
 	private String _methodName46;
 	private String[] _methodParameterTypes46;
+	private String _methodName47;
+	private String[] _methodParameterTypes47;
 }

@@ -18,6 +18,7 @@ import java.util.List;
 
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.vnpt.portal.rss.model.RssConfig;
 import com.vnpt.portal.rss.service.RssConfigLocalServiceUtil;
@@ -52,6 +53,14 @@ public class RssConfigLocalServiceImpl extends RssConfigLocalServiceBaseImpl {
 				.dynamicQuery(dynamicQuery, start, end);
 
 		return lstResults;
+	}
+	
+	public List<RssConfig> searchRssConfigByGroup (long scopeGroupId) throws SystemException {
+		
+		DynamicQuery query = (DynamicQuery) DynamicQueryFactoryUtil.forClass(RssConfig.class);
+		query.add(PropertyFactoryUtil.forName("groupId").eq(scopeGroupId));
+		
+		return RssConfigLocalServiceUtil.dynamicQuery(query);
 	}
 	
 }

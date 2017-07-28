@@ -20,7 +20,7 @@ int totalFeed = 10;
 int size = 0;
 long rssCategoryId = 0;
 
-List<RssConfig> lstRssConfig = RssConfigLocalServiceUtil.searchRssConfig(-1, -1);
+List<RssConfig> lstRssConfig = RssConfigLocalServiceUtil.searchRssConfigByGroup(scopeGroupId);
 
 List<RssFeeds> lstResults = new ArrayList<RssFeeds>();
 RssFeeds rssFeeds = null;

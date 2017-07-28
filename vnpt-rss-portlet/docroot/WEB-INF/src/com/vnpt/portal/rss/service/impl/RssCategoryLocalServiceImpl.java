@@ -22,6 +22,8 @@ import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.vnpt.portal.rss.model.RssCategory;
+import com.vnpt.portal.rss.model.RssConfig;
+import com.vnpt.portal.rss.model.RssFeeds;
 import com.vnpt.portal.rss.service.RssCategoryLocalServiceUtil;
 import com.vnpt.portal.rss.service.base.RssCategoryLocalServiceBaseImpl;
 
@@ -45,6 +47,9 @@ public class RssCategoryLocalServiceImpl extends RssCategoryLocalServiceBaseImpl
 	 *
 	 * Never reference this interface directly. Always use {@link com.vnpt.portal.rss.service.RssCategoryLocalServiceUtil} to access the rss category local service.
 	 */
+	/**
+	 * Search rssCategory by scopeGroupId
+	 */
 	public List<RssCategory> searchRssCategory(int start, int end, long scopeGroupId) throws SystemException {
 		
 		DynamicQuery dynamicQuery = (DynamicQuery) DynamicQueryFactoryUtil.forClass(RssCategory.class);
@@ -61,6 +66,9 @@ public class RssCategoryLocalServiceImpl extends RssCategoryLocalServiceBaseImpl
 		}
 	} 
 	
+	/**
+	 * Count rssCategory by scopeGroupId
+	 */
 	public int countRssCategory(long scopeGroupId) throws SystemException {
 		
 		DynamicQuery dynamicQuery = (DynamicQuery) DynamicQueryFactoryUtil.forClass(RssCategory.class);
@@ -73,6 +81,9 @@ public class RssCategoryLocalServiceImpl extends RssCategoryLocalServiceBaseImpl
 		return count.intValue();
 	}
 	
+	/**
+	 * get rssCategoryName by Id
+	 */
 	public String getRssCategoryNameById (List<RssCategory> rssCategories, long rssCategoryId) {		
 		
 		for (RssCategory rssCategory : rssCategories) {
@@ -84,4 +95,50 @@ public class RssCategoryLocalServiceImpl extends RssCategoryLocalServiceBaseImpl
 		return null;
 	}
 	
+	/**
+	 * Check if rssCategory is used in rssConfig
+	 * @param rssCategoryId
+	 * @param scopeGroupId
+	 * @return
+	 * @throws SystemException
+	 */
+	public boolean isExistsInConfig (long rssCategoryId, long scopeGroupId) throws SystemException {
+		
+		DynamicQuery dynamicQuery = (DynamicQuery) DynamicQueryFactoryUtil.forClass(RssConfig.class);
+		
+		dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(scopeGroupId));
+		dynamicQuery.add(PropertyFactoryUtil.forName("rssCategoryId").eq(rssCategoryId));
+		
+		Long rowCount = RssCategoryLocalServiceUtil.dynamicQueryCount(dynamicQuery);
+		
+		if(rowCount > 0) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Check if rssCategory is used in rssFeeds
+	 * @param rssCategoryId
+	 * @param scopeGroupId
+	 * @return
+	 * @throws SystemException
+	 */
+	public boolean isExistsInFeeds (long rssCategoryId, long scopeGroupId) throws SystemException {
+		
+		DynamicQuery dynamicQuery = (DynamicQuery) DynamicQueryFactoryUtil.forClass(RssFeeds.class);
+		
+		dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(scopeGroupId));
+		dynamicQuery.add(PropertyFactoryUtil.forName("rssCategoryId").eq(rssCategoryId));
+		dynamicQuery.add(PropertyFactoryUtil.forName("status").ne(1));
+		
+		Long rowCount = RssCategoryLocalServiceUtil.dynamicQueryCount(dynamicQuery);
+		
+		if(rowCount > 0) {
+			return true;
+		}
+		
+		return false;
+	}
 }

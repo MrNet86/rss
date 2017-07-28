@@ -125,6 +125,14 @@ public class RssCategoryLocalServiceClpInvoker {
 		_methodName48 = "getRssCategoryNameById";
 
 		_methodParameterTypes48 = new String[] { "java.util.List", "long" };
+
+		_methodName49 = "isExistsInConfig";
+
+		_methodParameterTypes49 = new String[] { "long", "long" };
+
+		_methodName50 = "isExistsInFeeds";
+
+		_methodParameterTypes50 = new String[] { "long", "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -246,6 +254,18 @@ public class RssCategoryLocalServiceClpInvoker {
 				((Long)arguments[1]).longValue());
 		}
 
+		if (_methodName49.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes49, parameterTypes)) {
+			return RssCategoryLocalServiceUtil.isExistsInConfig(((Long)arguments[0]).longValue(),
+				((Long)arguments[1]).longValue());
+		}
+
+		if (_methodName50.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes50, parameterTypes)) {
+			return RssCategoryLocalServiceUtil.isExistsInFeeds(((Long)arguments[0]).longValue(),
+				((Long)arguments[1]).longValue());
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -291,4 +311,8 @@ public class RssCategoryLocalServiceClpInvoker {
 	private String[] _methodParameterTypes47;
 	private String _methodName48;
 	private String[] _methodParameterTypes48;
+	private String _methodName49;
+	private String[] _methodParameterTypes49;
+	private String _methodName50;
+	private String[] _methodParameterTypes50;
 }

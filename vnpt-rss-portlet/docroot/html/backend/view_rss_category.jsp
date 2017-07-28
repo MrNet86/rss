@@ -4,8 +4,10 @@ PortletURL portletURL = (PortletURL)request.getAttribute("view.jsp-portletURL");
 %>
 
 <liferay-ui:success key="update-rss-category-success" message="update-rss-category-success"/>
-
 <liferay-ui:success key="delete-rss-category-success" message="delete-rss-category-success"/>
+
+<liferay-ui:error key="error-rss-category-exists-in-config" message="error-rss-category-exists-in-config"/>
+<liferay-ui:error key="error-rss-category-exists-in-feed" message="error-rss-category-exists-in-feed"/>
 
 <aui:form action="<%= portletURL.toString() %>" method="post" name="fm">
 
@@ -25,7 +27,7 @@ PortletURL portletURL = (PortletURL)request.getAttribute("view.jsp-portletURL");
 			modelVar="aRssCategory"
 		>
 			
-			<portlet:renderURL var="editURL">
+			<portlet:renderURL var="editURL" >
 				<portlet:param name="action" value="<%= RssConstants.CREATE_RSS_CATEGORY %>" />
 				<portlet:param name="rssCategoryId" value="<%= String.valueOf(aRssCategory.getRssCategoryId()) %>"/>
 			</portlet:renderURL>

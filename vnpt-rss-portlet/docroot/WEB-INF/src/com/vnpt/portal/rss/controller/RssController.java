@@ -198,26 +198,40 @@ public class RssController {
 
 		System.out.println("process feed");
 		ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
-
-		long rssFeedsId = ParamUtil.getLong(actionRequest, "rssFeedsId", 0);
 		int rssStatus = ParamUtil.getInteger(actionRequest, "rssStatus");
+		
+		String strRssFeedsIds = ParamUtil.getString(actionRequest, "rssFeedsIds");	
+		if(strRssFeedsIds != null && !"".equals(strRssFeedsIds)) {
+			System.out.println("strDeleteIds :"+strRssFeedsIds);
+			long[] rssFeedsIds = StringUtil.split(strRssFeedsIds, 0L);
+			for (long id : rssFeedsIds) {
+				RssFeeds rssFeeds = RssFeedsLocalServiceUtil.fetchRssFeeds(id);
+				rssFeeds.setStatus(rssStatus);
+				rssFeeds.setApprovedId(themeDisplay.getUserId());
+				rssFeeds.setApprovedDate(new Date());
 
-		if(rssFeedsId > 0) {
-			RssFeeds rssFeeds = RssFeedsLocalServiceUtil.fetchRssFeeds(rssFeedsId);
-			rssFeeds.setStatus(rssStatus);
-			rssFeeds.setApprovedId(themeDisplay.getUserId());
-			rssFeeds.setApprovedDate(new Date());
-
-			RssFeedsLocalServiceUtil.updateRssFeeds(rssFeeds);
+				RssFeedsLocalServiceUtil.updateRssFeeds(rssFeeds);
+			}
 		}
+		else {
+			long rssFeedsId = ParamUtil.getLong(actionRequest, "rssFeedsId", 0);
+			if(rssFeedsId > 0) {
+				RssFeeds rssFeeds = RssFeedsLocalServiceUtil.fetchRssFeeds(rssFeedsId);
+				rssFeeds.setStatus(rssStatus);
+				rssFeeds.setApprovedId(themeDisplay.getUserId());
+				rssFeeds.setApprovedDate(new Date());
 
-		if(rssStatus == 1) {
-			SessionMessages.add(actionRequest, "rss-feed-reject");
-		} else {
-			SessionMessages.add(actionRequest, "rss-feed-publish-success");
+				RssFeedsLocalServiceUtil.updateRssFeeds(rssFeeds);
+			}
+
+			if(rssStatus == 1) {
+				SessionMessages.add(actionRequest, "rss-feed-reject");
+			} else {
+				SessionMessages.add(actionRequest, "rss-feed-publish-success");
+			}
+
+			actionResponse.setRenderParameter("tabs1", RssConstants.VIEW_RSS_WAIT_FOR_APPROVE);
 		}
-
-		actionResponse.setRenderParameter("tabs1", RssConstants.VIEW_RSS_WAIT_FOR_APPROVE);
 	}
 
 	@RequestMapping(params="action="+RssConstants.CREATE_RSS_CATEGORY)
@@ -292,6 +306,7 @@ public class RssController {
 	public void deleteRssCategory (ActionRequest actionRequest, ActionResponse actionResponse) throws Exception {
 		
 		ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
+		long scopeGroupId = themeDisplay.getScopeGroupId();
 		
 		RssCategory rssCategory = new RssCategoryImpl();
 		long rssCategoryId = ParamUtil.getLong(actionRequest, "rssCategoryId", 0L);
@@ -302,7 +317,19 @@ public class RssController {
 		if(rssCategory != null) {
 			
 			// check if rssCategory is used in rssConfig or rssFeed
+			if(RssCategoryLocalServiceUtil.isExistsInConfig(rssCategoryId, scopeGroupId)) {
+				System.out.println("isExistsInConfig");
+				SessionErrors.add(actionRequest, "error-rss-category-exists-in-config");
+				actionResponse.setRenderParameter("tabs1", RssConstants.VIEW_RSS_CATEGORY);
+				return;
+			}
 			
+			if(RssCategoryLocalServiceUtil.isExistsInFeeds(rssCategoryId, scopeGroupId)) {
+				System.out.println("isExistsInFeeds");
+				SessionErrors.add(actionRequest, "error-rss-category-exists-in-feed");
+				actionResponse.setRenderParameter("tabs1", RssConstants.VIEW_RSS_CATEGORY);
+				return;
+			}
 			
 			rssCategory.setStatus(0);
 			rssCategory.setCreatedId(themeDisplay.getUserId());
@@ -312,7 +339,7 @@ public class RssController {
 		}
 		
 		SessionMessages.add(actionRequest, "delete-rss-category-success");
-
 		actionResponse.setRenderParameter("tabs1", RssConstants.VIEW_RSS_CATEGORY);
+		
 	}
 }
