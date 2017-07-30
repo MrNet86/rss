@@ -32,7 +32,7 @@ List<RssFeeds> results = (List<RssFeeds>) request.getAttribute("view.jsp-results
 					entryUrl = _escapeJavaScriptLink(rssFeeds.getUrl());
 					shortDescription = StringUtil.shorten(rssFeeds.getContent(), titleLength);
 					%>
-					<li><a href="<%= entryUrl %>" title="<%= title %>"><%= shortDescription %></a></li>
+					<li><a href="<%= entryUrl %>" target="_blank" title="<%= title %>"><%= shortDescription %></a></li>
 				<% } %>
 			</c:if>
 		</ul>

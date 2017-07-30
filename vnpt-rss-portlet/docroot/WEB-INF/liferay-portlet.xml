@@ -8,6 +8,8 @@
 		<header-portlet-css>/css/main.css</header-portlet-css>
 		<footer-portlet-javascript>/js/main.js</footer-portlet-javascript>
 		<css-class-wrapper>vnpt-rss-portlet</css-class-wrapper>
+        <add-default-resource>true</add-default-resource>
+
 	</portlet>
 	
 	<portlet>

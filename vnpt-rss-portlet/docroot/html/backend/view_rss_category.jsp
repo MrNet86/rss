@@ -26,11 +26,23 @@ PortletURL portletURL = (PortletURL)request.getAttribute("view.jsp-portletURL");
 			className="com.vnpt.portal.rss.model.RssCategory"
 			modelVar="aRssCategory"
 		>
-			
+
+			<liferay-portlet:renderURL var="encryptURL" encrypt="true">
+				<portlet:param name="action" value="<%= RssConstants.CREATE_RSS_CATEGORY %>" />
+				<portlet:param name="rssCategoryId" value="<%= String.valueOf(aRssCategory.getRssCategoryId()) %>"/>
+			</liferay-portlet:renderURL>
+
 			<portlet:renderURL var="editURL" >
 				<portlet:param name="action" value="<%= RssConstants.CREATE_RSS_CATEGORY %>" />
 				<portlet:param name="rssCategoryId" value="<%= String.valueOf(aRssCategory.getRssCategoryId()) %>"/>
 			</portlet:renderURL>
+
+			<liferay-ui:search-container-column-text
+				name="Edit"
+				align="center" valign="center"
+				href="<%=encryptURL%>">
+				<liferay-ui:icon image="edit" />
+			</liferay-ui:search-container-column-text>
 
 			<liferay-ui:search-container-column-text
 				name="rss-category-name"
@@ -43,7 +55,7 @@ PortletURL portletURL = (PortletURL)request.getAttribute("view.jsp-portletURL");
 				value='<%= aRssCategory.getDescription() == null ? "" : HtmlUtil.escape(aRssCategory.getDescription()) %>'
 				href="<%= editURL %>"
 			/>
-			
+
 			<liferay-ui:search-container-column-text
 				name="action"
 			>

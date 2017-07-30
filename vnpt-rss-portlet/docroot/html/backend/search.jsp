@@ -8,7 +8,15 @@
 		.getDisplayTerms();
 %>
 
-<aui:column columnWidth="50">
+<liferay-ui:search-toggle
+	autoFocus="<%= windowState.equals(WindowState.MAXIMIZED) %>"
+	buttonLabel="search"
+	displayTerms="<%= displayTerms %>"
+	id="toggle_id_cat_partner_search"
+>
+</liferay-ui:search-toggle>
+
+<%-- <aui:column columnWidth="50">
 	<aui:input label="url" cssClass="size60"
 		inlineField="false" inlineLabel="left"
 		name="<%= RssFeedsDisplayTerms.URL %>"
@@ -27,4 +35,4 @@
 <aui:button-row>
 	<aui:button type="submit" icon="icon-search" value="Command.Search"/>
 	<aui:button type="cancel" icon="icon-cancel" value="Command.Cancel" href="<%= redirect %>"/>
-</aui:button-row>
+</aui:button-row> --%>

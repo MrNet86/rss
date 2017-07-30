@@ -4,7 +4,6 @@
 String backURL = (String)request.getAttribute("backURL");
 
 RssCategory rssCategory = (RssCategory) request.getAttribute("rssCategory");
-System.out.println("edit rssCategory :"+rssCategory.getRssCategoryId());
 %>
 <liferay-ui:header backLabel="Back"
 	backURL="<%= backURL %>" localizeTitle="<%= false %>"

@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.vnpt.portal.rss.model.RssCategory;
 import com.vnpt.portal.rss.model.RssConfig;
 import com.vnpt.portal.rss.model.RssFeeds;
@@ -51,12 +52,12 @@ public class RssCategoryLocalServiceImpl extends RssCategoryLocalServiceBaseImpl
 	 * Search rssCategory by scopeGroupId
 	 */
 	public List<RssCategory> searchRssCategory(int start, int end, long scopeGroupId) throws SystemException {
-		
+
 		DynamicQuery dynamicQuery = (DynamicQuery) DynamicQueryFactoryUtil.forClass(RssCategory.class);
-		
+
 		dynamicQuery.add(PropertyFactoryUtil.forName("status").eq(1));
 		dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(scopeGroupId));
-		
+
 		dynamicQuery.addOrder(OrderFactoryUtil.asc("name"));
 		if(start == -1 && end == -1) {
 			return RssCategoryLocalServiceUtil.dynamicQuery(dynamicQuery);
@@ -64,37 +65,37 @@ public class RssCategoryLocalServiceImpl extends RssCategoryLocalServiceBaseImpl
 		else {
 			return RssCategoryLocalServiceUtil.dynamicQuery(dynamicQuery, start, end - start);
 		}
-	} 
-	
+	}
+
 	/**
 	 * Count rssCategory by scopeGroupId
 	 */
 	public int countRssCategory(long scopeGroupId) throws SystemException {
-		
+
 		DynamicQuery dynamicQuery = (DynamicQuery) DynamicQueryFactoryUtil.forClass(RssCategory.class);
-		
+
 		dynamicQuery.add(PropertyFactoryUtil.forName("status").eq(1));
 		dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(scopeGroupId));
-		
+
 		Long count =  RssCategoryLocalServiceUtil.dynamicQueryCount(dynamicQuery);
-		
+
 		return count.intValue();
 	}
-	
+
 	/**
 	 * get rssCategoryName by Id
 	 */
-	public String getRssCategoryNameById (List<RssCategory> rssCategories, long rssCategoryId) {		
-		
+	public String getRssCategoryNameById (List<RssCategory> rssCategories, long rssCategoryId) {
+
 		for (RssCategory rssCategory : rssCategories) {
 			if(rssCategory.getRssCategoryId() == rssCategoryId) {
 				return rssCategory.getName();
 			}
 		}
-		
-		return null;
+
+		return "";
 	}
-	
+
 	/**
 	 * Check if rssCategory is used in rssConfig
 	 * @param rssCategoryId
@@ -103,21 +104,21 @@ public class RssCategoryLocalServiceImpl extends RssCategoryLocalServiceBaseImpl
 	 * @throws SystemException
 	 */
 	public boolean isExistsInConfig (long rssCategoryId, long scopeGroupId) throws SystemException {
-		
+
 		DynamicQuery dynamicQuery = (DynamicQuery) DynamicQueryFactoryUtil.forClass(RssConfig.class);
-		
+
 		dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(scopeGroupId));
 		dynamicQuery.add(PropertyFactoryUtil.forName("rssCategoryId").eq(rssCategoryId));
-		
+
 		Long rowCount = RssCategoryLocalServiceUtil.dynamicQueryCount(dynamicQuery);
-		
+
 		if(rowCount > 0) {
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * Check if rssCategory is used in rssFeeds
 	 * @param rssCategoryId
@@ -126,19 +127,19 @@ public class RssCategoryLocalServiceImpl extends RssCategoryLocalServiceBaseImpl
 	 * @throws SystemException
 	 */
 	public boolean isExistsInFeeds (long rssCategoryId, long scopeGroupId) throws SystemException {
-		
+
 		DynamicQuery dynamicQuery = (DynamicQuery) DynamicQueryFactoryUtil.forClass(RssFeeds.class);
-		
+
 		dynamicQuery.add(PropertyFactoryUtil.forName("groupId").eq(scopeGroupId));
 		dynamicQuery.add(PropertyFactoryUtil.forName("rssCategoryId").eq(rssCategoryId));
 		dynamicQuery.add(PropertyFactoryUtil.forName("status").ne(1));
-		
+
 		Long rowCount = RssCategoryLocalServiceUtil.dynamicQueryCount(dynamicQuery);
-		
+
 		if(rowCount > 0) {
 			return true;
 		}
-		
+
 		return false;
 	}
 }

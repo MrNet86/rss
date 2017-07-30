@@ -53,7 +53,7 @@ public class RssFeedsLocalServiceImpl extends RssFeedsLocalServiceBaseImpl {
 	 * Never reference this interface directly. Always use {@link com.vnpt.portal.rss.service.RssFeedsLocalServiceUtil} to access the rss feeds local service.
 	 */
 
-	public List<RssFeeds> getRssFeeds (SearchContainer searchContainer, int start, int end, int status, long scopeGroupId)
+	public List<RssFeeds> searchRssFeeds (SearchContainer searchContainer, int start, int end, int status, long scopeGroupId)
 			throws SystemException{
 		List<RssFeeds> lstResults = new ArrayList<RssFeeds>();
 
@@ -63,7 +63,7 @@ public class RssFeedsLocalServiceImpl extends RssFeedsLocalServiceBaseImpl {
 		// only user in the same Site can see this site'rss
 		query.add(PropertyFactoryUtil.forName("groupId").eq(scopeGroupId)) ;
 
-		if(status == 0) { // get rssFeeds waiting and reject
+		if(status == RssConstants.RSS_STATUS_WAITING) { // get rssFeeds waiting and reject
 			Disjunction disjunction = RestrictionsFactoryUtil.disjunction();
 			disjunction.add(PropertyFactoryUtil.forName("status").eq(RssConstants.RSS_STATUS_WAITING)) ;
 			disjunction.add(PropertyFactoryUtil.forName("status").eq(RssConstants.RSS_STATUS_REJECT)) ;
@@ -74,6 +74,16 @@ public class RssFeedsLocalServiceImpl extends RssFeedsLocalServiceBaseImpl {
 		}
 
 		if(searchTerms != null) {
+			if(searchTerms.getKeywords() != null && !"".equals(searchTerms.getKeywords())){
+				Disjunction disjunction = RestrictionsFactoryUtil.disjunction();
+				disjunction.add(PropertyFactoryUtil.forName("url").like("%"+searchTerms.getKeywords()+"%"));
+				disjunction.add(PropertyFactoryUtil.forName("title").like("%"+searchTerms.getKeywords()+"%"));
+
+				query.add(disjunction);
+			}
+		}
+
+		/*if(searchTerms != null) {
 			if(searchTerms.getUrl() != null && !"".equals(searchTerms.getUrl())) {
 				query.add(PropertyFactoryUtil.forName("url").like("%" + searchTerms.getUrl() + "%"));
 			}
@@ -81,7 +91,7 @@ public class RssFeedsLocalServiceImpl extends RssFeedsLocalServiceBaseImpl {
 			if(searchTerms.getTitle() != null && !"".equals(searchTerms.getTitle())) {
 				query.add(PropertyFactoryUtil.forName("title").like("%" + searchTerms.getTitle() + "%"));
 			}
-		}
+		}*/
 
 		query.addOrder(OrderFactoryUtil.desc("publishedDate"));
 
@@ -109,6 +119,16 @@ public class RssFeedsLocalServiceImpl extends RssFeedsLocalServiceBaseImpl {
 		}
 
 		if(searchTerms != null) {
+			if(searchTerms.getKeywords() != null && !"".equals(searchTerms.getKeywords())){
+				Disjunction disjunction = RestrictionsFactoryUtil.disjunction();
+				disjunction.add(PropertyFactoryUtil.forName("url").like("%"+searchTerms.getKeywords()+"%"));
+				disjunction.add(PropertyFactoryUtil.forName("title").like("%"+searchTerms.getKeywords()+"%"));
+
+				query.add(disjunction);
+			}
+		}
+
+		/*if(searchTerms != null) {
 			if(searchTerms.getUrl() != null && !"".equals(searchTerms.getUrl())) {
 				query.add(PropertyFactoryUtil.forName("url").like("%" + searchTerms.getUrl() + "%"));
 			}
@@ -116,7 +136,7 @@ public class RssFeedsLocalServiceImpl extends RssFeedsLocalServiceBaseImpl {
 			if(searchTerms.getTitle() != null && !"".equals(searchTerms.getTitle())) {
 				query.add(PropertyFactoryUtil.forName("title").like("%" + searchTerms.getTitle() + "%"));
 			}
-		}
+		}*/
 
 		Long count = RssFeedsLocalServiceUtil.dynamicQueryCount(query) ;
 

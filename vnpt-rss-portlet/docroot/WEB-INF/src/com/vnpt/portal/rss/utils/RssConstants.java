@@ -27,13 +27,15 @@ public class RssConstants {
 	public static final String UPDATE_RSS_CATEGORY = "update-rss-category";
 
 	public static final String CREATE_RSS_CATEGORY = "create-rss-category";
-	
+
 	public static final String DELETE_RSS_CATEGORY = "delete-rss-category";
 
-	public static final int RSS_STATUS_PUBLISHED = 2 ;
-
-	public static final int RSS_STATUS_REJECT = 1 ;
-
 	public static final int RSS_STATUS_WAITING = 0 ;
+
+	public static final int RSS_STATUS_PUBLISHED = 1 ;
+
+	public static final int RSS_STATUS_REJECT = 2 ;
+
+	public static final int RSS_STATUS_UNPUBLISHED = 3 ;
 
 }

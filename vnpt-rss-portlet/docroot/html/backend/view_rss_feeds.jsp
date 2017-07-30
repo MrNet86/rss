@@ -29,10 +29,10 @@ int indexRow = 0;
 
 for(RssConfig rssConfig : lstRssConfig) {
 	url = rssConfig.getUrl();
-	title = rssConfig.getTitle();		
+	title = rssConfig.getTitle();
 	totalFeed = rssConfig.getTotalFeed();
 	rssCategoryId = rssConfig.getRssCategoryId();
-	
+
 	// get syndFeed from url
 	SyndFeed feed = null;
 	final String className = "com.liferay.portlet.rss.util.RSSUtil";
@@ -68,8 +68,8 @@ for(RssConfig rssConfig : lstRssConfig) {
 
 		// get feed entry
 		List entries = feed.getEntries();
-		size = (entries.size() > totalFeed) ? totalFeed : entries.size(); 
-		
+		size = (entries.size() > totalFeed) ? totalFeed : entries.size();
+
 		for(int i = 0; i < size ; i++) {
 			SyndEntry entry = (SyndEntry) entries.get(i);
 			rssFeeds = new RssFeedsImpl();
@@ -128,7 +128,7 @@ for(RssConfig rssConfig : lstRssConfig) {
 			rssFeeds.setPublishedDate(entry.getPublishedDate());
 			rssFeeds.setRssCategoryId(rssCategoryId);
 			indexRow ++;
-			
+
 			lstResults.add(rssFeeds);
 		}
 
@@ -148,7 +148,6 @@ for(RssConfig rssConfig : lstRssConfig) {
 
 PortletURL portletURL = (PortletURL)request.getAttribute("view.jsp-portletURL");
 
-
 List<RssCategory> lstCategory = RssCategoryLocalServiceUtil.searchRssCategory(-1, -1, scopeGroupId);
 
 %>
@@ -162,7 +161,7 @@ List<RssCategory> lstCategory = RssCategoryLocalServiceUtil.searchRssCategory(-1
 
 <aui:form action="<%= sendURL %>" method="post" name="fm">
 
-	<liferay-ui:search-container 
+	<liferay-ui:search-container
 		searchContainer="<%= new RssFeedsSearch(renderRequest, portletURL) %>"
 	>
 		<liferay-ui:search-container-results>
@@ -190,7 +189,7 @@ List<RssCategory> lstCategory = RssCategoryLocalServiceUtil.searchRssCategory(-1
 			modelVar="aRssFeed"
 		>
 			<aui:input name="sendId" type="hidden"/>
-			
+
 			<liferay-ui:search-container-column-text
 				name="rss-source"
 				value="<%= HtmlUtil.escape(aRssFeed.getDescription()) %>"
@@ -220,23 +219,17 @@ List<RssCategory> lstCategory = RssCategoryLocalServiceUtil.searchRssCategory(-1
 				  	<%
 					for(RssCategory rssCategory : lstCategory) {
 					%>
-						<option value="<%= rssCategory.getRssCategoryId() %>" 
-							<% if( rssCategory.getRssCategoryId() == aRssFeed.getRssCategoryId() ){ %> 
-								selected 
-							<%}%> 
+						<option value="<%= rssCategory.getRssCategoryId() %>"
+							<% if( rssCategory.getRssCategoryId() == aRssFeed.getRssCategoryId() ){ %>
+								selected
+							<%}%>
 						>
 							<%= rssCategory.getName() %>
 						</option>
 					<%}%>
 				</select>
-								
+
 			</liferay-ui:search-container-column-text>
-			
-			<%-- <liferay-ui:search-container-column-jsp
-				name="rss-category"
-				align="center"
-				path="/html/backend/select_category.jsp"
-			/> --%>
 
 			<liferay-ui:search-container-column-jsp
 				align="center"
@@ -247,7 +240,7 @@ List<RssCategory> lstCategory = RssCategoryLocalServiceUtil.searchRssCategory(-1
 		<liferay-ui:search-iterator />
 
 	</liferay-ui:search-container>
-		
+
 </aui:form>
 
 <%!

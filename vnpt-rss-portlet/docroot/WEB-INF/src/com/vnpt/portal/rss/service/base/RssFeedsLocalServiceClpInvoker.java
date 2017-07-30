@@ -114,7 +114,7 @@ public class RssFeedsLocalServiceClpInvoker {
 
 		_methodParameterTypes41 = new String[] { "java.lang.String" };
 
-		_methodName46 = "getRssFeeds";
+		_methodName46 = "searchRssFeeds";
 
 		_methodParameterTypes46 = new String[] {
 				"com.liferay.portal.kernel.dao.search.SearchContainer", "int",
@@ -238,7 +238,7 @@ public class RssFeedsLocalServiceClpInvoker {
 
 		if (_methodName46.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes46, parameterTypes)) {
-			return RssFeedsLocalServiceUtil.getRssFeeds((com.liferay.portal.kernel.dao.search.SearchContainer)arguments[0],
+			return RssFeedsLocalServiceUtil.searchRssFeeds((com.liferay.portal.kernel.dao.search.SearchContainer)arguments[0],
 				((Integer)arguments[1]).intValue(),
 				((Integer)arguments[2]).intValue(),
 				((Integer)arguments[3]).intValue(),

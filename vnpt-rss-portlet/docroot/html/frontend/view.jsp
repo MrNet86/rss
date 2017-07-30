@@ -24,7 +24,7 @@
 		searchContainer.setDeltaConfigurable(false);
 	}
 
-	List<RssFeeds> results = RssFeedsLocalServiceUtil.getRssFeeds(searchContainer, searchContainer.getStart(), searchContainer.getEnd(), RssConstants.RSS_STATUS_PUBLISHED, scopeGroupId);
+	List<RssFeeds> results = RssFeedsLocalServiceUtil.searchRssFeeds(searchContainer, searchContainer.getStart(), searchContainer.getEnd(), RssConstants.RSS_STATUS_PUBLISHED, scopeGroupId);
 
 	int total = RssFeedsLocalServiceUtil.countRssFeeds(searchContainer, RssConstants.RSS_STATUS_PUBLISHED, scopeGroupId);
 
