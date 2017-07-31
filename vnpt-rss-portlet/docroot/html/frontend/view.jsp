@@ -1,19 +1,17 @@
 <%@ include file="../init.jsp" %>
-<%--
-<c:if test="<%=Validator.isNotNull(portletTitle) %>" >
-	<h4 class="news-header-title" style="display: none">
-		<c:choose>
-			<c:when test="<%= Validator.isNotNull(linkedLayoutURL) %>">
-				<a href="<%= linkedLayoutURL %>" title="<%= HtmlUtil.escape(portletTitle) %>"><%= HtmlUtil.escape(portletTitle) %></a>
-			</c:when>
-			<c:otherwise>
-				<span><%= HtmlUtil.escape(portletTitle) %></span>
-			</c:otherwise>
-		</c:choose>
-	</h4>
-</c:if>
- --%>
+
 <%
+	
+	// get portletPreferenes parameter
+	long rssCategoryId = GetterUtil.getLong(portletPreferences.getValue("rssCategoryId", StringPool.TRUE), 0);
+	int rssDisplayItem = GetterUtil.getInteger(portletPreferences.getValue("rssDisplayItem", StringPool.TRUE), 5);
+	String portletTitle = portletPreferences.getValue("rssPortletTitle", StringPool.BLANK);
+	System.out.println("view.jsp rssCategoryId :"+rssCategoryId);
+	
+	if(Validator.isNotNull(portletTitle)) {
+		renderResponse.setTitle(portletTitle);
+	}
+	
 	PortletURL portletURL = renderResponse.createRenderURL();
 
 	SearchContainer<RssFeeds> searchContainer =
@@ -24,7 +22,7 @@
 		searchContainer.setDeltaConfigurable(false);
 	}
 
-	List<RssFeeds> results = RssFeedsLocalServiceUtil.searchRssFeeds(searchContainer, searchContainer.getStart(), searchContainer.getEnd(), RssConstants.RSS_STATUS_PUBLISHED, scopeGroupId);
+	List<RssFeeds> results = RssFeedsLocalServiceUtil.searchRssFeedsByCategory(0, rssDisplayItem, RssConstants.RSS_STATUS_PUBLISHED, 0, rssCategoryId);
 
 	int total = RssFeedsLocalServiceUtil.countRssFeeds(searchContainer, RssConstants.RSS_STATUS_PUBLISHED, scopeGroupId);
 
@@ -36,5 +34,21 @@
 	request.setAttribute("view.jsp-total", total);
 	request.setAttribute("view.jsp-results", results);
 %>
+
+<c:if test="<%=Validator.isNotNull(portletTitle) %>" >
+	<h4 class="news-header-title" style="display: none">
+		<%--
+		<c:choose>
+			<c:when test="<%= Validator.isNotNull(linkedLayoutURL) %>">
+				<a href="<%= linkedLayoutURL %>" title="<%= HtmlUtil.escape(titleViewRss) %>"><%= HtmlUtil.escape(titleViewRss) %></a>
+			</c:when>
+			<c:otherwise>
+				<span><%= HtmlUtil.escape(titleViewRss) %></span>
+			</c:otherwise>
+		</c:choose>
+		 --%>
+		<span><%= HtmlUtil.escape(portletTitle) %></span>
+	</h4>
+</c:if>
 
 <liferay-util:include page="/html/frontend/ds_news_5.jsp" servletContext="<%= this.getServletContext() %>" />

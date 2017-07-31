@@ -18,6 +18,7 @@ RssFeeds feed = (RssFeeds)row.getObject();
 	<portlet:param name="rssCategoryId" value="<%= String.valueOf(feed.getRssCategoryId()) %>" />
 </portlet:actionURL>
 
-<aui:button href="<%= sendApproveURL %>" 
-	value="rss-send-for-approve"
-/>
+<a href="<%=sendApproveURL%>">
+	<aui:button value="rss-send-for-approve" cssClass="btn btn-warning"/>
+</a>
+

@@ -154,5 +154,33 @@ public class RssFeedsLocalServiceImpl extends RssFeedsLocalServiceBaseImpl {
 		}
 	}
 
+	public List<RssFeeds> searchRssFeedsByCategory (int start, int end, int status, long scopeGroupId, long rssCategoryId)
+			throws SystemException{
+		List<RssFeeds> lstResults = new ArrayList<RssFeeds>();
+
+		DynamicQuery query = (DynamicQuery) DynamicQueryFactoryUtil.forClass(RssFeeds.class);
+
+		// only user in the same Site can see this site'rss
+		if(scopeGroupId > 0 ) {
+			query.add(PropertyFactoryUtil.forName("groupId").eq(scopeGroupId)) ;
+		}
+		
+		if(status == RssConstants.RSS_STATUS_WAITING) { // get rssFeeds waiting and reject
+			Disjunction disjunction = RestrictionsFactoryUtil.disjunction();
+			disjunction.add(PropertyFactoryUtil.forName("status").eq(RssConstants.RSS_STATUS_WAITING)) ;
+			disjunction.add(PropertyFactoryUtil.forName("status").eq(RssConstants.RSS_STATUS_REJECT)) ;
+
+			query.add(disjunction);
+		} else {
+			query.add(PropertyFactoryUtil.forName("status").eq(status)) ;
+		}
+
+		query.add(PropertyFactoryUtil.forName("rssCategoryId").eq(rssCategoryId));
+		query.addOrder(OrderFactoryUtil.desc("publishedDate"));
+
+		lstResults = RssFeedsLocalServiceUtil.dynamicQuery(query, start, end - start) ;
+
+		return lstResults;
+	}
 
 }

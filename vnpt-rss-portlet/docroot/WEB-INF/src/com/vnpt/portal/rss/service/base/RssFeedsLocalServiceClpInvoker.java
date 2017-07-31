@@ -133,6 +133,12 @@ public class RssFeedsLocalServiceClpInvoker {
 		_methodParameterTypes48 = new String[] {
 				"java.lang.Long", "java.lang.String"
 			};
+
+		_methodName49 = "searchRssFeedsByCategory";
+
+		_methodParameterTypes49 = new String[] {
+				"int", "int", "int", "long", "long"
+			};
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -258,6 +264,15 @@ public class RssFeedsLocalServiceClpInvoker {
 				(java.lang.String)arguments[1]);
 		}
 
+		if (_methodName49.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes49, parameterTypes)) {
+			return RssFeedsLocalServiceUtil.searchRssFeedsByCategory(((Integer)arguments[0]).intValue(),
+				((Integer)arguments[1]).intValue(),
+				((Integer)arguments[2]).intValue(),
+				((Long)arguments[3]).longValue(),
+				((Long)arguments[4]).longValue());
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -303,4 +318,6 @@ public class RssFeedsLocalServiceClpInvoker {
 	private String[] _methodParameterTypes47;
 	private String _methodName48;
 	private String[] _methodParameterTypes48;
+	private String _methodName49;
+	private String[] _methodParameterTypes49;
 }

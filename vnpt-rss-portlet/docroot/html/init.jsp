@@ -134,32 +134,30 @@
 <c:set var="servletCon" value="<%= request.getContextPath() %>" />
 
 <%
+	System.out.println("init.jsp*******************");
+
 	WindowState windowState = null;
 	PortletMode portletMode = null;
-
-	PortletURL currentURLObj = null;
 
 	if (renderRequest != null) {
 		windowState = renderRequest.getWindowState();
 		portletMode = renderRequest.getPortletMode();
 
-		currentURLObj = PortletURLUtil.getCurrent(renderRequest, renderResponse);
 	}
 	else if (resourceRequest != null) {
 		windowState = resourceRequest.getWindowState();
 		portletMode = resourceRequest.getPortletMode();
 
-		currentURLObj = PortletURLUtil.getCurrent(resourceRequest, resourceResponse);
 	}
-
-	String currentURL = currentURLObj.toString();
 
 	PortletPreferences preferences = renderRequest.getPreferences();
 	String portletResource = ParamUtil.getString(request, "portletResource");
+	
 	if (Validator.isNotNull(portletResource)) {
 		preferences = PortletPreferencesFactoryUtil.getPortletSetup(
 				request, portletResource);
 	}
+	
 	String contextPath = request.getContextPath();
 
 	DateFormat dateFormatDate = new SimpleDateFormat("dd/MM/yyyy", locale);
@@ -178,5 +176,5 @@
 
 	//Do dai tieu de
 	int titleLength = GetterUtil.getInteger(portletPreferences.getValue("titleLength", null), 500);
-
+ 
 %>
