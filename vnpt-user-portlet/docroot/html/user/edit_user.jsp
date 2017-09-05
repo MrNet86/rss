@@ -13,9 +13,11 @@ String email = "";
 String fullName = "";
 String phoneNumber = "";
 boolean isMale = true;
+long userId = 0;
 
 User _user = (User) request.getAttribute("user");
 if(_user != null) {
+	userId = _user.getUserId();
 	email = _user.getEmailAddress();
 	fullName = _user.getLastName() + " " + _user.getMiddleName() + " " + _user.getFirstName();
 	
@@ -29,9 +31,7 @@ if(_user != null) {
 		}		
 	}
 }
-else {
-	System.out.println("_user is null");
-}
+
 %>
 
 <portlet:actionURL var="updateUserURL">
@@ -39,6 +39,8 @@ else {
 </portlet:actionURL>
 
 <aui:form action="<%= updateUserURL %>" method="post" name="fm">
+	
+	<aui:input type="hidden" name="userId" value="<%= userId %>"/>
 	
 	<h3><liferay-ui:message key="them-moi-nguoi-dung" /></h3>
 	
@@ -51,8 +53,7 @@ else {
 	<liferay-ui:error exception="<%= ReservedUserScreenNameException.class %>" focusField="screenName" message="the-screen-name-you-requested-is-reserved" />
 	<liferay-ui:error exception="<%= UserIdException.class %>" message="please-enter-a-valid-user-id" />
 	
-	<liferay-ui:error key="add-user-exception" message="add-user-exception" />
-	
+	<liferay-ui:error key="add-user-exception" message="add-user-exception" />	
 	<liferay-ui:success key="add-user-successfull" message="add-user-successfull" />
 	
 	<div class="row">
@@ -110,28 +111,31 @@ else {
 	        	</div>
 	        </div>
 	        
-	        <div class="row">
-	        	<div class="col-md-2 col-sm-3 col-xs-12">
-	        		<label><liferay-ui:message key="password"/></label>
-	        	</div>
-	        	<div class="col-md-4 col-sm-9 col-xs-12">
-	        		<aui:input autocomplete="off" name="password1" size="30" type="password" label="" cssClass="form-control">
-	        			<aui:validator name="required" />
-	        		</aui:input>
-	        	</div>
-	        	
-	        	<div class="col-md-2 col-sm-3 col-xs-12">
-	        		<label><liferay-ui:message key="enter-again"/></label>
-	        	</div>
-	        	<div class="col-md-4 col-sm-9 col-xs-12">
-	        		<aui:input autocomplete="off" name="password2" size="30" type="password" label="" cssClass="form-control">
-						<aui:validator name="required" />
-						<aui:validator name="equalTo">
-							'#<portlet:namespace />password1'
-						</aui:validator>
-					</aui:input>
-	        	</div>
-	        </div>
+	        <c:if test="<%= _user == null %>">
+	        	<div class="row">
+		        	<div class="col-md-2 col-sm-3 col-xs-12">
+		        		<label><liferay-ui:message key="password"/></label>
+		        	</div>
+		        	<div class="col-md-4 col-sm-9 col-xs-12">
+		        		<aui:input autocomplete="off" name="password1" size="30" type="password" label="" cssClass="form-control">
+		        			<aui:validator name="required" />
+		        		</aui:input>
+		        	</div>
+		        	
+		        	<div class="col-md-2 col-sm-3 col-xs-12">
+		        		<label><liferay-ui:message key="enter-again"/></label>
+		        	</div>
+		        	<div class="col-md-4 col-sm-9 col-xs-12">
+		        		<aui:input autocomplete="off" name="password2" size="30" type="password" label="" cssClass="form-control">
+							<aui:validator name="required" />
+							<aui:validator name="equalTo">
+								'#<portlet:namespace />password1'
+							</aui:validator>
+						</aui:input>
+		        	</div>
+		        </div>
+	        </c:if>
+	        
 		</div>
 	</div>
 

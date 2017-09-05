@@ -5,7 +5,6 @@ PortletURL portletURL = (PortletURL) request.getAttribute("view.jsp-portletURL")
 SearchContainer<User> searchContainer = null;
 searchContainer = new SearchContainer<User>(renderRequest, null, null, SearchContainer.DEFAULT_CUR_PARAM, 
 						SearchContainer.DEFAULT_DELTA, portletURL, null, StringPool.BLANK);
-
 %>
 
 <aui:form action="<%= portletURL.toString() %>" method="post" name="fm">

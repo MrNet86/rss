@@ -122,8 +122,8 @@
 
 <!-- user Portlet -->
 
-<%@ page import="com.vnpt.portal.user.controller.*"%>
-<%@ page import="com.vnpt.portal.user.utils.*"%>
+<%@ page import="com.vnpt.portlet.user.controller.*"%>
+<%@ page import="com.vnpt.portlet.user.utils.*"%>
 
 <liferay-theme:defineObjects />
 <portlet:defineObjects/>

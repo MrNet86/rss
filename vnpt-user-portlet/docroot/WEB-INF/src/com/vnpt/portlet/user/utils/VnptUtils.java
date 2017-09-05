@@ -1,4 +1,4 @@
-package com.vnpt.portal.user.utils;
+package com.vnpt.portlet.user.utils;
 
 import java.sql.Connection;
 import java.util.Properties;

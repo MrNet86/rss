@@ -1,4 +1,4 @@
-package com.vnpt.portal.user.utils;
+package com.vnpt.portlet.user.utils;
 
 public class VnptConstants {
 
@@ -6,5 +6,8 @@ public class VnptConstants {
 	public static final String EDIT_USER = "edit-user";
 	public static final String UPDATE_USER = "update-user";
 	public static final String DELETE_USER = "delete-user";
+
+	// Permission
+	public static final String USER_PER_ADMIN = "USER_PER_ADMIN";
 	
 }

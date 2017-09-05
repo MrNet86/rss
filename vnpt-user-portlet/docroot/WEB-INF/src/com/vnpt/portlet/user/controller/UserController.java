@@ -1,10 +1,12 @@
-package com.vnpt.portal.user.controller;
+package com.vnpt.portlet.user.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
@@ -35,18 +37,25 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.security.RandomUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
+import com.liferay.portal.kernel.util.CalendarFactoryUtil;
+import com.liferay.portal.kernel.util.ClassResolverUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.MethodKey;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalClassInvoker;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Address;
+import com.liferay.portal.model.Contact;
 import com.liferay.portal.model.EmailAddress;
 import com.liferay.portal.model.Phone;
 import com.liferay.portal.model.User;
+import com.liferay.portal.model.UserGroupRole;
 import com.liferay.portal.model.Website;
 import com.liferay.portal.security.auth.PrincipalException;
 import com.liferay.portal.security.membershippolicy.MembershipPolicyException;
+import com.liferay.portal.security.permission.PermissionChecker;
 import com.liferay.portal.service.PhoneLocalServiceUtil;
 import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.ServiceContextFactory;
@@ -55,7 +64,8 @@ import com.liferay.portal.service.UserServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portlet.announcements.model.AnnouncementsDelivery;
 import com.liferay.portlet.usersadmin.util.UsersAdminUtil;
-import com.vnpt.portal.user.utils.VnptConstants;
+import com.vnpt.portlet.user.permission.VnptPermission;
+import com.vnpt.portlet.user.utils.VnptConstants;
 
 @Controller
 @RequestMapping("VIEW")
@@ -78,7 +88,16 @@ public class UserController {
 	@RenderMapping(params="action="+VnptConstants.EDIT_USER)
 	public String editUserPage(RenderRequest renderRequest,
 			RenderResponse renderResponse) throws Exception {
-		
+		System.out.println("edit user");
+		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
+		long groupId = themeDisplay.getScopeGroupId();
+		PermissionChecker permissionChecker = themeDisplay.getPermissionChecker();
+
+		if (!VnptPermission.contains(permissionChecker, groupId, VnptConstants.USER_PER_ADMIN)) {
+			SessionErrors.add(renderRequest, "use-have-not-permission");
+			return "user/error_permission" ;
+		}
+
 		long userId = ParamUtil.getLong(renderRequest, "userId", 0L);
 		if(userId > 0 ) {
 			User user = UserLocalServiceUtil.getUser(userId);
@@ -95,6 +114,7 @@ public class UserController {
 			ActionResponse actionResponse) throws Exception {
 		
 		System.out.println("updateUserAction ");
+		long userId = ParamUtil.getLong(actionRequest, "userId");
 		
 		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
 				WebKeys.THEME_DISPLAY);
@@ -102,18 +122,11 @@ public class UserController {
 		// Input properties
 		String emailAddress = ParamUtil.getString(actionRequest, "emailAddress");
 		
-		String fullName = ParamUtil.getString(actionRequest, "fullName");
-		
+		String fullName = ParamUtil.getString(actionRequest, "fullName");		
 		String firstName = fullName.substring(0, fullName.indexOf(" ")).trim();		
 		String lastName = fullName.substring(fullName.lastIndexOf(" "), fullName.length()).trim();		
 		String middleName = fullName.substring(fullName.indexOf(" "), fullName.lastIndexOf(" ")).trim();
 		
-		System.out.println("first :"+firstName + "|| middle :"+middleName +" || last :"+lastName);
-		
-		int birthdayMonth = 1;
-		int birthdayDay = 1;
-		int birthdayYear = 1970;
-	
 		boolean male = ParamUtil.getBoolean(actionRequest, "male", true);
 		
 		String phoneNumber = ParamUtil.getString(actionRequest, "phoneNumber");
@@ -122,7 +135,7 @@ public class UserController {
 		if(phoneNumber != null && !"".equals(phoneNumber)) {
 			Phone phone = PhoneLocalServiceUtil.createPhone(0L);
 			phone.setNumber(phoneNumber);	
-			phone.setTypeId(11008);
+			phone.setTypeId(11008); // Mobile Phone
 			phone.setPrimary(true);
 	
 			phones.add(phone);
@@ -131,13 +144,17 @@ public class UserController {
 		String password1 = actionRequest.getParameter("password1");
 		String password2 = actionRequest.getParameter("password2");
 
-		// Default properties 
+		// Generate screenName from email
 		String screenName = StringUtil.replace(emailAddress, "@", "");
 		screenName = StringUtil.replace(screenName, "_", "");
 		screenName = StringUtil.replace(screenName, "-", "");		
 		screenName = RandomUtil.shuffle(screenName);
 		
-		System.out.println("screenName :"+screenName);
+		
+		// Default properties 		
+		int birthdayMonth = 1;
+		int birthdayDay = 1;
+		int birthdayYear = 1970;
 		
 		long[] groupIds = UsersAdminUtil.getGroupIds(actionRequest);
 		long[] organizationIds = UsersAdminUtil.getOrganizationIds(
@@ -146,15 +163,91 @@ public class UserController {
 		long[] userGroupIds = UsersAdminUtil.getUserGroupIds(actionRequest);
 		
 		List<Address> addresses = new ArrayList<Address>();
-		List<EmailAddress> emailAddresses = new ArrayList<EmailAddress>();
-		
+		List<EmailAddress> emailAddresses = new ArrayList<EmailAddress>();		
 		List<Website> websites = new ArrayList<Website>();
 		List<AnnouncementsDelivery> announcementsDeliveries = new ArrayList<AnnouncementsDelivery>();
+		
 		boolean sendEmail = true;
 		ServiceContext serviceContext = ServiceContextFactory.getInstance(
 				User.class.getName(), actionRequest);
 		
-//		User user = UserServiceUtil.addUser(
+		try {
+			if(userId > 0) { // edit User
+				
+				User user = UserLocalServiceUtil.fetchUser(userId);
+				if(user != null ) {
+					Contact contact = user.getContact();					
+					Calendar birthday = CalendarFactoryUtil.getCalendar();
+					birthday.setTime(contact.getBirthday());
+										
+					String portletContext="ROOT";
+					
+					// get announcementsDeliveries
+					String className = "com.liferay.portlet.usersadmin.action.EditUserAction";
+					MethodKey mKey = new MethodKey(ClassResolverUtil.resolveByPortletClassLoader(className, portletContext), 
+											"getAnnouncementsDeliveries", ActionRequest.class, User.class);
+					try {
+//						List<AnnouncementsDelivery> announcementsDeliveries =
+//								getAnnouncementsDeliveries(actionRequest, user);
+						announcementsDeliveries = (List<AnnouncementsDelivery>)PortalClassInvoker.invoke(true, mKey , actionRequest, user);						
+					}
+					catch (Exception ex) {
+						_log.error(ex);
+					}
+					
+					// get userGroupRoles
+					List<UserGroupRole> userGroupRoles = null;
+					className = "com.liferay.portlet.usersadmin.util.UsersAdminUtil";
+					mKey = new MethodKey(ClassResolverUtil.resolveByPortletClassLoader(className, portletContext), 
+											"getUserGroupRoles", PortletRequest.class);					
+					try {
+//						List<UserGroupRole> userGroupRoles = UsersAdminUtil.getUserGroupRoles(actionRequest);
+						userGroupRoles = (List<UserGroupRole>)PortalClassInvoker.invoke(true, mKey , actionRequest);						
+					}
+					catch (Exception ex) {
+						_log.error(ex);
+					}
+					
+					// get oldPassword
+					className = "com.liferay.portlet.admin.util.AdminUtil";
+					mKey = new MethodKey(ClassResolverUtil.resolveByPortletClassLoader(className, portletContext), 
+							"getUpdateUserPassword", ActionRequest.class, long.class);
+					String oldPassword = null;
+					try {
+//						String oldPassword = AdminUtil.getUpdateUserPassword(
+//								actionRequest, user.getUserId());
+						oldPassword = (String)PortalClassInvoker.invoke(true, mKey , actionRequest, user.getUserId());						
+					}
+					catch (Exception ex) {
+						_log.error(ex);
+					}					
+					
+//					User user = UserServiceUtil.updateUser(
+//							user.getUserId(), oldPassword, newPassword1, newPassword2,
+//							passwordReset, reminderQueryQuestion, reminderQueryAnswer,
+//							screenName, emailAddress, facebookId, openId, languageId,
+//							timeZoneId, greeting, comments, firstName, middleName, lastName,
+//							prefixId, suffixId, male, birthdayMonth, birthdayDay, birthdayYear,
+//							smsSn, aimSn, facebookSn, icqSn, jabberSn, msnSn, mySpaceSn,
+//							skypeSn, twitterSn, ymSn, jobTitle, groupIds, organizationIds,
+//							roleIds, userGroupRoles, userGroupIds, addresses, emailAddresses,
+//							phones, websites, announcementsDeliveries, serviceContext);
+					
+					user = UserServiceUtil.updateUser(
+							user.getUserId(), oldPassword, null, null,
+							false, user.getReminderQueryQuestion(), user.getReminderQueryAnswer(),
+							user.getScreenName(), emailAddress, user.getFacebookId(), user.getOpenId(), user.getLanguageId(),
+							user.getTimeZoneId(), user.getGreeting(), user.getComments(), firstName, middleName, lastName,
+							contact.getPrefixId(), contact.getSuffixId(), male, birthday.MONTH, birthday.DATE, birthday.YEAR,
+							contact.getSmsSn(), contact.getAimSn(), contact.getFacebookSn(), contact.getIcqSn(), contact.getJabberSn(), contact.getMsnSn(), contact.getMySpaceSn(),
+							contact.getSkypeSn(), contact.getTwitterSn(), contact.getYmSn(), contact.getJobTitle(), user.getGroupIds(), user.getOrganizationIds(),
+							user.getRoleIds(), userGroupRoles, user.getUserGroupIds(), user.getAddresses(), user.getEmailAddresses(),
+							phones, user.getWebsites(), announcementsDeliveries, serviceContext);
+					
+				}
+			} else { // add new User
+				
+//				User user = UserServiceUtil.addUser(
 //				themeDisplay.getCompanyId(), autoPassword, password1, password2,
 //				autoScreenName, screenName, emailAddress, facebookId, openId,
 //				LocaleUtil.getDefault(), firstName, middleName, lastName, prefixId,
@@ -162,19 +255,19 @@ public class UserController {
 //				groupIds, organizationIds, roleIds, userGroupIds, addresses,
 //				emailAddresses, phones, websites, announcementsDeliveries,
 //				sendEmail, serviceContext);
-		try {
-			User user = UserServiceUtil.addUser(
-					themeDisplay.getCompanyId(), true, password1, password2,
-					false, screenName, emailAddress, 0, null,
-					LocaleUtil.getDefault(), firstName, middleName, lastName, 0,
-					0, male, birthdayMonth, birthdayDay, birthdayYear, StringPool.BLANK,
-					groupIds, organizationIds, roleIds, userGroupIds, addresses,
-					emailAddresses, phones, websites, announcementsDeliveries,
-					sendEmail, serviceContext);
-			
-			// set password to login
-			user = UserLocalServiceUtil.updatePassword(user.getUserId(), password1, password2, true);
-			
+				
+				User user = UserServiceUtil.addUser(
+						themeDisplay.getCompanyId(), true, password1, password2,
+						false, screenName, emailAddress, 0, null,
+						LocaleUtil.getDefault(), firstName, middleName, lastName, 0,
+						0, male, birthdayMonth, birthdayDay, birthdayYear, StringPool.BLANK,
+						groupIds, organizationIds, roleIds, userGroupIds, addresses,
+						emailAddresses, phones, websites, announcementsDeliveries,
+						sendEmail, serviceContext);
+				
+				// set password to login
+				user = UserLocalServiceUtil.updatePassword(user.getUserId(), password1, password2, true);
+			}
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -235,4 +328,5 @@ public class UserController {
 		}
 		
 	}
+	
 }
