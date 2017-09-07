@@ -33,3 +33,17 @@ RssCategory rssCategory = (RssCategory) request.getAttribute("rssCategory");
 	</aui:button-row>
 
 </aui:form>
+
+<aui:script>
+	
+	Liferay.on('_submitAction',function(event) {
+				
+		var rss_form = JSON.stringify($('#<portlet:namespace/>fm').serializeArray());
+		
+		Liferay.fire('_callBackAction', {
+			rss_form : rss_form
+		});
+		
+	});
+	
+</aui:script>

@@ -1,0 +1,26 @@
+# database properties
+# DB eGov
+#jdbc.eportal.driverClassName=com.mysql.jdbc.Driver
+#jdbc.eportal.url=jdbc:mysql://localhost/egov_portal_app?useUnicode=true&characterEncoding=UTF-8&useFastDateParsing=false
+#jdbc.eportal.username=root
+#jdbc.eportal.password=onepiece
+
+
+jdbc.eportal.driverClassName=com.mysql.jdbc.Driver
+jdbc.eportal.url=jdbc:mysql://localhost:6446/dev_tnn_app?useUnicode=true&characterEncoding=UTF-8&useFastDateParsing=false
+jdbc.eportal.password=Port@lApp2017
+jdbc.eportal.username=dev_tnn_app
+
+#hibernate properties
+hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+
+#
+# Oracle OnePiece86
+#
+#jdbc.eportal.driverClassName=oracle.jdbc.driver.OracleDriver
+#jdbc.eportal.url=jdbc:oracle:thin:@localhost:1521:orcl
+#jdbc.eportal.username=lportal62
+#jdbc.eportal.password=123456
+#
+#
+#hibernate.dialect=org.hibernate.dialect.OracleDialect

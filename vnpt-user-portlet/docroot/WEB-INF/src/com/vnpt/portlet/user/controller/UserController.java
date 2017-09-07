@@ -2,6 +2,7 @@ package com.vnpt.portlet.user.controller;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import javax.portlet.ActionRequest;
@@ -49,6 +50,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Address;
 import com.liferay.portal.model.Contact;
 import com.liferay.portal.model.EmailAddress;
+import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Phone;
 import com.liferay.portal.model.User;
 import com.liferay.portal.model.UserGroupRole;
@@ -80,8 +82,16 @@ public class UserController {
 	}
 	
 	@RequestMapping(params="action="+VnptConstants.VIEW_USER)
-	public String viewUserPage() {
-		System.out.println("viewUserPage");
+	public String viewUserPage(RenderRequest renderRequest,
+			RenderResponse renderResponse) throws Exception {
+		String tabs1 = ParamUtil.getString(renderRequest, "tabs1");
+		
+		System.out.println("viewUserPage tabs1 :" + tabs1);
+		
+		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
+		List<Group> groups = Collections.emptyList();
+		groups = themeDisplay.getUser().getGroups();		
+		renderRequest.setAttribute("groups", groups);
 		return "view";
 	}
 	
@@ -93,6 +103,7 @@ public class UserController {
 		long groupId = themeDisplay.getScopeGroupId();
 		PermissionChecker permissionChecker = themeDisplay.getPermissionChecker();
 
+		// check edit permission
 		if (!VnptPermission.contains(permissionChecker, groupId, VnptConstants.USER_PER_ADMIN)) {
 			SessionErrors.add(renderRequest, "use-have-not-permission");
 			return "user/error_permission" ;
@@ -106,6 +117,12 @@ public class UserController {
 			}
 		}
 		System.out.println("editUserPage userId :"+userId);
+
+		// get all site of user login
+		List<Group> groups = Collections.emptyList();
+		groups = themeDisplay.getUser().getGroups();		
+		renderRequest.setAttribute("groups", groups);
+		
 		return "view";
 	}
 	
@@ -119,200 +136,215 @@ public class UserController {
 		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
 				WebKeys.THEME_DISPLAY);
 		
-		// Input properties
-		String emailAddress = ParamUtil.getString(actionRequest, "emailAddress");
-		
-		String fullName = ParamUtil.getString(actionRequest, "fullName");		
-		String firstName = fullName.substring(0, fullName.indexOf(" ")).trim();		
-		String lastName = fullName.substring(fullName.lastIndexOf(" "), fullName.length()).trim();		
-		String middleName = fullName.substring(fullName.indexOf(" "), fullName.lastIndexOf(" ")).trim();
-		
-		boolean male = ParamUtil.getBoolean(actionRequest, "male", true);
-		
-		String phoneNumber = ParamUtil.getString(actionRequest, "phoneNumber");
-		
-		List<Phone> phones = new ArrayList<Phone>();
-		if(phoneNumber != null && !"".equals(phoneNumber)) {
-			Phone phone = PhoneLocalServiceUtil.createPhone(0L);
-			phone.setNumber(phoneNumber);	
-			phone.setTypeId(11008); // Mobile Phone
-			phone.setPrimary(true);
-	
-			phones.add(phone);
+		// check permission update
+		long groupId = themeDisplay.getScopeGroupId();
+		PermissionChecker permissionChecker = themeDisplay.getPermissionChecker();
+
+		if (!VnptPermission.contains(permissionChecker, groupId, VnptConstants.USER_PER_ADMIN)) {
+			SessionErrors.add(actionRequest, "use-have-not-permission");			
 		}
+		else {
+			
+			// Input properties
+			String emailAddress = ParamUtil.getString(actionRequest, "emailAddress");
+			
+			String fullName = ParamUtil.getString(actionRequest, "fullName");		
+			String firstName = fullName.substring(0, fullName.indexOf(" ")).trim();		
+			String lastName = fullName.substring(fullName.lastIndexOf(" "), fullName.length()).trim();		
+			String middleName = fullName.substring(fullName.indexOf(" "), fullName.lastIndexOf(" ")).trim();
+			
+			boolean male = ParamUtil.getBoolean(actionRequest, "male", true);
+			
+			String phoneNumber = ParamUtil.getString(actionRequest, "phoneNumber");
+			
+			List<Phone> phones = new ArrayList<Phone>();
+			if(phoneNumber != null && !"".equals(phoneNumber)) {
+				Phone phone = PhoneLocalServiceUtil.createPhone(0L);
+				phone.setNumber(phoneNumber);	
+				phone.setTypeId(11008); // Mobile Phone
+				phone.setPrimary(true);
 		
-		String password1 = actionRequest.getParameter("password1");
-		String password2 = actionRequest.getParameter("password2");
-
-		// Generate screenName from email
-		String screenName = StringUtil.replace(emailAddress, "@", "");
-		screenName = StringUtil.replace(screenName, "_", "");
-		screenName = StringUtil.replace(screenName, "-", "");		
-		screenName = RandomUtil.shuffle(screenName);
-		
-		
-		// Default properties 		
-		int birthdayMonth = 1;
-		int birthdayDay = 1;
-		int birthdayYear = 1970;
-		
-		long[] groupIds = UsersAdminUtil.getGroupIds(actionRequest);
-		long[] organizationIds = UsersAdminUtil.getOrganizationIds(
-				actionRequest);
-		long[] roleIds = UsersAdminUtil.getRoleIds(actionRequest);
-		long[] userGroupIds = UsersAdminUtil.getUserGroupIds(actionRequest);
-		
-		List<Address> addresses = new ArrayList<Address>();
-		List<EmailAddress> emailAddresses = new ArrayList<EmailAddress>();		
-		List<Website> websites = new ArrayList<Website>();
-		List<AnnouncementsDelivery> announcementsDeliveries = new ArrayList<AnnouncementsDelivery>();
-		
-		boolean sendEmail = true;
-		ServiceContext serviceContext = ServiceContextFactory.getInstance(
-				User.class.getName(), actionRequest);
-		
-		try {
-			if(userId > 0) { // edit User
-				
-				User user = UserLocalServiceUtil.fetchUser(userId);
-				if(user != null ) {
-					Contact contact = user.getContact();					
-					Calendar birthday = CalendarFactoryUtil.getCalendar();
-					birthday.setTime(contact.getBirthday());
-										
-					String portletContext="ROOT";
-					
-					// get announcementsDeliveries
-					String className = "com.liferay.portlet.usersadmin.action.EditUserAction";
-					MethodKey mKey = new MethodKey(ClassResolverUtil.resolveByPortletClassLoader(className, portletContext), 
-											"getAnnouncementsDeliveries", ActionRequest.class, User.class);
-					try {
-//						List<AnnouncementsDelivery> announcementsDeliveries =
-//								getAnnouncementsDeliveries(actionRequest, user);
-						announcementsDeliveries = (List<AnnouncementsDelivery>)PortalClassInvoker.invoke(true, mKey , actionRequest, user);						
-					}
-					catch (Exception ex) {
-						_log.error(ex);
-					}
-					
-					// get userGroupRoles
-					List<UserGroupRole> userGroupRoles = null;
-					className = "com.liferay.portlet.usersadmin.util.UsersAdminUtil";
-					mKey = new MethodKey(ClassResolverUtil.resolveByPortletClassLoader(className, portletContext), 
-											"getUserGroupRoles", PortletRequest.class);					
-					try {
-//						List<UserGroupRole> userGroupRoles = UsersAdminUtil.getUserGroupRoles(actionRequest);
-						userGroupRoles = (List<UserGroupRole>)PortalClassInvoker.invoke(true, mKey , actionRequest);						
-					}
-					catch (Exception ex) {
-						_log.error(ex);
-					}
-					
-					// get oldPassword
-					className = "com.liferay.portlet.admin.util.AdminUtil";
-					mKey = new MethodKey(ClassResolverUtil.resolveByPortletClassLoader(className, portletContext), 
-							"getUpdateUserPassword", ActionRequest.class, long.class);
-					String oldPassword = null;
-					try {
-//						String oldPassword = AdminUtil.getUpdateUserPassword(
-//								actionRequest, user.getUserId());
-						oldPassword = (String)PortalClassInvoker.invoke(true, mKey , actionRequest, user.getUserId());						
-					}
-					catch (Exception ex) {
-						_log.error(ex);
-					}					
-					
-//					User user = UserServiceUtil.updateUser(
-//							user.getUserId(), oldPassword, newPassword1, newPassword2,
-//							passwordReset, reminderQueryQuestion, reminderQueryAnswer,
-//							screenName, emailAddress, facebookId, openId, languageId,
-//							timeZoneId, greeting, comments, firstName, middleName, lastName,
-//							prefixId, suffixId, male, birthdayMonth, birthdayDay, birthdayYear,
-//							smsSn, aimSn, facebookSn, icqSn, jabberSn, msnSn, mySpaceSn,
-//							skypeSn, twitterSn, ymSn, jobTitle, groupIds, organizationIds,
-//							roleIds, userGroupRoles, userGroupIds, addresses, emailAddresses,
-//							phones, websites, announcementsDeliveries, serviceContext);
-					
-					user = UserServiceUtil.updateUser(
-							user.getUserId(), oldPassword, null, null,
-							false, user.getReminderQueryQuestion(), user.getReminderQueryAnswer(),
-							user.getScreenName(), emailAddress, user.getFacebookId(), user.getOpenId(), user.getLanguageId(),
-							user.getTimeZoneId(), user.getGreeting(), user.getComments(), firstName, middleName, lastName,
-							contact.getPrefixId(), contact.getSuffixId(), male, birthday.MONTH, birthday.DATE, birthday.YEAR,
-							contact.getSmsSn(), contact.getAimSn(), contact.getFacebookSn(), contact.getIcqSn(), contact.getJabberSn(), contact.getMsnSn(), contact.getMySpaceSn(),
-							contact.getSkypeSn(), contact.getTwitterSn(), contact.getYmSn(), contact.getJobTitle(), user.getGroupIds(), user.getOrganizationIds(),
-							user.getRoleIds(), userGroupRoles, user.getUserGroupIds(), user.getAddresses(), user.getEmailAddresses(),
-							phones, user.getWebsites(), announcementsDeliveries, serviceContext);
-					
-				}
-			} else { // add new User
-				
-//				User user = UserServiceUtil.addUser(
-//				themeDisplay.getCompanyId(), autoPassword, password1, password2,
-//				autoScreenName, screenName, emailAddress, facebookId, openId,
-//				LocaleUtil.getDefault(), firstName, middleName, lastName, prefixId,
-//				suffixId, male, birthdayMonth, birthdayDay, birthdayYear, jobTitle,
-//				groupIds, organizationIds, roleIds, userGroupIds, addresses,
-//				emailAddresses, phones, websites, announcementsDeliveries,
-//				sendEmail, serviceContext);
-				
-				User user = UserServiceUtil.addUser(
-						themeDisplay.getCompanyId(), true, password1, password2,
-						false, screenName, emailAddress, 0, null,
-						LocaleUtil.getDefault(), firstName, middleName, lastName, 0,
-						0, male, birthdayMonth, birthdayDay, birthdayYear, StringPool.BLANK,
-						groupIds, organizationIds, roleIds, userGroupIds, addresses,
-						emailAddresses, phones, websites, announcementsDeliveries,
-						sendEmail, serviceContext);
-				
-				// set password to login
-				user = UserLocalServiceUtil.updatePassword(user.getUserId(), password1, password2, true);
-			}
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			if (e instanceof NoSuchUserException ||
-				e instanceof PrincipalException) {
-
-				SessionErrors.add(actionRequest, e.getClass());
-			}
-			else if (e instanceof DuplicateOpenIdException ||
-					 e instanceof DuplicateUserEmailAddressException ||					 
-					 e instanceof EmailAddressException ||
-					 e instanceof DuplicateUserScreenNameException ||
-					 e instanceof GroupFriendlyURLException ||
-					 e instanceof MembershipPolicyException ||					 
-					 e instanceof RequiredUserException ||
-					 e instanceof ReservedUserEmailAddressException ||
-					 e instanceof ReservedUserScreenNameException ||
-					 e instanceof UserEmailAddressException ||
-					 e instanceof UserFieldException ||
-					 e instanceof UserIdException ||
-					 e instanceof UserPasswordException ||
-					 e instanceof UserReminderQueryException ||
-					 e instanceof UserScreenNameException ||
-					 e instanceof UserSmsException) {
-
-				if (e instanceof NoSuchListTypeException) {
-					NoSuchListTypeException nslte = (NoSuchListTypeException)e;
-
-					SessionErrors.add(
-						actionRequest,
-						e.getClass().getName() + nslte.getType());
-				}
-				else {
-					SessionErrors.add(actionRequest, e.getClass(), e);
-				}
-			}
-			else {
-				SessionErrors.add(actionRequest, "add-user-exception");
+				phones.add(phone);
 			}
 			
-			actionResponse.setRenderParameter("tabs1", VnptConstants.EDIT_USER);
-			actionResponse.setRenderParameter("action", VnptConstants.EDIT_USER);
+			String password1 = actionRequest.getParameter("password1");
+			String password2 = actionRequest.getParameter("password2");
+	
+			// Generate screenName from email
+			String screenName = StringUtil.replace(emailAddress, "@", "");
+			screenName = StringUtil.replace(screenName, "_", "");
+			screenName = StringUtil.replace(screenName, "-", "");		
+			screenName = RandomUtil.shuffle(screenName);
+			
+			String[] strGroups = actionRequest.getParameterValues("userSite");
+			long[] groupIds = new long[strGroups.length] ;
+			for (int i = 0; i < strGroups.length; i++) {
+				groupIds[i] = Long.valueOf(strGroups[i]);
+				System.out.println("groupIds[i] :"+groupIds[i]);
+			}
+			System.out.println(groupIds.toString());
+			// Default properties 		
+			int birthdayMonth = 1;
+			int birthdayDay = 1;
+			int birthdayYear = 1970;
+			
+//			long[] groupIds = UsersAdminUtil.getGroupIds(actionRequest);
+			long[] organizationIds = UsersAdminUtil.getOrganizationIds(
+					actionRequest);
+			long[] roleIds = UsersAdminUtil.getRoleIds(actionRequest);
+			long[] userGroupIds = UsersAdminUtil.getUserGroupIds(actionRequest);
+			
+			List<Address> addresses = new ArrayList<Address>();
+			List<EmailAddress> emailAddresses = new ArrayList<EmailAddress>();		
+			List<Website> websites = new ArrayList<Website>();
+			List<AnnouncementsDelivery> announcementsDeliveries = new ArrayList<AnnouncementsDelivery>();
+			
+			boolean sendEmail = true;
+			ServiceContext serviceContext = ServiceContextFactory.getInstance(
+					User.class.getName(), actionRequest);
+			
+			try {
+				if(userId > 0) { // edit User
+					
+					User user = UserLocalServiceUtil.fetchUser(userId);
+					if(user != null ) {
+						Contact contact = user.getContact();					
+						Calendar birthday = CalendarFactoryUtil.getCalendar();
+						birthday.setTime(contact.getBirthday());
+											
+						String portletContext="ROOT";
+						
+						// get announcementsDeliveries
+						String className = "com.liferay.portlet.usersadmin.action.EditUserAction";
+						MethodKey mKey = new MethodKey(ClassResolverUtil.resolveByPortletClassLoader(className, portletContext), 
+												"getAnnouncementsDeliveries", ActionRequest.class, User.class);
+						try {
+//							List<AnnouncementsDelivery> announcementsDeliveries =
+//									getAnnouncementsDeliveries(actionRequest, user);
+							announcementsDeliveries = (List<AnnouncementsDelivery>)PortalClassInvoker.invoke(true, mKey , actionRequest, user);						
+						}
+						catch (Exception ex) {
+							_log.error(ex);
+						}
+						
+						// get userGroupRoles
+						List<UserGroupRole> userGroupRoles = null;
+						className = "com.liferay.portlet.usersadmin.util.UsersAdminUtil";
+						mKey = new MethodKey(ClassResolverUtil.resolveByPortletClassLoader(className, portletContext), 
+												"getUserGroupRoles", PortletRequest.class);					
+						try {
+//							List<UserGroupRole> userGroupRoles = UsersAdminUtil.getUserGroupRoles(actionRequest);
+							userGroupRoles = (List<UserGroupRole>)PortalClassInvoker.invoke(true, mKey , actionRequest);						
+						}
+						catch (Exception ex) {
+							_log.error(ex);
+						}
+						
+						// get oldPassword
+						className = "com.liferay.portlet.admin.util.AdminUtil";
+						mKey = new MethodKey(ClassResolverUtil.resolveByPortletClassLoader(className, portletContext), 
+								"getUpdateUserPassword", ActionRequest.class, long.class);
+						String oldPassword = null;
+						try {
+//							String oldPassword = AdminUtil.getUpdateUserPassword(
+//									actionRequest, user.getUserId());
+							oldPassword = (String)PortalClassInvoker.invoke(true, mKey , actionRequest, user.getUserId());						
+						}
+						catch (Exception ex) {
+							_log.error(ex);
+						}					
+						
+//						User user = UserServiceUtil.updateUser(
+//								user.getUserId(), oldPassword, newPassword1, newPassword2,
+//								passwordReset, reminderQueryQuestion, reminderQueryAnswer,
+//								screenName, emailAddress, facebookId, openId, languageId,
+//								timeZoneId, greeting, comments, firstName, middleName, lastName,
+//								prefixId, suffixId, male, birthdayMonth, birthdayDay, birthdayYear,
+//								smsSn, aimSn, facebookSn, icqSn, jabberSn, msnSn, mySpaceSn,
+//								skypeSn, twitterSn, ymSn, jobTitle, groupIds, organizationIds,
+//								roleIds, userGroupRoles, userGroupIds, addresses, emailAddresses,
+//								phones, websites, announcementsDeliveries, serviceContext);
+						
+						user = UserServiceUtil.updateUser(
+								user.getUserId(), oldPassword, null, null,
+								false, user.getReminderQueryQuestion(), user.getReminderQueryAnswer(),
+								user.getScreenName(), emailAddress, user.getFacebookId(), user.getOpenId(), user.getLanguageId(),
+								user.getTimeZoneId(), user.getGreeting(), user.getComments(), firstName, middleName, lastName,
+								contact.getPrefixId(), contact.getSuffixId(), male, birthday.MONTH, birthday.DATE, birthday.YEAR,
+								contact.getSmsSn(), contact.getAimSn(), contact.getFacebookSn(), contact.getIcqSn(), contact.getJabberSn(), contact.getMsnSn(), contact.getMySpaceSn(),
+								contact.getSkypeSn(), contact.getTwitterSn(), contact.getYmSn(), contact.getJobTitle(), user.getGroupIds(), user.getOrganizationIds(),
+								user.getRoleIds(), userGroupRoles, user.getUserGroupIds(), user.getAddresses(), user.getEmailAddresses(),
+								phones, user.getWebsites(), announcementsDeliveries, serviceContext);
+						
+					}
+				} else { // add new User
+					
+//					User user = UserServiceUtil.addUser(
+//					themeDisplay.getCompanyId(), autoPassword, password1, password2,
+//					autoScreenName, screenName, emailAddress, facebookId, openId,
+//					LocaleUtil.getDefault(), firstName, middleName, lastName, prefixId,
+//					suffixId, male, birthdayMonth, birthdayDay, birthdayYear, jobTitle,
+//					groupIds, organizationIds, roleIds, userGroupIds, addresses,
+//					emailAddresses, phones, websites, announcementsDeliveries,
+//					sendEmail, serviceContext);
+					
+					User user = UserServiceUtil.addUser(
+							themeDisplay.getCompanyId(), true, password1, password2,
+							false, screenName, emailAddress, 0, null,
+							LocaleUtil.getDefault(), firstName, middleName, lastName, 0,
+							0, male, birthdayMonth, birthdayDay, birthdayYear, StringPool.BLANK,
+							groupIds, organizationIds, roleIds, userGroupIds, addresses,
+							emailAddresses, phones, websites, announcementsDeliveries,
+							sendEmail, serviceContext);
+					
+					// set password to login
+					user = UserLocalServiceUtil.updatePassword(user.getUserId(), password1, password2, true);
+				}
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				if (e instanceof NoSuchUserException ||
+					e instanceof PrincipalException) {
+	
+					SessionErrors.add(actionRequest, e.getClass());
+				}
+				else if (e instanceof DuplicateOpenIdException ||
+						 e instanceof DuplicateUserEmailAddressException ||					 
+						 e instanceof EmailAddressException ||
+						 e instanceof DuplicateUserScreenNameException ||
+						 e instanceof GroupFriendlyURLException ||
+						 e instanceof MembershipPolicyException ||					 
+						 e instanceof RequiredUserException ||
+						 e instanceof ReservedUserEmailAddressException ||
+						 e instanceof ReservedUserScreenNameException ||
+						 e instanceof UserEmailAddressException ||
+						 e instanceof UserFieldException ||
+						 e instanceof UserIdException ||
+						 e instanceof UserPasswordException ||
+						 e instanceof UserReminderQueryException ||
+						 e instanceof UserScreenNameException ||
+						 e instanceof UserSmsException) {
+	
+					if (e instanceof NoSuchListTypeException) {
+						NoSuchListTypeException nslte = (NoSuchListTypeException)e;
+	
+						SessionErrors.add(
+							actionRequest,
+							e.getClass().getName() + nslte.getType());
+					}
+					else {
+						SessionErrors.add(actionRequest, e.getClass(), e);
+					}
+				}
+				else {
+					SessionErrors.add(actionRequest, "add-user-exception");
+				}
+			}
+			
+			SessionMessages.add(actionRequest, "add-user-successfull");
+			
 		}
 		
-		SessionMessages.add(actionRequest, "add-user-successfull");
 		actionResponse.setRenderParameter("tabs1", VnptConstants.EDIT_USER);
 		actionResponse.setRenderParameter("action", VnptConstants.EDIT_USER);
 	}

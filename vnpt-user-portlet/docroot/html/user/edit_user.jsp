@@ -1,3 +1,5 @@
+<%@page import="com.liferay.portal.model.UserGroup"%>
+<%@page import="java.util.Collections"%>
 <%@page import="com.liferay.portal.model.Phone"%>
 <%@page import="com.liferay.portal.ReservedUserIdException"%>
 <%@page import="com.liferay.portal.DuplicateUserIdException"%>
@@ -15,23 +17,43 @@ String phoneNumber = "";
 boolean isMale = true;
 long userId = 0;
 
-User _user = (User) request.getAttribute("user");
-if(_user != null) {
-	userId = _user.getUserId();
-	email = _user.getEmailAddress();
-	fullName = _user.getLastName() + " " + _user.getMiddleName() + " " + _user.getFirstName();
+List<Group> groups = Collections.emptyList();
+User aUser = (User) request.getAttribute("user");
+if(aUser != null) {
+	userId = aUser.getUserId();
+	email = aUser.getEmailAddress();
+	fullName = aUser.getLastName() + " " + aUser.getMiddleName() + " " + aUser.getFirstName();
 	
-	if(_user.getContact() != null) {
-		isMale = _user.getContact().getMale();
-		List<Phone> lstPhone = _user.getPhones();
+	if(aUser.getContact() != null) {
+		isMale = aUser.getContact().getMale();
+		List<Phone> lstPhone = aUser.getPhones();
 		for(Phone phone : lstPhone) {
 			if(phone.getPrimary()) {
 				phoneNumber = phone.getNumber();	
 			}
 		}		
 	}
+	System.out.println("user :"+aUser.getFullName() + "|| email :"+aUser.getEmailAddress());
+	List<UserGroup> userGroups = aUser.getUserGroups();
+	for (UserGroup uGroup : userGroups) {
+		System.out.println("userGroup :"+uGroup.getName() +" || user :"+uGroup.getUserName());
+	}
+	
+	long[] u = aUser.getUserGroupIds();
+	if(u != null) {
+		for(long l : u) {
+			System.out.println("userGroupIds :"+l);
+		}
+	}
+	
+	groups = aUser.getGroups();
 }
-
+else {
+	groups = (List<Group>) request.getAttribute("groups");
+	if(groups != null) {
+		System.out.println("groups size :"+groups.size());
+	}
+}
 %>
 
 <portlet:actionURL var="updateUserURL">
@@ -58,6 +80,26 @@ if(_user != null) {
 	
 	<div class="row">
 		<div class="col-md-12">		
+			
+			<div class="row">
+				<div class="col-md-2 col-sm-3 col-xs-12">
+					<label for="#"><liferay-ui:message key="site"/></label>
+				</div>
+				<div class="col-md-4 col-sm-9 col-xs-12">
+					<aui:select name="userSite" label="" multiple="true" cssClass="form-control">
+						<%
+							for (Group group : groups) {
+						%>
+							<aui:option value="<%= group.getGroupId() %>" >
+								<%= group.getName() %>
+							</aui:option>
+						<%
+							}
+						%>
+					</aui:select>
+				</div>
+			</div>
+			
 			<div class="row">
 	            <div class="col-md-2 col-sm-3 col-xs-12">
 	                <label for="#"><liferay-ui:message key="email"/></label>
@@ -111,7 +153,7 @@ if(_user != null) {
 	        	</div>
 	        </div>
 	        
-	        <c:if test="<%= _user == null %>">
+	        <c:if test="<%= aUser == null %>">
 	        	<div class="row">
 		        	<div class="col-md-2 col-sm-3 col-xs-12">
 		        		<label><liferay-ui:message key="password"/></label>
@@ -147,6 +189,22 @@ if(_user != null) {
 
 <aui:script>
 
+	Liferay.on('_submitAction',function(event) {
+		
+		var data = $('#<portlet:namespace/>fm').serializeArray().reduce(function(obj, item) {
+		    obj[item.name] = item.value;
+		    return obj;
+		}, {});
+		
+		console.log(data);
+		
+		Liferay.fire('_callBackAction', {
+			user_form : data,
+			user_namespace : '<portlet:namespace/>'
+		});
+		
+	});
+	
 	function <portlet:namespace />saveUser() {
 		submitForm(document.<portlet:namespace />fm);
 	}

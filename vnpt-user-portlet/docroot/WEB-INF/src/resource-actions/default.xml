@@ -10,25 +10,18 @@
 				<action-key>CONFIGURATION</action-key>
 				<action-key>VIEW</action-key>
 			</supports>
-						
-<!-- 			<community-defaults> -->
-<!-- 				<action-key>ADD_TO_PAGE</action-key> -->
-<!-- 				<action-key>VIEW</action-key> -->
-<!-- 			</community-defaults> -->
-			
+					
 			<site-member-defaults>
-				<action-key>ADD_TO_PAGE</action-key>
 				<action-key>VIEW</action-key>
 			</site-member-defaults>
 			
-			<guest-defaults >
+			<guest-defaults>
 				<action-key>VIEW</action-key>
-			</guest-defaults>
+			</guest-defaults>				
 
 			<guest-unsupported>
 				<action-key>ADD_TO_PAGE</action-key>
 				<action-key>CONFIGURATION</action-key>
-<!-- 				<action-key>VIEW</action-key>				 -->
 			</guest-unsupported>
 
 		</permissions>
