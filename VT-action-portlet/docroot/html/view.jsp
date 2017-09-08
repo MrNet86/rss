@@ -1,42 +1,64 @@
 <%@ include file="init.jsp" %>
 
 
-
-<%--
-<div class="row">
-	<div class="col-md-12">		
-		<div class="row">
-            <div class="col-md-2 col-sm-3 col-xs-12">
-                <label for="#"><liferay-ui:message key="email"/></label>
-            </div>
-            <div class="col-md-4 col-sm-9 col-xs-12">
-                <aui:input type="text" name="emailAddress" label="" cssClass="form-control" >
-					<aui:validator name="required" />
-					<aui:validator name="email"/>
-				</aui:input>
-            </div> 
-            
-            <div class="col-md-2 col-sm-3 col-xs-12">
-                <label for="#"><liferay-ui:message key="ho-va-ten"/></label>
-            </div>
-            <div class="col-md-4 col-sm-9 col-xs-12">
-                <aui:input type="text" name="fullName" label="" cssClass="form-control" >
-					<aui:validator name="required" />
-					<aui:validator name="custom" errorMessage="ho-va-ten-khong-hop-le" >
-						function (val) {
-							if(val.trim().indexOf(" ") > -1) {
-								return true;
-							} else {
-								return false;
-							}
-						}
-					</aui:validator> 
-				</aui:input>
-            </div> 
-        </div>	
-	</div>		
-</div>
-  --%>
+<aui:form action="" method="post" name="fm">
+	
+	<aui:row>
+		<aui:col span="4">
+			<aui:select name="customerGroup" label="Nhóm loại khách hàng" >
+				<aui:option label="CMT" value="1" />
+				<aui:option label="Hộ chiếu" value="2" />
+			</aui:select>
+		</aui:col>
+		<aui:col span="4">
+			<aui:select name="customerType" label="Loại khách hàng" >
+				<aui:option label="VIE - Tư nhân trong nước" value="1" />
+				<aui:option label="Doanh nghiệp" value="2" />
+			</aui:select>
+		</aui:col>
+		
+	</aui:row>
+	
+	<aui:row>
+		<aui:col span="4">
+			<aui:input name="identifyNo" label="CMT" />
+		</aui:col>
+		<aui:col span="4">
+			<aui:input name="placeIssue" label="Nơi cấp" />
+		</aui:col>
+		<aui:col span="4">			
+			<aui:field-wrapper label="Ngày cấp">
+				<liferay-ui:input-date name="dateIssue" >			
+				</liferay-ui:input-date>
+			</aui:field-wrapper>
+		</aui:col>		
+	</aui:row>
+	
+	<aui:row>
+		<aui:col span="4">
+			<aui:input name="dateIssue" label="Tên khách hàng" />
+		</aui:col>
+		<aui:col span="4">
+			<aui:input name="dateIssue" label="Ngày sinh" />
+		</aui:col>
+		<aui:col span="4">
+			<aui:input name="dateIssue" label="Giới tính" />
+		</aui:col>		
+	</aui:row>
+	
+	<aui:row>
+		<aui:col span="4">
+			<aui:input name="dateIssue" label="Quốc tịch" />
+		</aui:col>
+		<aui:col span="4">
+			<aui:input name="dateIssue" label="Địa chỉ" />
+		</aui:col>
+		<aui:col span="4">
+			<aui:input name="dateIssue" label="Ghi chú" />
+		</aui:col>		
+	</aui:row>
+	
+</aui:form>
  
 <portlet:actionURL var="updateURL" >
 	<portlet:param name="action" value="submitForm"/>
@@ -58,6 +80,8 @@
 	var arr = "";
 	
 	Liferay.on('_callBackAction',function(event) {
+		
+		alert("callBackAction");
 		
 		var user_form = event.user_form;
 		var user_namespace = event.user_namespace;

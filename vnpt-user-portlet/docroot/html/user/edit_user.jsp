@@ -106,8 +106,8 @@ else {
 	            </div>
 	            <div class="col-md-4 col-sm-9 col-xs-12">
 	                <aui:input type="text" name="emailAddress" label="" cssClass="form-control" value="<%= email %>">
-						<aui:validator name="required" />
-						<aui:validator name="email"/>
+<%-- 						<aui:validator name="required" /> --%>
+<%-- 						<aui:validator name="email"/> --%>
 					</aui:input>
 	            </div> 
 	            
@@ -117,16 +117,16 @@ else {
 	            <div class="col-md-4 col-sm-9 col-xs-12">
 	                <aui:input type="text" name="fullName" label="" cssClass="form-control" 
 	                	value="<%= fullName %>">
-						<aui:validator name="required" />
-						<aui:validator name="custom" errorMessage="ho-va-ten-khong-hop-le" >
-							function (val) {
-								if(val.trim().indexOf(" ") > -1) {
-									return true;
-								} else {
-									return false;
-								}
-							}
-						</aui:validator> 
+<%-- 						<aui:validator name="required" /> --%>
+<%-- 						<aui:validator name="custom" errorMessage="ho-va-ten-khong-hop-le" > --%>
+<!-- 							function (val) { -->
+<!-- 								if(val.trim().indexOf(" ") > -1) { -->
+<!-- 									return true; -->
+<!-- 								} else { -->
+<!-- 									return false; -->
+<!-- 								} -->
+<!-- 							} -->
+<%-- 						</aui:validator>  --%>
 					</aui:input>
 	            </div> 
 	        </div>
@@ -187,21 +187,28 @@ else {
 	<aui:button onClick='<%= renderResponse.getNamespace() + "saveUser();" %>' type="submit" />
 </aui:button-row>
 
+<%--
 <aui:script>
 
 	Liferay.on('_submitAction',function(event) {
-		
+
 		var data = $('#<portlet:namespace/>fm').serializeArray().reduce(function(obj, item) {
 		    obj[item.name] = item.value;
 		    return obj;
 		}, {});
-		
+
 		console.log(data);
 		
-		Liferay.fire('_callBackAction', {
-			user_form : data,
-			user_namespace : '<portlet:namespace/>'
-		});
+		if ($(".error-field")[0]){
+			alert("user loi");
+		}
+		else {
+			alert("user ko loi");
+			Liferay.fire('_callBackAction', {
+				user_form : data,
+				user_namespace : '<portlet:namespace/>'
+			});
+		}
 		
 	});
 	
@@ -209,5 +216,63 @@ else {
 		submitForm(document.<portlet:namespace />fm);
 	}
 	
+</aui:script>
+ --%>
+ 
+<aui:script>
+	
+Liferay.on('_submitAction',function(event) {	
+	
+	AUI().ready('aui-form-validator', 'aui-overlay-context-panel', function(A) {
+		
+		var validator1 = new A.FormValidator({
+			
+			boundingBox: '#<portlet:namespace />fm',
+			validateOnBlur: true,
+			selectText: true,
+			
+			rules: {
+				<portlet:namespace />emailAddress: {
+					required: true
+				},
+				<portlet:namespace />fullName: {
+					required: true
+				}			
+			},
+			
+			fieldStrings: {
+				<portlet:namespace />emailAddress: {
+					required: 'Bond Amount is a required field'
+				},
+				<portlet:namespace />fullName: {
+					required: 'Email is a required field'
+				}				
+			}
+		
+		});
+		
+		validator1.validate();
+		
+		if(validator1.hasErrors()){
+			alert("hello co loi");
+			event.halt();
+		}
+		else {
+			alert("hello khong loi");
+		 	var data = $('#<portlet:namespace/>fm').serializeArray().reduce(function(obj, item) {
+		 	    obj[item.name] = item.value;
+		 	    return obj;
+		 	}, {});
+		 	
+			Liferay.fire('_callBackAction', {
+	 			user_form : data,
+	 			user_namespace : '<portlet:namespace/>'
+	 		});
+		}
+		
+	});
+	
+});
+
 </aui:script>
 
