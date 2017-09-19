@@ -23,4 +23,20 @@ pageContext.setAttribute("portletURL", portletURL);
 		<liferay-util:include page="/html/user/edit_user.jsp"
 			servletContext="<%= this.getServletContext() %>"/>
 	</c:when>
+	<c:when test='<%= VnptConstants.VIEW_PERMISSION_TYPE.equals(tabs1) %>'>
+		<liferay-util:include page="/html/permissionType/view.jsp"
+			servletContext="<%= this.getServletContext() %>"/>
+	</c:when>
+	<c:when test='<%= VnptConstants.EDIT_PERMISSION_TYPE.equals(tabs1) %>'>
+		<liferay-util:include page="/html/permissionType/edit.jsp"
+			servletContext="<%= this.getServletContext() %>"/>
+	</c:when>
+	<c:when test='<%= VnptConstants.VIEW_ROLE.equals(tabs1) %>'>
+		<liferay-util:include page="/html/role/view.jsp"
+			servletContext="<%= this.getServletContext() %>"/>
+	</c:when>
+	<c:when test='<%= VnptConstants.EDIT_ROLE.equals(tabs1) %>'>
+		<liferay-util:include page="/html/role/edit.jsp"
+			servletContext="<%= this.getServletContext() %>"/>
+	</c:when>
 </c:choose>

@@ -1,8 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 6.2.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_6_2_0.dtd">
-<service-builder package-path="com.vnpt.portal.user">
+<service-builder package-path="com.vnpt.portlet.user">
 	<author>ToanNQ86</author>
 	<namespace>user</namespace>
 
-	<entity name=""></entity>
+	<entity name="PermissionType" table="eportal_permission_type" local-service="true" remote-service="false"
+		data-source="eGovDataSource" session-factory="eGovSessionFactory" tx-manager="eGovTransactionManager">
+
+		<!-- PK fields -->
+
+		<column name="permissionTypeId" type="long" primary="true" id-type="increment"/>
+
+		<!-- Group instance -->
+
+		<column name="groupId" type="long" />
+		<column name="companyId" type="long" />
+		<!-- Audit fields -->
+
+		<column name="typeName" type="String" />
+		<column name="typeCode" type="String" />
+		<column name="isActive" type="int"/>		
+		<column name="description" type="String"/>		
+		
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="CompanyId" return-type="Collection">
+			<finder-column name="companyId" />
+		</finder>		
+
+	</entity>
+	
 </service-builder>
