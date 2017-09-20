@@ -3,7 +3,10 @@ package com.vnpt.portlet.user.controller;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -52,21 +55,35 @@ import com.liferay.portal.model.Contact;
 import com.liferay.portal.model.EmailAddress;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Phone;
+import com.liferay.portal.model.ResourcePermission;
+import com.liferay.portal.model.Role;
 import com.liferay.portal.model.User;
 import com.liferay.portal.model.UserGroupRole;
 import com.liferay.portal.model.Website;
+import com.liferay.portal.security.auth.CompanyThreadLocal;
 import com.liferay.portal.security.auth.PrincipalException;
 import com.liferay.portal.security.membershippolicy.MembershipPolicyException;
+import com.liferay.portal.security.permission.ActionKeys;
 import com.liferay.portal.security.permission.PermissionChecker;
+import com.liferay.portal.security.permission.PermissionCheckerFactoryUtil;
+import com.liferay.portal.security.permission.PermissionThreadLocal;
+import com.liferay.portal.service.PermissionServiceUtil;
 import com.liferay.portal.service.PhoneLocalServiceUtil;
+import com.liferay.portal.service.ResourcePermissionLocalServiceUtil;
+import com.liferay.portal.service.RoleLocalServiceUtil;
+import com.liferay.portal.service.RoleServiceUtil;
 import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.ServiceContextFactory;
 import com.liferay.portal.service.UserLocalServiceUtil;
 import com.liferay.portal.service.UserServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.portal.util.PortalUtil;
 import com.liferay.portlet.announcements.model.AnnouncementsDelivery;
 import com.liferay.portlet.usersadmin.util.UsersAdminUtil;
+import com.vnpt.portlet.user.model.PermissionType;
+import com.vnpt.portlet.user.model.impl.PermissionTypeImpl;
 import com.vnpt.portlet.user.permission.VnptPermission;
+import com.vnpt.portlet.user.service.PermissionTypeLocalServiceUtil;
 import com.vnpt.portlet.user.utils.VnptConstants;
 
 @Controller
@@ -139,7 +156,7 @@ public class UserController {
 		// check permission update
 		long groupId = themeDisplay.getScopeGroupId();
 		PermissionChecker permissionChecker = themeDisplay.getPermissionChecker();
-
+		
 		if (!VnptPermission.contains(permissionChecker, groupId, VnptConstants.USER_PER_ADMIN)) {
 			SessionErrors.add(actionRequest, "use-have-not-permission");			
 		}
@@ -180,9 +197,8 @@ public class UserController {
 			long[] groupIds = new long[strGroups.length] ;
 			for (int i = 0; i < strGroups.length; i++) {
 				groupIds[i] = Long.valueOf(strGroups[i]);
-				System.out.println("groupIds[i] :"+groupIds[i]);
 			}
-			System.out.println(groupIds.toString());
+			
 			// Default properties 		
 			int birthdayMonth = 1;
 			int birthdayDay = 1;
@@ -203,6 +219,18 @@ public class UserController {
 			ServiceContext serviceContext = ServiceContextFactory.getInstance(
 					User.class.getName(), actionRequest);
 			
+			// Behalf of Admin user 
+			Role adminRole = RoleLocalServiceUtil.getRole(CompanyThreadLocal.getCompanyId(), "Administrator");
+			List<User> adminUsers = UserLocalServiceUtil.getRoleUsers(adminRole.getRoleId());
+			long userAdminId = 20159; // default@liferay.com
+			if(adminUsers != null && !adminUsers.isEmpty()) {
+				userAdminId = adminUsers.get(0).getUserId();
+			}
+			User userAdmin = UserLocalServiceUtil.getUser(userAdminId);
+			PermissionChecker checker = PermissionCheckerFactoryUtil.create(userAdmin);
+			PermissionThreadLocal.setPermissionChecker(checker);
+			
+			// end
 			try {
 				if(userId > 0) { // edit User
 					
@@ -272,7 +300,7 @@ public class UserController {
 								user.getTimeZoneId(), user.getGreeting(), user.getComments(), firstName, middleName, lastName,
 								contact.getPrefixId(), contact.getSuffixId(), male, birthday.MONTH, birthday.DATE, birthday.YEAR,
 								contact.getSmsSn(), contact.getAimSn(), contact.getFacebookSn(), contact.getIcqSn(), contact.getJabberSn(), contact.getMsnSn(), contact.getMySpaceSn(),
-								contact.getSkypeSn(), contact.getTwitterSn(), contact.getYmSn(), contact.getJobTitle(), user.getGroupIds(), user.getOrganizationIds(),
+								contact.getSkypeSn(), contact.getTwitterSn(), contact.getYmSn(), contact.getJobTitle(), groupIds, user.getOrganizationIds(),
 								user.getRoleIds(), userGroupRoles, user.getUserGroupIds(), user.getAddresses(), user.getEmailAddresses(),
 								phones, user.getWebsites(), announcementsDeliveries, serviceContext);
 						
@@ -361,4 +389,130 @@ public class UserController {
 		
 	}
 	
+	@RenderMapping(params="action="+VnptConstants.EDIT_PERMISSION_TYPE)
+	public String editPermissionType (RenderRequest renderRequest,
+			RenderResponse renderResponse) throws Exception {
+		Long permissionTypeId = ParamUtil.getLong(renderRequest, "permissionTypeId", 0L);
+		if(permissionTypeId > 0) {
+			PermissionType perType = PermissionTypeLocalServiceUtil.fetchPermissionType(permissionTypeId);
+			if(perType != null) {
+				renderRequest.setAttribute("perType", perType);
+			}
+		}
+		
+		return "view";
+	}
+	
+	@ActionMapping(params="action="+VnptConstants.UPDATE_PERMISSION_TYPE)
+	public void updatePermissionType (ActionRequest actionRequest,
+			ActionResponse actionResponse) throws Exception {
+		
+		System.out.println("updatePermissionType");
+		Long permissionTypeId = ParamUtil.getLong(actionRequest, "permissionTypeId", 0L);
+		
+		String typeName = ParamUtil.getString(actionRequest, "typeName");
+		String typeCode = ParamUtil.getString(actionRequest, "typeCode");
+		String description = ParamUtil.getString(actionRequest, "description");
+		
+		PermissionType perType = new PermissionTypeImpl();
+		if(permissionTypeId > 0) {
+			perType = PermissionTypeLocalServiceUtil.fetchPermissionType(permissionTypeId);
+			perType.setTypeName(typeName);
+			perType.setTypeCode(typeCode);
+			perType.setDescription(description);
+			
+			PermissionTypeLocalServiceUtil.updatePermissionType(perType);
+		} else {
+			
+			perType.setTypeName(typeName);
+			perType.setTypeCode(typeCode);
+			perType.setDescription(description);
+			perType.setIsActive(1);
+			
+			PermissionTypeLocalServiceUtil.addPermissionType(perType);			
+		}
+		
+		SessionMessages.add(actionRequest, "update-successfull");
+		actionResponse.setRenderParameter("tabs1", VnptConstants.EDIT_PERMISSION_TYPE);
+		actionResponse.setRenderParameter("action", VnptConstants.EDIT_PERMISSION_TYPE);
+	}
+	
+	@ActionMapping(params="action="+VnptConstants.DELETE_PERMISSION_TYPE)
+	public void deletePermissionType(ActionRequest actionRequest,
+			ActionResponse actionResponse) throws Exception {
+		
+		Long permissionTypeId = ParamUtil.getLong(actionRequest, "permissionTypeId", 0L);
+		
+		System.out.println("deleteUserAction permissionTypeId :"+permissionTypeId);
+		if(permissionTypeId > 0 ) {			
+			PermissionTypeLocalServiceUtil.deletePermissionType(permissionTypeId);
+		}
+		
+	}
+	
+	@RenderMapping(params="action="+VnptConstants.EDIT_ROLE)
+	public String editRole(RenderRequest renderRequest,
+			RenderResponse renderResponse) throws Exception {
+		System.out.println("edit user");
+		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
+		long groupId = themeDisplay.getScopeGroupId();
+		PermissionChecker permissionChecker = themeDisplay.getPermissionChecker();
+
+		// check edit permission
+		if (!VnptPermission.contains(permissionChecker, groupId, VnptConstants.USER_PER_ADMIN)) {
+			SessionErrors.add(renderRequest, "use-have-not-permission");
+			return "user/error_permission" ;
+		}
+
+		long roleId = ParamUtil.getLong(renderRequest, "roleId", 0L);
+		if(roleId > 0 ) {
+			Role role = RoleLocalServiceUtil.fetchRole(roleId);
+			if(role != null) {
+				renderRequest.setAttribute("role", role);
+			}
+		}
+		System.out.println("editUserPage userId :"+roleId);
+
+		return "view";
+	}
+	
+	@ActionMapping(params="action="+VnptConstants.UPDATE_ROLE)
+	public void updateRole (ActionRequest actionRequest,
+			ActionResponse actionResponse) throws Exception {
+		
+		System.out.println("updateRole");
+		
+		ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
+		long groupId = themeDisplay.getScopeGroupId();
+		Locale defaultLocale = PortalUtil.getSiteDefaultLocale(groupId);
+
+		Long roleId = ParamUtil.getLong(actionRequest, "roleId", 0L);
+		
+		int type = ParamUtil.getInteger(actionRequest, "type");
+		String name = ParamUtil.getString(actionRequest, "name");
+		String title = ParamUtil.getString(actionRequest, "title");
+		String description = ParamUtil.getString(actionRequest, "description");
+		System.out.println("title :"+title);
+		Map<Locale, String> titleMap =new HashMap<Locale, String>();
+		Map<Locale, String> descriptionMap = new HashMap<Locale, String>();
+		
+		titleMap.put(defaultLocale, title);
+		descriptionMap.put(defaultLocale, description);
+		
+		ServiceContext serviceContext = ServiceContextFactory.getInstance(
+				Role.class.getName(), actionRequest);
+
+		if(roleId <= 0) {
+			RoleServiceUtil.addRole(null, 0, name, titleMap, descriptionMap, 
+					type, null, serviceContext);
+		}
+		else {
+			RoleServiceUtil.updateRole(roleId, name, titleMap, descriptionMap, 
+					null, serviceContext);
+		}
+		
+		SessionMessages.add(actionRequest, "update-role-successfull");
+		actionResponse.setRenderParameter("tabs1", VnptConstants.EDIT_ROLE);
+		actionResponse.setRenderParameter("action", VnptConstants.EDIT_ROLE);
+	}
 }

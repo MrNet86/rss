@@ -124,6 +124,10 @@
 
 <%@ page import="com.vnpt.portlet.user.controller.*"%>
 <%@ page import="com.vnpt.portlet.user.utils.*"%>
+<%@ page import="com.vnpt.portlet.user.model.*"%>
+<%@ page import="com.vnpt.portlet.user.service.*"%>
+
+
 
 <liferay-theme:defineObjects />
 <portlet:defineObjects/>
