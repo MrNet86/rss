@@ -37,8 +37,8 @@ if(role != null) {
 			<div class="col-md-4 col-sm-3 col-xs-12">
 				<aui:select name="type" label="" cssClass="form-control">
 					<aui:option label="regular" value="1" />
-					<aui:option label="site" value="2" />
-					<aui:option label="organization" value="3" />
+<%-- 					<aui:option label="site" value="2" /> --%>
+<%-- 					<aui:option label="organization" value="3" /> --%>
 				</aui:select>
 			</div>
 		</div>

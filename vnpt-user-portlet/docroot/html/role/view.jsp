@@ -10,6 +10,26 @@ PortletURL portletURL = (PortletURL) request.getAttribute("view.jsp-portletURL")
 SearchContainer<Role> searchContainer = null;
 searchContainer = new SearchContainer<Role>(renderRequest, null, null, SearchContainer.DEFAULT_CUR_PARAM, 
 						SearchContainer.DEFAULT_DELTA, portletURL, null, StringPool.BLANK);
+
+System.out.println("user :"+user.getEmailAddress());
+// get all regular role of user
+List<Role> lstRegularRole = RoleLocalServiceUtil.getUserRoles(user.getUserId());
+for (Role role : lstRegularRole) {
+	System.out.println("regular role :"+role.getName());
+}
+
+// get all site role of user
+List<Role> lstSiteRole = RoleLocalServiceUtil.getUserRelatedRoles(user.getUserId(), user.getGroups());
+for (Role role : lstSiteRole) {
+	System.out.println("userrRelateRoles role :"+role.getName());
+}
+
+// get all role
+List<Role> lstAllRole = RoleLocalServiceUtil.getRoles(-1, -1) ;
+for (Role role : lstAllRole) {
+	System.out.println("allRole role :"+role.getName());
+}
+
 %>
 
 <aui:form action="" method="get" name="fm">
@@ -37,12 +57,7 @@ searchContainer = new SearchContainer<Role>(renderRequest, null, null, SearchCon
 			<liferay-ui:search-container-column-text property="title" />
 			
 			<liferay-ui:search-container-column-text property="description" />
-			
-<%-- 			<liferay-ui:search-container-column-jsp --%>
-<%-- 				align="center" --%>
-<%-- 				path="/html/user/action_user.jsp" --%>
-<%-- 			/> --%>
-											
+													
 		</liferay-ui:search-container-row>
 	
 		<liferay-ui:search-iterator />
