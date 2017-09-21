@@ -1,3 +1,6 @@
+<%@page import="com.liferay.portal.kernel.util.ListUtil"%>
+<%@page import="com.liferay.portal.service.UserGroupRoleLocalServiceUtil"%>
+<%@page import="com.liferay.portal.model.UserGroupRole"%>
 <%@page import="com.liferay.portal.model.Role"%>
 <%@page import="com.liferay.portal.service.RoleLocalServiceUtil"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -18,17 +21,41 @@ for (Role role : lstRegularRole) {
 	System.out.println("regular role :"+role.getName());
 }
 
-// get all site role of user
-List<Role> lstSiteRole = RoleLocalServiceUtil.getUserRelatedRoles(user.getUserId(), user.getGroups());
-for (Role role : lstSiteRole) {
-	System.out.println("userrRelateRoles role :"+role.getName());
-}
+// // get all site role of user
+// List<Role> lstSiteRole = RoleLocalServiceUtil.getUserRelatedRoles(user.getUserId(), user.getGroups());
+// for (Role role : lstSiteRole) {
+// 	System.out.println("userrRelateRoles role :"+role.getName());
+// }
 
-// get all role
-List<Role> lstAllRole = RoleLocalServiceUtil.getRoles(-1, -1) ;
-for (Role role : lstAllRole) {
-	System.out.println("allRole role :"+role.getName());
-}
+// // get all role
+// List<Role> lstAllRole = RoleLocalServiceUtil.getRoles(-1, -1) ;
+// for (Role role : lstAllRole) {
+// 	System.out.println("allRole role :"+role.getName());
+// }
+// System.out.println("************************");
+// System.out.println("userid :"+user.getUserId()+ "|| groupid :"+user.getGroupId());
+// // site role and group role
+// List<UserGroupRole> userGroupRoleList =
+//     UserGroupRoleLocalServiceUtil.getUserGroupRoles(user.getUserId(), user.getGroupId());
+// if (userGroupRoleList != null) {
+//     for (UserGroupRole userGroupRole : userGroupRoleList) {
+//         /* Get Role object based on userGroupRole.getRoleId() */
+//         Role role = RoleLocalServiceUtil.getRole(userGroupRole.getRoleId());
+//         System.out.println("roleId : " + role.getRoleId());
+//         System.out.println("roleName : " + role.getName());
+//     }
+// }
+
+// List<UserGroupRole> groupRole =
+// 	UserGroupRoleLocalServiceUtil.getUserGroupRoles(user.getUserId());
+// if (userGroupRoleList != null) {
+//     for (UserGroupRole userGroupRole : groupRole) {
+//         /* Get Role object based on userGroupRole.getRoleId() */
+//         Role role = RoleLocalServiceUtil.getRole(userGroupRole.getRoleId());
+//         System.out.println("By user roleId : " + role.getRoleId());
+//         System.out.println("By user roleName : " + role.getName());
+//     }
+// }
 
 %>
 
@@ -39,10 +66,25 @@ for (Role role : lstAllRole) {
 		var="roleSearchContainer"
 	>
 	
-		<liferay-ui:search-container-results
-			results="<%= RoleLocalServiceUtil.getRoles(roleSearchContainer.getStart(), roleSearchContainer.getEnd()) %>"
-			total="<%= RoleLocalServiceUtil.getRolesCount() %>"
-		/>
+		<liferay-ui:search-container-results >
+			<%
+				results = ListUtil.subList(lstRegularRole, searchContainer.getStart(),
+	                searchContainer.getEnd());
+	
+				if(lstRegularRole.size()<searchContainer.getEnd()){
+		            results = ListUtil.subList(lstRegularRole, searchContainer.getStart(),
+		            		lstRegularRole.size());
+		            total = lstRegularRole.size();
+		        } else{
+		            results = ListUtil.subList(lstRegularRole, searchContainer.getStart(),
+		                    searchContainer.getEnd());
+		            total = lstRegularRole.size();
+		        }
+	
+		        pageContext.setAttribute("results", results);
+		        pageContext.setAttribute("total", total);
+			%>
+		</liferay-ui:search-container-results>
 	
 		<liferay-ui:search-container-row
 			className="com.liferay.portal.model.Role"

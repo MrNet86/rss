@@ -25,7 +25,7 @@ if(role != null) {
 	
 	<div class="row">
 		<div class="col-md-12">
-			<h1 class="page-header">Tạo mới nhóm quyền</h1>
+			<h1 class="page-header">Tạo mới loại nhóm quyền</h1>
 		</div>
 	</div>
 		

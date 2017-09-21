@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.Message;
 
 import com.vnpt.portlet.user.service.ClpSerializer;
+import com.vnpt.portlet.user.service.PermissionGroupLocalServiceUtil;
 import com.vnpt.portlet.user.service.PermissionTypeLocalServiceUtil;
 
 /**
@@ -35,6 +36,8 @@ public class ClpMessageListener extends BaseMessageListener {
 
 		if (command.equals("undeploy") &&
 				servletContextName.equals(getServletContextName())) {
+			PermissionGroupLocalServiceUtil.clearService();
+
 			PermissionTypeLocalServiceUtil.clearService();
 		}
 	}

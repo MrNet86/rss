@@ -39,4 +39,8 @@ pageContext.setAttribute("portletURL", portletURL);
 		<liferay-util:include page="/html/role/edit.jsp"
 			servletContext="<%= this.getServletContext() %>"/>
 	</c:when>
+	<c:when test='<%= VnptConstants.EDIT_GROUP_ROLE.equals(tabs1) %>'>
+		<liferay-util:include page="/html/grouprole/edit_group_role.jsp"
+			servletContext="<%= this.getServletContext() %>"/>
+	</c:when>
 </c:choose>

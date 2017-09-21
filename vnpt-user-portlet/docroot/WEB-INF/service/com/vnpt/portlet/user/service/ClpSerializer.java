@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.BaseModel;
 
+import com.vnpt.portlet.user.model.PermissionGroupClp;
 import com.vnpt.portlet.user.model.PermissionTypeClp;
 
 import java.io.ObjectInputStream;
@@ -102,6 +103,10 @@ public class ClpSerializer {
 
 		String oldModelClassName = oldModelClass.getName();
 
+		if (oldModelClassName.equals(PermissionGroupClp.class.getName())) {
+			return translateInputPermissionGroup(oldModel);
+		}
+
 		if (oldModelClassName.equals(PermissionTypeClp.class.getName())) {
 			return translateInputPermissionType(oldModel);
 		}
@@ -119,6 +124,16 @@ public class ClpSerializer {
 		}
 
 		return newList;
+	}
+
+	public static Object translateInputPermissionGroup(BaseModel<?> oldModel) {
+		PermissionGroupClp oldClpModel = (PermissionGroupClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getPermissionGroupRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
 	}
 
 	public static Object translateInputPermissionType(BaseModel<?> oldModel) {
@@ -147,6 +162,43 @@ public class ClpSerializer {
 		Class<?> oldModelClass = oldModel.getClass();
 
 		String oldModelClassName = oldModelClass.getName();
+
+		if (oldModelClassName.equals(
+					"com.vnpt.portlet.user.model.impl.PermissionGroupImpl")) {
+			return translateOutputPermissionGroup(oldModel);
+		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
+		}
 
 		if (oldModelClassName.equals(
 					"com.vnpt.portlet.user.model.impl.PermissionTypeImpl")) {
@@ -266,11 +318,26 @@ public class ClpSerializer {
 		}
 
 		if (className.equals(
+					"com.vnpt.portlet.user.NoSuchPermissionGroupException")) {
+			return new com.vnpt.portlet.user.NoSuchPermissionGroupException();
+		}
+
+		if (className.equals(
 					"com.vnpt.portlet.user.NoSuchPermissionTypeException")) {
 			return new com.vnpt.portlet.user.NoSuchPermissionTypeException();
 		}
 
 		return throwable;
+	}
+
+	public static Object translateOutputPermissionGroup(BaseModel<?> oldModel) {
+		PermissionGroupClp newModel = new PermissionGroupClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setPermissionGroupRemoteModel(oldModel);
+
+		return newModel;
 	}
 
 	public static Object translateOutputPermissionType(BaseModel<?> oldModel) {

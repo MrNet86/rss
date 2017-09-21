@@ -26,6 +26,8 @@ if(isAdmin) {
 	tabs1Names += ",edit-role";
 }
 
+tabs1Names += ",edit-group-role";
+
 tabs1Names = HtmlUtil.escape(tabs1Names);
 
 String backURL = ParamUtil.getString(request, "backURL");

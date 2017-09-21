@@ -20,6 +20,9 @@ public class VnptConstants {
 	public static final String EDIT_ROLE = "edit-role";
 	public static final String UPDATE_ROLE = "update-role";
 	
+	public static final String VIEW_GROUP_ROLE = "view-group-role";
+	public static final String EDIT_GROUP_ROLE = "edit-group-role";
+	
 	// Permission
 	public static final String USER_PER_ADMIN = "USER_PER_ADMIN";
 	

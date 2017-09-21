@@ -1,6 +1,11 @@
 <?xml version="1.0"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<bean id="com.vnpt.portlet.user.service.PermissionGroupLocalService" class="com.vnpt.portlet.user.service.impl.PermissionGroupLocalServiceImpl" />
+	<bean id="com.vnpt.portlet.user.service.persistence.PermissionGroupPersistence" class="com.vnpt.portlet.user.service.persistence.PermissionGroupPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="eGovDataSource" />
+		<property name="sessionFactory" ref="eGovSessionFactory" />
+	</bean>
 	<bean id="com.vnpt.portlet.user.service.PermissionTypeLocalService" class="com.vnpt.portlet.user.service.impl.PermissionTypeLocalServiceImpl" />
 	<bean id="com.vnpt.portlet.user.service.persistence.PermissionTypePersistence" class="com.vnpt.portlet.user.service.persistence.PermissionTypePersistenceImpl" parent="basePersistence">
 		<property name="dataSource" ref="eGovDataSource" />

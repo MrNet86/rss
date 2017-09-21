@@ -1,6 +1,16 @@
 <?xml version="1.0"?>
 
 <model-hints>
+	<model name="com.vnpt.portlet.user.model.PermissionGroup">
+		<field name="permissionGroupId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="groupName" type="String" />
+		<field name="groupCode" type="String" />
+		<field name="isActive" type="int" />
+		<field name="description" type="String" />
+		<field name="roleId" type="long" />
+	</model>
 	<model name="com.vnpt.portlet.user.model.PermissionType">
 		<field name="permissionTypeId" type="long" />
 		<field name="groupId" type="long" />
