@@ -55,7 +55,6 @@ import com.liferay.portal.model.Contact;
 import com.liferay.portal.model.EmailAddress;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Phone;
-import com.liferay.portal.model.ResourcePermission;
 import com.liferay.portal.model.Role;
 import com.liferay.portal.model.User;
 import com.liferay.portal.model.UserGroupRole;
@@ -63,13 +62,10 @@ import com.liferay.portal.model.Website;
 import com.liferay.portal.security.auth.CompanyThreadLocal;
 import com.liferay.portal.security.auth.PrincipalException;
 import com.liferay.portal.security.membershippolicy.MembershipPolicyException;
-import com.liferay.portal.security.permission.ActionKeys;
 import com.liferay.portal.security.permission.PermissionChecker;
 import com.liferay.portal.security.permission.PermissionCheckerFactoryUtil;
 import com.liferay.portal.security.permission.PermissionThreadLocal;
-import com.liferay.portal.service.PermissionServiceUtil;
 import com.liferay.portal.service.PhoneLocalServiceUtil;
-import com.liferay.portal.service.ResourcePermissionLocalServiceUtil;
 import com.liferay.portal.service.RoleLocalServiceUtil;
 import com.liferay.portal.service.RoleServiceUtil;
 import com.liferay.portal.service.ServiceContext;
@@ -80,9 +76,21 @@ import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.portlet.announcements.model.AnnouncementsDelivery;
 import com.liferay.portlet.usersadmin.util.UsersAdminUtil;
+import com.vnpt.portlet.user.model.ActIdGroup;
+import com.vnpt.portlet.user.model.ActIdUser;
+import com.vnpt.portlet.user.model.GroupRoles;
+import com.vnpt.portlet.user.model.PermissionGroup;
 import com.vnpt.portlet.user.model.PermissionType;
+import com.vnpt.portlet.user.model.impl.ActIdGroupImpl;
+import com.vnpt.portlet.user.model.impl.ActIdUserImpl;
+import com.vnpt.portlet.user.model.impl.GroupRolesImpl;
+import com.vnpt.portlet.user.model.impl.PermissionGroupImpl;
 import com.vnpt.portlet.user.model.impl.PermissionTypeImpl;
 import com.vnpt.portlet.user.permission.VnptPermission;
+import com.vnpt.portlet.user.service.ActIdGroupLocalServiceUtil;
+import com.vnpt.portlet.user.service.ActIdUserLocalServiceUtil;
+import com.vnpt.portlet.user.service.GroupRolesLocalServiceUtil;
+import com.vnpt.portlet.user.service.PermissionGroupLocalServiceUtil;
 import com.vnpt.portlet.user.service.PermissionTypeLocalServiceUtil;
 import com.vnpt.portlet.user.utils.VnptConstants;
 
@@ -93,52 +101,48 @@ public class UserController {
 	private static final Log _log = LogFactoryUtil.getLog(UserController.class);
 	
 	@RenderMapping
-	public String renderHomePage() {
-		System.out.println("renderHomePage");
-		return "view";
-	}
-	
-	@RequestMapping(params="action="+VnptConstants.VIEW_USER)
-	public String viewUserPage(RenderRequest renderRequest,
+	public String renderHomePage(RenderRequest renderRequest,
 			RenderResponse renderResponse) throws Exception {
+		
 		String tabs1 = ParamUtil.getString(renderRequest, "tabs1");
 		
-		System.out.println("viewUserPage tabs1 :" + tabs1);
-		
+		System.out.println("tabs1 :"+tabs1);
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
-		List<Group> groups = Collections.emptyList();
-		groups = themeDisplay.getUser().getGroups();		
-		renderRequest.setAttribute("groups", groups);
-		return "view";
-	}
+		if(VnptConstants.VIEW_USER.equals(tabs1)) {
+			System.out.println("viewUser");
+			List<Group> groups = Collections.emptyList();
+			groups = themeDisplay.getUser().getGroups();		
+			renderRequest.setAttribute("groups", groups);
+		}
+		else if(VnptConstants.EDIT_USER.equals(tabs1)) {
+			System.out.println("editUser");
+			long groupId = themeDisplay.getScopeGroupId();
+			PermissionChecker permissionChecker = themeDisplay.getPermissionChecker();
 	
-	@RenderMapping(params="action="+VnptConstants.EDIT_USER)
-	public String editUserPage(RenderRequest renderRequest,
-			RenderResponse renderResponse) throws Exception {
-		System.out.println("edit user");
-		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
-		long groupId = themeDisplay.getScopeGroupId();
-		PermissionChecker permissionChecker = themeDisplay.getPermissionChecker();
-
-		// check edit permission
-		if (!VnptPermission.contains(permissionChecker, groupId, VnptConstants.USER_PER_ADMIN)) {
-			SessionErrors.add(renderRequest, "use-have-not-permission");
-			return "user/error_permission" ;
-		}
-
-		long userId = ParamUtil.getLong(renderRequest, "userId", 0L);
-		if(userId > 0 ) {
-			User user = UserLocalServiceUtil.getUser(userId);
-			if(user != null) {
-				renderRequest.setAttribute("user", user);
+			// check edit permission
+			if (!VnptPermission.contains(permissionChecker, groupId, VnptConstants.USER_PER_ADMIN)) {
+				SessionErrors.add(renderRequest, "use-have-not-permission");
+				return "user/error_permission" ;
 			}
+	
+			long userId = ParamUtil.getLong(renderRequest, "userId", 0L);
+			if(userId > 0 ) {
+				User user = UserLocalServiceUtil.getUser(userId);
+				if(user != null) {
+					renderRequest.setAttribute("user", user);
+				}
+			}
+			System.out.println("editUserPage userId :"+userId);
+	
+			// get all site of user login
+			List<Group> groups = Collections.emptyList();
+			groups = themeDisplay.getUser().getGroups();		
+			renderRequest.setAttribute("groups", groups);
 		}
-		System.out.println("editUserPage userId :"+userId);
-
-		// get all site of user login
-		List<Group> groups = Collections.emptyList();
-		groups = themeDisplay.getUser().getGroups();		
-		renderRequest.setAttribute("groups", groups);
+		else if(VnptConstants.VIEW_PERMISSION_TYPE.equals(tabs1)) {
+			System.out.println("viewPermissionType");
+			
+		}
 		
 		return "view";
 	}
@@ -304,6 +308,22 @@ public class UserController {
 								user.getRoleIds(), userGroupRoles, user.getUserGroupIds(), user.getAddresses(), user.getEmailAddresses(),
 								phones, user.getWebsites(), announcementsDeliveries, serviceContext);
 						
+						// update actIdUser in activity
+						ActIdUser actIdUser = ActIdUserLocalServiceUtil.fetchActIdUser(emailAddress);
+						
+						if(actIdUser == null) {
+							actIdUser = new ActIdUserImpl();
+						}
+						
+						actIdUser.setId(emailAddress);
+						actIdUser.setRev(1);
+						actIdUser.setFirst(firstName);
+						actIdUser.setLast(lastName);
+						actIdUser.setEmail(emailAddress);
+						actIdUser.setPwd(emailAddress);
+						
+						ActIdUserLocalServiceUtil.updateActIdUser(actIdUser);
+						
 					}
 				} else { // add new User
 					
@@ -327,6 +347,18 @@ public class UserController {
 					
 					// set password to login
 					user = UserLocalServiceUtil.updatePassword(user.getUserId(), password1, password2, true);
+					
+					// insert actIdUser into activity db
+					ActIdUser actIdUser = new ActIdUserImpl();
+					actIdUser.setId(emailAddress);
+					actIdUser.setRev(1);
+					actIdUser.setFirst(firstName);
+					actIdUser.setLast(lastName);
+					actIdUser.setEmail(emailAddress);
+					actIdUser.setPwd(emailAddress);
+					
+					ActIdUserLocalServiceUtil.addActIdUser(actIdUser);
+					
 				}
 			}
 			catch (Exception e) {
@@ -384,6 +416,18 @@ public class UserController {
 		
 		System.out.println("deleteUserAction userId :"+userId);
 		if(userId > 0 ) {			
+			
+			User user = UserLocalServiceUtil.fetchUser(userId);
+			
+			// delete actIdUser in activiti DB
+			ActIdUser actIdUser = ActIdUserLocalServiceUtil.fetchActIdUser(user.getEmailAddress());
+			if(actIdUser != null) {
+				
+			} else {
+				actIdUser = new ActIdUserImpl();
+			}
+
+			// delete user
 			UserServiceUtil.deleteUser(userId);
 		}
 		
@@ -492,7 +536,7 @@ public class UserController {
 		String name = ParamUtil.getString(actionRequest, "name");
 		String title = ParamUtil.getString(actionRequest, "title");
 		String description = ParamUtil.getString(actionRequest, "description");
-		System.out.println("title :"+title);
+		System.out.println("title :"+title +" || name :"+name);
 		Map<Locale, String> titleMap =new HashMap<Locale, String>();
 		Map<Locale, String> descriptionMap = new HashMap<Locale, String>();
 		
@@ -505,14 +549,84 @@ public class UserController {
 		if(roleId <= 0) {
 			RoleServiceUtil.addRole(null, 0, name, titleMap, descriptionMap, 
 					type, null, serviceContext);
+			
+			// insert into actIdGroup
+			ActIdGroup actIdGroup = new ActIdGroupImpl();
+			actIdGroup.setId(name);;
+			actIdGroup.setRev(1);
+			actIdGroup.setName(name);
+			actIdGroup.setType("assignment");
+			
+			ActIdGroupLocalServiceUtil.addActIdGroup(actIdGroup);
+			
 		}
 		else {
 			RoleServiceUtil.updateRole(roleId, name, titleMap, descriptionMap, 
 					null, serviceContext);
+			
+			// insert into actIdGroup
+			ActIdGroup actIdGroup = ActIdGroupLocalServiceUtil.fetchActIdGroup(name);
+			if(actIdGroup == null) {
+				actIdGroup = new ActIdGroupImpl();
+			}
+			
+			actIdGroup.setId(name);;
+			actIdGroup.setRev(1);
+			actIdGroup.setName(name);
+			actIdGroup.setType("assignment");
+			
+			ActIdGroupLocalServiceUtil.updateActIdGroup(actIdGroup);
+			
 		}
 		
 		SessionMessages.add(actionRequest, "update-role-successfull");
 		actionResponse.setRenderParameter("tabs1", VnptConstants.EDIT_ROLE);
 		actionResponse.setRenderParameter("action", VnptConstants.EDIT_ROLE);
 	}
+	
+	@ActionMapping(params="action="+VnptConstants.UPDATE_GROUP_ROLE)
+	public void updateGroupRole (ActionRequest actionRequest,
+			ActionResponse actionResponse) throws Exception {
+		
+		System.out.println("updateGroupRole");
+		
+		ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
+		long groupId = themeDisplay.getScopeGroupId();
+		Locale defaultLocale = PortalUtil.getSiteDefaultLocale(groupId);
+		
+		String groupName = ParamUtil.getString(actionRequest, "groupName");
+		String groupCode = ParamUtil.getString(actionRequest, "groupCode");
+		String description = ParamUtil.getString(actionRequest, "description");
+		
+		PermissionGroup perGroup = new PermissionGroupImpl();
+		
+		perGroup.setGroupName(groupName);
+		perGroup.setGroupCode(groupCode);
+		perGroup.setDescription(description);
+		perGroup.setIsActive(1);
+		perGroup.setGroupId(groupId);
+		perGroup.setCompanyId(themeDisplay.getCompanyId());
+		
+		perGroup = PermissionGroupLocalServiceUtil.addPermissionGroup(perGroup);
+		
+		// Mapping permissionGroup and Role_
+		GroupRoles groupRoles = null;
+		String[] strRoleId = actionRequest.getParameterValues("roleId");
+		long[] roles = new long[strRoleId.length] ;
+		for (int i = 0; i < strRoleId.length; i++) {
+			roles[i] = Long.valueOf(strRoleId[i]);
+			System.out.println("roles :"+ i +" : "+roles[i]);
+			
+			groupRoles = new GroupRolesImpl();
+			groupRoles.setRoleId(roles[i]);
+			groupRoles.setPermissionGroupId(perGroup.getPermissionGroupId());
+			
+			GroupRolesLocalServiceUtil.updateGroupRoles(groupRoles);
+		}
+		
+		SessionMessages.add(actionRequest, "update-group-role-successfull");
+		actionResponse.setRenderParameter("tabs1", VnptConstants.EDIT_GROUP_ROLE);
+		actionResponse.setRenderParameter("action", VnptConstants.EDIT_GROUP_ROLE);
+	}
+
 }

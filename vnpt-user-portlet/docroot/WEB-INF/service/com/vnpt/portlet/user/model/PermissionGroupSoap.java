@@ -36,7 +36,6 @@ public class PermissionGroupSoap implements Serializable {
 		soapModel.setGroupCode(model.getGroupCode());
 		soapModel.setIsActive(model.getIsActive());
 		soapModel.setDescription(model.getDescription());
-		soapModel.setRoleId(model.getRoleId());
 
 		return soapModel;
 	}
@@ -147,14 +146,6 @@ public class PermissionGroupSoap implements Serializable {
 		_description = description;
 	}
 
-	public long getRoleId() {
-		return _roleId;
-	}
-
-	public void setRoleId(long roleId) {
-		_roleId = roleId;
-	}
-
 	private long _permissionGroupId;
 	private long _groupId;
 	private long _companyId;
@@ -162,5 +153,4 @@ public class PermissionGroupSoap implements Serializable {
 	private String _groupCode;
 	private int _isActive;
 	private String _description;
-	private long _roleId;
 }

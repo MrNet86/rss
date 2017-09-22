@@ -47,18 +47,66 @@
 		<column name="groupCode" type="String" />
 		<column name="isActive" type="int"/>		
 		<column name="description" type="String"/>		
-		<column name="roleId" type="long"/>		
-		
+				
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="groupId" />
 		</finder>
 		<finder name="CompanyId" return-type="Collection">
 			<finder-column name="companyId" />
 		</finder>		
+
+	</entity>
+	
+	<entity name="GroupRoles" table="eportal_group_role" local-service="true" remote-service="false"
+		data-source="eGovDataSource" session-factory="eGovSessionFactory" tx-manager="eGovTransactionManager">
+
+		<column name="permissionGroupId" type="long" primary="true" />
+		<column name="roleId" type="long" primary="true" />
+		
+		<finder name="PermissionGroupId" return-type="Collection">
+			<finder-column name="permissionGroupId" />
+		</finder>
+		
 		<finder name="RoleId" return-type="Collection">
 			<finder-column name="roleId" />
-		</finder>		
-
+		</finder>
+	</entity>
+	
+	<entity name="ActIdUser" table="act_id_user" local-service="true" remote-service="false"
+		data-source="activityDataSource" session-factory="activitySessionFactory" tx-manager="activityTransactionManager">
+		<column name="id" db-name="id_" type="String" primary="true" />
+		<column name="rev" db-name="rev_" type="long" />
+		<column name="first" db-name="first_" type="String" />
+		<column name="last" db-name="last_" type="String" />
+		<column name="email" db-name="email_" type="String" />
+		<column name="pwd" db-name="pwd_" type="String" />
+		<column name="pictureId" db-name="picture_id_" type="String" />
+	</entity>
+	
+	<entity name="ActIdMembership" table="act_id_membership" local-service="true" remote-service="false"
+		data-source="activityDataSource" session-factory="activitySessionFactory" tx-manager="activityTransactionManager">
+		<column name="userId" db-name="user_id_" type="long" primary="true"/>
+		<column name="groupId" db-name="group_id_" type="long" primary="true"/>
+	</entity>
+	
+	<entity name="ActIdInfo" table="act_id_info" local-service="true" remote-service="false"
+		data-source="activityDataSource" session-factory="activitySessionFactory" tx-manager="activityTransactionManager">
+		<column name="id" db-name="id_" type="long" primary="true" />
+		<column name="rev" db-name="rev_" type="long" />
+		<column name="userId" db-name="user_id_" type="String" />
+		<column name="type" db-name="type_" type="String" />
+		<column name="key" db-name="key_" type="String" />
+		<column name="value" db-name="value_" type="String" />
+		<column name="password" db-name="password_" type="String" />
+		<column name="parent_id_" db-name="parent_id_" type="String" />
+	</entity>
+	
+	<entity name="ActIdGroup" table="act_id_group" local-service="true" remote-service="false"
+		data-source="activityDataSource" session-factory="activitySessionFactory" tx-manager="activityTransactionManager">
+		<column name="id" db-name="id_" type="String" primary="true" />
+		<column name="rev" db-name="rev_" type="long" />
+		<column name="name" db-name="name_" type="String" />
+		<column name="type" db-name="type_" type="String" />
 	</entity>
 	
 </service-builder>

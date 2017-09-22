@@ -80,7 +80,6 @@ public class PermissionGroupClp extends BaseModelImpl<PermissionGroup>
 		attributes.put("groupCode", getGroupCode());
 		attributes.put("isActive", getIsActive());
 		attributes.put("description", getDescription());
-		attributes.put("roleId", getRoleId());
 
 		return attributes;
 	}
@@ -127,12 +126,6 @@ public class PermissionGroupClp extends BaseModelImpl<PermissionGroup>
 
 		if (description != null) {
 			setDescription(description);
-		}
-
-		Long roleId = (Long)attributes.get("roleId");
-
-		if (roleId != null) {
-			setRoleId(roleId);
 		}
 	}
 
@@ -298,29 +291,6 @@ public class PermissionGroupClp extends BaseModelImpl<PermissionGroup>
 		}
 	}
 
-	@Override
-	public long getRoleId() {
-		return _roleId;
-	}
-
-	@Override
-	public void setRoleId(long roleId) {
-		_roleId = roleId;
-
-		if (_permissionGroupRemoteModel != null) {
-			try {
-				Class<?> clazz = _permissionGroupRemoteModel.getClass();
-
-				Method method = clazz.getMethod("setRoleId", long.class);
-
-				method.invoke(_permissionGroupRemoteModel, roleId);
-			}
-			catch (Exception e) {
-				throw new UnsupportedOperationException(e);
-			}
-		}
-	}
-
 	public BaseModel<?> getPermissionGroupRemoteModel() {
 		return _permissionGroupRemoteModel;
 	}
@@ -399,7 +369,6 @@ public class PermissionGroupClp extends BaseModelImpl<PermissionGroup>
 		clone.setGroupCode(getGroupCode());
 		clone.setIsActive(getIsActive());
 		clone.setDescription(getDescription());
-		clone.setRoleId(getRoleId());
 
 		return clone;
 	}
@@ -452,7 +421,7 @@ public class PermissionGroupClp extends BaseModelImpl<PermissionGroup>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{permissionGroupId=");
 		sb.append(getPermissionGroupId());
@@ -468,8 +437,6 @@ public class PermissionGroupClp extends BaseModelImpl<PermissionGroup>
 		sb.append(getIsActive());
 		sb.append(", description=");
 		sb.append(getDescription());
-		sb.append(", roleId=");
-		sb.append(getRoleId());
 		sb.append("}");
 
 		return sb.toString();
@@ -477,7 +444,7 @@ public class PermissionGroupClp extends BaseModelImpl<PermissionGroup>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(28);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("<model><model-name>");
 		sb.append("com.vnpt.portlet.user.model.PermissionGroup");
@@ -511,10 +478,6 @@ public class PermissionGroupClp extends BaseModelImpl<PermissionGroup>
 			"<column><column-name>description</column-name><column-value><![CDATA[");
 		sb.append(getDescription());
 		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>roleId</column-name><column-value><![CDATA[");
-		sb.append(getRoleId());
-		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -528,7 +491,6 @@ public class PermissionGroupClp extends BaseModelImpl<PermissionGroup>
 	private String _groupCode;
 	private int _isActive;
 	private String _description;
-	private long _roleId;
 	private BaseModel<?> _permissionGroupRemoteModel;
 	private Class<?> _clpSerializerClass = com.vnpt.portlet.user.service.ClpSerializer.class;
 }

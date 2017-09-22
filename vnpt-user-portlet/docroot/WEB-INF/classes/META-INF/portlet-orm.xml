@@ -7,6 +7,107 @@
 			<access>PROPERTY</access>
 		</persistence-unit-defaults>
 	</persistence-unit-metadata>
+	<mapped-superclass class="com.vnpt.portlet.user.model.impl.ActIdGroupModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="rev">
+				<column name="REV_" />
+			</basic>
+			<basic name="name">
+				<column name="NAME_" />
+			</basic>
+			<basic name="type">
+				<column name="TYPE_" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.vnpt.portlet.user.model.impl.ActIdInfoModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="rev">
+				<column name="REV_" />
+			</basic>
+			<basic name="userId">
+				<column name="USER_ID_" />
+			</basic>
+			<basic name="type">
+				<column name="TYPE_" />
+			</basic>
+			<basic name="key">
+				<column name="KEY_" />
+			</basic>
+			<basic name="value">
+				<column name="VALUE_" />
+			</basic>
+			<basic name="password">
+				<column name="PASSWORD_" />
+			</basic>
+			<basic name="parent_id_" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.vnpt.portlet.user.model.impl.ActIdMembershipModelImpl">
+		<id-class class="com.vnpt.portlet.user.service.persistence.ActIdMembershipPK" />
+		<attributes>
+			<id name="userId">
+				<column name="USER_ID_" />
+			</id>
+			<id name="groupId">
+				<column name="GROUP_ID_" />
+			</id>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+			<transient name="userUuid" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.vnpt.portlet.user.model.impl.ActIdUserModelImpl">
+		<attributes>
+			<id name="id">
+				<column name="ID_" />
+			</id>
+			<basic name="rev">
+				<column name="REV_" />
+			</basic>
+			<basic name="first">
+				<column name="FIRST_" />
+			</basic>
+			<basic name="last">
+				<column name="LAST_" />
+			</basic>
+			<basic name="email">
+				<column name="EMAIL_" />
+			</basic>
+			<basic name="pwd">
+				<column name="PWD_" />
+			</basic>
+			<basic name="pictureId">
+				<column name="PICTURE_ID_" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.vnpt.portlet.user.model.impl.GroupRolesModelImpl">
+		<id-class class="com.vnpt.portlet.user.service.persistence.GroupRolesPK" />
+		<attributes>
+			<id name="permissionGroupId" />
+			<id name="roleId" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="com.vnpt.portlet.user.model.impl.PermissionGroupModelImpl">
 		<attributes>
 			<id name="permissionGroupId" />
@@ -16,7 +117,6 @@
 			<basic name="groupCode" />
 			<basic name="isActive" />
 			<basic name="description" />
-			<basic name="roleId" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -36,6 +136,26 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<entity class="com.vnpt.portlet.user.model.impl.ActIdGroupImpl" name="ActIdGroup">
+		<table name="act_id_group" />
+		<attributes />
+	</entity>
+	<entity class="com.vnpt.portlet.user.model.impl.ActIdInfoImpl" name="ActIdInfo">
+		<table name="act_id_info" />
+		<attributes />
+	</entity>
+	<entity class="com.vnpt.portlet.user.model.impl.ActIdMembershipImpl" name="ActIdMembership">
+		<table name="act_id_membership" />
+		<attributes />
+	</entity>
+	<entity class="com.vnpt.portlet.user.model.impl.ActIdUserImpl" name="ActIdUser">
+		<table name="act_id_user" />
+		<attributes />
+	</entity>
+	<entity class="com.vnpt.portlet.user.model.impl.GroupRolesImpl" name="GroupRoles">
+		<table name="eportal_group_role" />
+		<attributes />
+	</entity>
 	<entity class="com.vnpt.portlet.user.model.impl.PermissionGroupImpl" name="PermissionGroup">
 		<table name="eportal_permission_group" />
 		<attributes />

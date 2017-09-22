@@ -46,5 +46,40 @@
 			<ref bean="eGovHibernateSessionFactory" />
 		</property>
 	</bean>
+	
+	<bean id="activityDataSource" class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy">
+		<property name="targetDataSource">
+			<bean class="com.liferay.portal.dao.jdbc.util.DataSourceFactoryBean">
+				<property name="propertyPrefix" value="jdbc.activiti." />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="activityHibernateSessionFactory" class="com.liferay.portal.spring.hibernate.PortletHibernateConfiguration">
+		<property name="dataSource">
+			<ref bean="activityDataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+			    <prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">false</prop>
+				<prop key="hibernate.generate_statistics">true</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="activitySessionFactory" class="com.liferay.portal.dao.orm.hibernate.SessionFactoryImpl">
+		<property name="sessionFactoryImplementor">
+			<ref bean="activityHibernateSessionFactory" />
+		</property>
+	</bean>
+	<bean id="activityTransactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="dataSource">
+			<ref bean="activityDataSource" />
+		</property>
+		<property name="sessionFactory">
+			<ref bean="activityHibernateSessionFactory" />
+		</property>
+	</bean>
 
 </beans>

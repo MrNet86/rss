@@ -33,6 +33,11 @@ import com.liferay.portal.service.persistence.UserPersistence;
 
 import com.vnpt.portlet.user.model.PermissionGroup;
 import com.vnpt.portlet.user.service.PermissionGroupLocalService;
+import com.vnpt.portlet.user.service.persistence.ActIdGroupPersistence;
+import com.vnpt.portlet.user.service.persistence.ActIdInfoPersistence;
+import com.vnpt.portlet.user.service.persistence.ActIdMembershipPersistence;
+import com.vnpt.portlet.user.service.persistence.ActIdUserPersistence;
+import com.vnpt.portlet.user.service.persistence.GroupRolesPersistence;
 import com.vnpt.portlet.user.service.persistence.PermissionGroupPersistence;
 import com.vnpt.portlet.user.service.persistence.PermissionTypePersistence;
 
@@ -279,6 +284,196 @@ public abstract class PermissionGroupLocalServiceBaseImpl
 	public PermissionGroup updatePermissionGroup(
 		PermissionGroup permissionGroup) throws SystemException {
 		return permissionGroupPersistence.update(permissionGroup);
+	}
+
+	/**
+	 * Returns the act ID group local service.
+	 *
+	 * @return the act ID group local service
+	 */
+	public com.vnpt.portlet.user.service.ActIdGroupLocalService getActIdGroupLocalService() {
+		return actIdGroupLocalService;
+	}
+
+	/**
+	 * Sets the act ID group local service.
+	 *
+	 * @param actIdGroupLocalService the act ID group local service
+	 */
+	public void setActIdGroupLocalService(
+		com.vnpt.portlet.user.service.ActIdGroupLocalService actIdGroupLocalService) {
+		this.actIdGroupLocalService = actIdGroupLocalService;
+	}
+
+	/**
+	 * Returns the act ID group persistence.
+	 *
+	 * @return the act ID group persistence
+	 */
+	public ActIdGroupPersistence getActIdGroupPersistence() {
+		return actIdGroupPersistence;
+	}
+
+	/**
+	 * Sets the act ID group persistence.
+	 *
+	 * @param actIdGroupPersistence the act ID group persistence
+	 */
+	public void setActIdGroupPersistence(
+		ActIdGroupPersistence actIdGroupPersistence) {
+		this.actIdGroupPersistence = actIdGroupPersistence;
+	}
+
+	/**
+	 * Returns the act ID info local service.
+	 *
+	 * @return the act ID info local service
+	 */
+	public com.vnpt.portlet.user.service.ActIdInfoLocalService getActIdInfoLocalService() {
+		return actIdInfoLocalService;
+	}
+
+	/**
+	 * Sets the act ID info local service.
+	 *
+	 * @param actIdInfoLocalService the act ID info local service
+	 */
+	public void setActIdInfoLocalService(
+		com.vnpt.portlet.user.service.ActIdInfoLocalService actIdInfoLocalService) {
+		this.actIdInfoLocalService = actIdInfoLocalService;
+	}
+
+	/**
+	 * Returns the act ID info persistence.
+	 *
+	 * @return the act ID info persistence
+	 */
+	public ActIdInfoPersistence getActIdInfoPersistence() {
+		return actIdInfoPersistence;
+	}
+
+	/**
+	 * Sets the act ID info persistence.
+	 *
+	 * @param actIdInfoPersistence the act ID info persistence
+	 */
+	public void setActIdInfoPersistence(
+		ActIdInfoPersistence actIdInfoPersistence) {
+		this.actIdInfoPersistence = actIdInfoPersistence;
+	}
+
+	/**
+	 * Returns the act ID membership local service.
+	 *
+	 * @return the act ID membership local service
+	 */
+	public com.vnpt.portlet.user.service.ActIdMembershipLocalService getActIdMembershipLocalService() {
+		return actIdMembershipLocalService;
+	}
+
+	/**
+	 * Sets the act ID membership local service.
+	 *
+	 * @param actIdMembershipLocalService the act ID membership local service
+	 */
+	public void setActIdMembershipLocalService(
+		com.vnpt.portlet.user.service.ActIdMembershipLocalService actIdMembershipLocalService) {
+		this.actIdMembershipLocalService = actIdMembershipLocalService;
+	}
+
+	/**
+	 * Returns the act ID membership persistence.
+	 *
+	 * @return the act ID membership persistence
+	 */
+	public ActIdMembershipPersistence getActIdMembershipPersistence() {
+		return actIdMembershipPersistence;
+	}
+
+	/**
+	 * Sets the act ID membership persistence.
+	 *
+	 * @param actIdMembershipPersistence the act ID membership persistence
+	 */
+	public void setActIdMembershipPersistence(
+		ActIdMembershipPersistence actIdMembershipPersistence) {
+		this.actIdMembershipPersistence = actIdMembershipPersistence;
+	}
+
+	/**
+	 * Returns the act ID user local service.
+	 *
+	 * @return the act ID user local service
+	 */
+	public com.vnpt.portlet.user.service.ActIdUserLocalService getActIdUserLocalService() {
+		return actIdUserLocalService;
+	}
+
+	/**
+	 * Sets the act ID user local service.
+	 *
+	 * @param actIdUserLocalService the act ID user local service
+	 */
+	public void setActIdUserLocalService(
+		com.vnpt.portlet.user.service.ActIdUserLocalService actIdUserLocalService) {
+		this.actIdUserLocalService = actIdUserLocalService;
+	}
+
+	/**
+	 * Returns the act ID user persistence.
+	 *
+	 * @return the act ID user persistence
+	 */
+	public ActIdUserPersistence getActIdUserPersistence() {
+		return actIdUserPersistence;
+	}
+
+	/**
+	 * Sets the act ID user persistence.
+	 *
+	 * @param actIdUserPersistence the act ID user persistence
+	 */
+	public void setActIdUserPersistence(
+		ActIdUserPersistence actIdUserPersistence) {
+		this.actIdUserPersistence = actIdUserPersistence;
+	}
+
+	/**
+	 * Returns the group roles local service.
+	 *
+	 * @return the group roles local service
+	 */
+	public com.vnpt.portlet.user.service.GroupRolesLocalService getGroupRolesLocalService() {
+		return groupRolesLocalService;
+	}
+
+	/**
+	 * Sets the group roles local service.
+	 *
+	 * @param groupRolesLocalService the group roles local service
+	 */
+	public void setGroupRolesLocalService(
+		com.vnpt.portlet.user.service.GroupRolesLocalService groupRolesLocalService) {
+		this.groupRolesLocalService = groupRolesLocalService;
+	}
+
+	/**
+	 * Returns the group roles persistence.
+	 *
+	 * @return the group roles persistence
+	 */
+	public GroupRolesPersistence getGroupRolesPersistence() {
+		return groupRolesPersistence;
+	}
+
+	/**
+	 * Sets the group roles persistence.
+	 *
+	 * @param groupRolesPersistence the group roles persistence
+	 */
+	public void setGroupRolesPersistence(
+		GroupRolesPersistence groupRolesPersistence) {
+		this.groupRolesPersistence = groupRolesPersistence;
 	}
 
 	/**
@@ -533,6 +728,26 @@ public abstract class PermissionGroupLocalServiceBaseImpl
 		}
 	}
 
+	@BeanReference(type = com.vnpt.portlet.user.service.ActIdGroupLocalService.class)
+	protected com.vnpt.portlet.user.service.ActIdGroupLocalService actIdGroupLocalService;
+	@BeanReference(type = ActIdGroupPersistence.class)
+	protected ActIdGroupPersistence actIdGroupPersistence;
+	@BeanReference(type = com.vnpt.portlet.user.service.ActIdInfoLocalService.class)
+	protected com.vnpt.portlet.user.service.ActIdInfoLocalService actIdInfoLocalService;
+	@BeanReference(type = ActIdInfoPersistence.class)
+	protected ActIdInfoPersistence actIdInfoPersistence;
+	@BeanReference(type = com.vnpt.portlet.user.service.ActIdMembershipLocalService.class)
+	protected com.vnpt.portlet.user.service.ActIdMembershipLocalService actIdMembershipLocalService;
+	@BeanReference(type = ActIdMembershipPersistence.class)
+	protected ActIdMembershipPersistence actIdMembershipPersistence;
+	@BeanReference(type = com.vnpt.portlet.user.service.ActIdUserLocalService.class)
+	protected com.vnpt.portlet.user.service.ActIdUserLocalService actIdUserLocalService;
+	@BeanReference(type = ActIdUserPersistence.class)
+	protected ActIdUserPersistence actIdUserPersistence;
+	@BeanReference(type = com.vnpt.portlet.user.service.GroupRolesLocalService.class)
+	protected com.vnpt.portlet.user.service.GroupRolesLocalService groupRolesLocalService;
+	@BeanReference(type = GroupRolesPersistence.class)
+	protected GroupRolesPersistence groupRolesPersistence;
 	@BeanReference(type = com.vnpt.portlet.user.service.PermissionGroupLocalService.class)
 	protected com.vnpt.portlet.user.service.PermissionGroupLocalService permissionGroupLocalService;
 	@BeanReference(type = PermissionGroupPersistence.class)

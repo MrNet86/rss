@@ -158,20 +158,6 @@ public interface PermissionGroupModel extends BaseModel<PermissionGroup> {
 	 */
 	public void setDescription(String description);
 
-	/**
-	 * Returns the role ID of this permission group.
-	 *
-	 * @return the role ID of this permission group
-	 */
-	public long getRoleId();
-
-	/**
-	 * Sets the role ID of this permission group.
-	 *
-	 * @param roleId the role ID of this permission group
-	 */
-	public void setRoleId(long roleId);
-
 	@Override
 	public boolean isNew();
 

@@ -36,7 +36,7 @@ public class PermissionGroupCacheModel implements CacheModel<PermissionGroup>,
 	Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{permissionGroupId=");
 		sb.append(permissionGroupId);
@@ -52,8 +52,6 @@ public class PermissionGroupCacheModel implements CacheModel<PermissionGroup>,
 		sb.append(isActive);
 		sb.append(", description=");
 		sb.append(description);
-		sb.append(", roleId=");
-		sb.append(roleId);
 		sb.append("}");
 
 		return sb.toString();
@@ -90,8 +88,6 @@ public class PermissionGroupCacheModel implements CacheModel<PermissionGroup>,
 			permissionGroupImpl.setDescription(description);
 		}
 
-		permissionGroupImpl.setRoleId(roleId);
-
 		permissionGroupImpl.resetOriginalValues();
 
 		return permissionGroupImpl;
@@ -106,7 +102,6 @@ public class PermissionGroupCacheModel implements CacheModel<PermissionGroup>,
 		groupCode = objectInput.readUTF();
 		isActive = objectInput.readInt();
 		description = objectInput.readUTF();
-		roleId = objectInput.readLong();
 	}
 
 	@Override
@@ -138,8 +133,6 @@ public class PermissionGroupCacheModel implements CacheModel<PermissionGroup>,
 		else {
 			objectOutput.writeUTF(description);
 		}
-
-		objectOutput.writeLong(roleId);
 	}
 
 	public long permissionGroupId;
@@ -149,5 +142,4 @@ public class PermissionGroupCacheModel implements CacheModel<PermissionGroup>,
 	public String groupCode;
 	public int isActive;
 	public String description;
-	public long roleId;
 }

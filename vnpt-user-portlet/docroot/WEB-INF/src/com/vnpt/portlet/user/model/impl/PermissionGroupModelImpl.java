@@ -64,10 +64,9 @@ public class PermissionGroupModelImpl extends BaseModelImpl<PermissionGroup>
 			{ "groupName", Types.VARCHAR },
 			{ "groupCode", Types.VARCHAR },
 			{ "isActive", Types.INTEGER },
-			{ "description", Types.VARCHAR },
-			{ "roleId", Types.BIGINT }
+			{ "description", Types.VARCHAR }
 		};
-	public static final String TABLE_SQL_CREATE = "create table eportal_permission_group (permissionGroupId LONG not null primary key,groupId LONG,companyId LONG,groupName VARCHAR(75) null,groupCode VARCHAR(75) null,isActive INTEGER,description VARCHAR(75) null,roleId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table eportal_permission_group (permissionGroupId LONG not null primary key,groupId LONG,companyId LONG,groupName VARCHAR(75) null,groupCode VARCHAR(75) null,isActive INTEGER,description VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table eportal_permission_group";
 	public static final String ORDER_BY_JPQL = " ORDER BY permissionGroup.permissionGroupId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY eportal_permission_group.permissionGroupId ASC";
@@ -85,8 +84,7 @@ public class PermissionGroupModelImpl extends BaseModelImpl<PermissionGroup>
 			true);
 	public static long COMPANYID_COLUMN_BITMASK = 1L;
 	public static long GROUPID_COLUMN_BITMASK = 2L;
-	public static long ROLEID_COLUMN_BITMASK = 4L;
-	public static long PERMISSIONGROUPID_COLUMN_BITMASK = 8L;
+	public static long PERMISSIONGROUPID_COLUMN_BITMASK = 4L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
 				"lock.expiration.time.com.vnpt.portlet.user.model.PermissionGroup"));
 
@@ -134,7 +132,6 @@ public class PermissionGroupModelImpl extends BaseModelImpl<PermissionGroup>
 		attributes.put("groupCode", getGroupCode());
 		attributes.put("isActive", getIsActive());
 		attributes.put("description", getDescription());
-		attributes.put("roleId", getRoleId());
 
 		return attributes;
 	}
@@ -181,12 +178,6 @@ public class PermissionGroupModelImpl extends BaseModelImpl<PermissionGroup>
 
 		if (description != null) {
 			setDescription(description);
-		}
-
-		Long roleId = (Long)attributes.get("roleId");
-
-		if (roleId != null) {
-			setRoleId(roleId);
 		}
 	}
 
@@ -299,28 +290,6 @@ public class PermissionGroupModelImpl extends BaseModelImpl<PermissionGroup>
 		_description = description;
 	}
 
-	@Override
-	public long getRoleId() {
-		return _roleId;
-	}
-
-	@Override
-	public void setRoleId(long roleId) {
-		_columnBitmask |= ROLEID_COLUMN_BITMASK;
-
-		if (!_setOriginalRoleId) {
-			_setOriginalRoleId = true;
-
-			_originalRoleId = _roleId;
-		}
-
-		_roleId = roleId;
-	}
-
-	public long getOriginalRoleId() {
-		return _originalRoleId;
-	}
-
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -359,7 +328,6 @@ public class PermissionGroupModelImpl extends BaseModelImpl<PermissionGroup>
 		permissionGroupImpl.setGroupCode(getGroupCode());
 		permissionGroupImpl.setIsActive(getIsActive());
 		permissionGroupImpl.setDescription(getDescription());
-		permissionGroupImpl.setRoleId(getRoleId());
 
 		permissionGroupImpl.resetOriginalValues();
 
@@ -420,10 +388,6 @@ public class PermissionGroupModelImpl extends BaseModelImpl<PermissionGroup>
 
 		permissionGroupModelImpl._setOriginalCompanyId = false;
 
-		permissionGroupModelImpl._originalRoleId = permissionGroupModelImpl._roleId;
-
-		permissionGroupModelImpl._setOriginalRoleId = false;
-
 		permissionGroupModelImpl._columnBitmask = 0;
 	}
 
@@ -463,14 +427,12 @@ public class PermissionGroupModelImpl extends BaseModelImpl<PermissionGroup>
 			permissionGroupCacheModel.description = null;
 		}
 
-		permissionGroupCacheModel.roleId = getRoleId();
-
 		return permissionGroupCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{permissionGroupId=");
 		sb.append(getPermissionGroupId());
@@ -486,8 +448,6 @@ public class PermissionGroupModelImpl extends BaseModelImpl<PermissionGroup>
 		sb.append(getIsActive());
 		sb.append(", description=");
 		sb.append(getDescription());
-		sb.append(", roleId=");
-		sb.append(getRoleId());
 		sb.append("}");
 
 		return sb.toString();
@@ -495,7 +455,7 @@ public class PermissionGroupModelImpl extends BaseModelImpl<PermissionGroup>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(28);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("<model><model-name>");
 		sb.append("com.vnpt.portlet.user.model.PermissionGroup");
@@ -529,10 +489,6 @@ public class PermissionGroupModelImpl extends BaseModelImpl<PermissionGroup>
 			"<column><column-name>description</column-name><column-value><![CDATA[");
 		sb.append(getDescription());
 		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>roleId</column-name><column-value><![CDATA[");
-		sb.append(getRoleId());
-		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -554,9 +510,6 @@ public class PermissionGroupModelImpl extends BaseModelImpl<PermissionGroup>
 	private String _groupCode;
 	private int _isActive;
 	private String _description;
-	private long _roleId;
-	private long _originalRoleId;
-	private boolean _setOriginalRoleId;
 	private long _columnBitmask;
 	private PermissionGroup _escapedModel;
 }

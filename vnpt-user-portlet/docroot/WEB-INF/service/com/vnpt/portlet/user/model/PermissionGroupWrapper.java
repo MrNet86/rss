@@ -56,7 +56,6 @@ public class PermissionGroupWrapper implements PermissionGroup,
 		attributes.put("groupCode", getGroupCode());
 		attributes.put("isActive", getIsActive());
 		attributes.put("description", getDescription());
-		attributes.put("roleId", getRoleId());
 
 		return attributes;
 	}
@@ -103,12 +102,6 @@ public class PermissionGroupWrapper implements PermissionGroup,
 
 		if (description != null) {
 			setDescription(description);
-		}
-
-		Long roleId = (Long)attributes.get("roleId");
-
-		if (roleId != null) {
-			setRoleId(roleId);
 		}
 	}
 
@@ -270,26 +263,6 @@ public class PermissionGroupWrapper implements PermissionGroup,
 	@Override
 	public void setDescription(java.lang.String description) {
 		_permissionGroup.setDescription(description);
-	}
-
-	/**
-	* Returns the role ID of this permission group.
-	*
-	* @return the role ID of this permission group
-	*/
-	@Override
-	public long getRoleId() {
-		return _permissionGroup.getRoleId();
-	}
-
-	/**
-	* Sets the role ID of this permission group.
-	*
-	* @param roleId the role ID of this permission group
-	*/
-	@Override
-	public void setRoleId(long roleId) {
-		_permissionGroup.setRoleId(roleId);
 	}
 
 	@Override

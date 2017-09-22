@@ -25,6 +25,11 @@ import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.BaseModel;
 
+import com.vnpt.portlet.user.model.ActIdGroupClp;
+import com.vnpt.portlet.user.model.ActIdInfoClp;
+import com.vnpt.portlet.user.model.ActIdMembershipClp;
+import com.vnpt.portlet.user.model.ActIdUserClp;
+import com.vnpt.portlet.user.model.GroupRolesClp;
 import com.vnpt.portlet.user.model.PermissionGroupClp;
 import com.vnpt.portlet.user.model.PermissionTypeClp;
 
@@ -103,6 +108,26 @@ public class ClpSerializer {
 
 		String oldModelClassName = oldModelClass.getName();
 
+		if (oldModelClassName.equals(ActIdGroupClp.class.getName())) {
+			return translateInputActIdGroup(oldModel);
+		}
+
+		if (oldModelClassName.equals(ActIdInfoClp.class.getName())) {
+			return translateInputActIdInfo(oldModel);
+		}
+
+		if (oldModelClassName.equals(ActIdMembershipClp.class.getName())) {
+			return translateInputActIdMembership(oldModel);
+		}
+
+		if (oldModelClassName.equals(ActIdUserClp.class.getName())) {
+			return translateInputActIdUser(oldModel);
+		}
+
+		if (oldModelClassName.equals(GroupRolesClp.class.getName())) {
+			return translateInputGroupRoles(oldModel);
+		}
+
 		if (oldModelClassName.equals(PermissionGroupClp.class.getName())) {
 			return translateInputPermissionGroup(oldModel);
 		}
@@ -124,6 +149,56 @@ public class ClpSerializer {
 		}
 
 		return newList;
+	}
+
+	public static Object translateInputActIdGroup(BaseModel<?> oldModel) {
+		ActIdGroupClp oldClpModel = (ActIdGroupClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getActIdGroupRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
+	}
+
+	public static Object translateInputActIdInfo(BaseModel<?> oldModel) {
+		ActIdInfoClp oldClpModel = (ActIdInfoClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getActIdInfoRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
+	}
+
+	public static Object translateInputActIdMembership(BaseModel<?> oldModel) {
+		ActIdMembershipClp oldClpModel = (ActIdMembershipClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getActIdMembershipRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
+	}
+
+	public static Object translateInputActIdUser(BaseModel<?> oldModel) {
+		ActIdUserClp oldClpModel = (ActIdUserClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getActIdUserRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
+	}
+
+	public static Object translateInputGroupRoles(BaseModel<?> oldModel) {
+		GroupRolesClp oldClpModel = (GroupRolesClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getGroupRolesRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
 	}
 
 	public static Object translateInputPermissionGroup(BaseModel<?> oldModel) {
@@ -162,6 +237,191 @@ public class ClpSerializer {
 		Class<?> oldModelClass = oldModel.getClass();
 
 		String oldModelClassName = oldModelClass.getName();
+
+		if (oldModelClassName.equals(
+					"com.vnpt.portlet.user.model.impl.ActIdGroupImpl")) {
+			return translateOutputActIdGroup(oldModel);
+		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
+		}
+
+		if (oldModelClassName.equals(
+					"com.vnpt.portlet.user.model.impl.ActIdInfoImpl")) {
+			return translateOutputActIdInfo(oldModel);
+		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
+		}
+
+		if (oldModelClassName.equals(
+					"com.vnpt.portlet.user.model.impl.ActIdMembershipImpl")) {
+			return translateOutputActIdMembership(oldModel);
+		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
+		}
+
+		if (oldModelClassName.equals(
+					"com.vnpt.portlet.user.model.impl.ActIdUserImpl")) {
+			return translateOutputActIdUser(oldModel);
+		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
+		}
+
+		if (oldModelClassName.equals(
+					"com.vnpt.portlet.user.model.impl.GroupRolesImpl")) {
+			return translateOutputGroupRoles(oldModel);
+		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
+		}
 
 		if (oldModelClassName.equals(
 					"com.vnpt.portlet.user.model.impl.PermissionGroupImpl")) {
@@ -317,6 +577,27 @@ public class ClpSerializer {
 			return new SystemException();
 		}
 
+		if (className.equals("com.vnpt.portlet.user.NoSuchActIdGroupException")) {
+			return new com.vnpt.portlet.user.NoSuchActIdGroupException();
+		}
+
+		if (className.equals("com.vnpt.portlet.user.NoSuchActIdInfoException")) {
+			return new com.vnpt.portlet.user.NoSuchActIdInfoException();
+		}
+
+		if (className.equals(
+					"com.vnpt.portlet.user.NoSuchActIdMembershipException")) {
+			return new com.vnpt.portlet.user.NoSuchActIdMembershipException();
+		}
+
+		if (className.equals("com.vnpt.portlet.user.NoSuchActIdUserException")) {
+			return new com.vnpt.portlet.user.NoSuchActIdUserException();
+		}
+
+		if (className.equals("com.vnpt.portlet.user.NoSuchGroupRolesException")) {
+			return new com.vnpt.portlet.user.NoSuchGroupRolesException();
+		}
+
 		if (className.equals(
 					"com.vnpt.portlet.user.NoSuchPermissionGroupException")) {
 			return new com.vnpt.portlet.user.NoSuchPermissionGroupException();
@@ -328,6 +609,56 @@ public class ClpSerializer {
 		}
 
 		return throwable;
+	}
+
+	public static Object translateOutputActIdGroup(BaseModel<?> oldModel) {
+		ActIdGroupClp newModel = new ActIdGroupClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setActIdGroupRemoteModel(oldModel);
+
+		return newModel;
+	}
+
+	public static Object translateOutputActIdInfo(BaseModel<?> oldModel) {
+		ActIdInfoClp newModel = new ActIdInfoClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setActIdInfoRemoteModel(oldModel);
+
+		return newModel;
+	}
+
+	public static Object translateOutputActIdMembership(BaseModel<?> oldModel) {
+		ActIdMembershipClp newModel = new ActIdMembershipClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setActIdMembershipRemoteModel(oldModel);
+
+		return newModel;
+	}
+
+	public static Object translateOutputActIdUser(BaseModel<?> oldModel) {
+		ActIdUserClp newModel = new ActIdUserClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setActIdUserRemoteModel(oldModel);
+
+		return newModel;
+	}
+
+	public static Object translateOutputGroupRoles(BaseModel<?> oldModel) {
+		GroupRolesClp newModel = new GroupRolesClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setGroupRolesRemoteModel(oldModel);
+
+		return newModel;
 	}
 
 	public static Object translateOutputPermissionGroup(BaseModel<?> oldModel) {

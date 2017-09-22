@@ -1,3 +1,4 @@
+<%@page import="com.liferay.portal.kernel.util.ListUtil"%>
 <%@ include file="../init.jsp" %>
 
 <%
@@ -5,6 +6,19 @@ PortletURL portletURL = (PortletURL) request.getAttribute("view.jsp-portletURL")
 SearchContainer<User> searchContainer = null;
 searchContainer = new SearchContainer<User>(renderRequest, null, null, SearchContainer.DEFAULT_CUR_PARAM, 
 						SearchContainer.DEFAULT_DELTA, portletURL, null, StringPool.BLANK);
+
+// get all user's site
+List<User> lstUser = new ArrayList<User>();
+List<Group> sites =  user.getMySites();
+for (Group group : sites) {
+	System.out.println("siteId :"+group.getGroupId() + " || sites name :"+group.getName());
+	if(group.getSite()) {
+		lstUser.addAll(UserLocalServiceUtil.getGroupUsers(group.getGroupId()));
+	}
+}
+if(!lstUser.isEmpty()) {
+	lstUser.remove(0); // except test@liferay.com
+}
 %>
 
 <aui:form action="<%= portletURL.toString() %>" method="post" name="fm">
@@ -14,10 +28,25 @@ searchContainer = new SearchContainer<User>(renderRequest, null, null, SearchCon
 		var="userSearchContainer"
 	>
 	
-		<liferay-ui:search-container-results
-			results="<%= UserLocalServiceUtil.getUsers(userSearchContainer.getStart(), userSearchContainer.getEnd()) %>"
-			total="<%= UserLocalServiceUtil.getUsersCount() %>"
-		/>
+		<liferay-ui:search-container-results>
+			<%
+				results = ListUtil.subList(lstUser, searchContainer.getStart(),
+	                searchContainer.getEnd());
+	
+				if(lstUser.size()<searchContainer.getEnd()){
+		            results = ListUtil.subList(lstUser, searchContainer.getStart(),
+		            		lstUser.size());
+		            total = lstUser.size();
+		        } else{
+		            results = ListUtil.subList(lstUser, searchContainer.getStart(),
+		                    searchContainer.getEnd());
+		            total = lstUser.size();
+		        }
+	
+		        pageContext.setAttribute("results", results);
+		        pageContext.setAttribute("total", total);
+			%>
+		</liferay-ui:search-container-results>
 	
 		<liferay-ui:search-container-row
 			className="com.liferay.portal.model.User"

@@ -1,6 +1,39 @@
 <?xml version="1.0"?>
 
 <model-hints>
+	<model name="com.vnpt.portlet.user.model.ActIdGroup">
+		<field name="id" type="String" />
+		<field name="rev" type="long" />
+		<field name="name" type="String" />
+		<field name="type" type="String" />
+	</model>
+	<model name="com.vnpt.portlet.user.model.ActIdInfo">
+		<field name="id" type="long" />
+		<field name="rev" type="long" />
+		<field name="userId" type="String" />
+		<field name="type" type="String" />
+		<field name="key" type="String" />
+		<field name="value" type="String" />
+		<field name="password" type="String" />
+		<field name="parent_id_" type="String" />
+	</model>
+	<model name="com.vnpt.portlet.user.model.ActIdMembership">
+		<field name="userId" type="long" />
+		<field name="groupId" type="long" />
+	</model>
+	<model name="com.vnpt.portlet.user.model.ActIdUser">
+		<field name="id" type="String" />
+		<field name="rev" type="long" />
+		<field name="first" type="String" />
+		<field name="last" type="String" />
+		<field name="email" type="String" />
+		<field name="pwd" type="String" />
+		<field name="pictureId" type="String" />
+	</model>
+	<model name="com.vnpt.portlet.user.model.GroupRoles">
+		<field name="permissionGroupId" type="long" />
+		<field name="roleId" type="long" />
+	</model>
 	<model name="com.vnpt.portlet.user.model.PermissionGroup">
 		<field name="permissionGroupId" type="long" />
 		<field name="groupId" type="long" />
@@ -9,7 +42,6 @@
 		<field name="groupCode" type="String" />
 		<field name="isActive" type="int" />
 		<field name="description" type="String" />
-		<field name="roleId" type="long" />
 	</model>
 	<model name="com.vnpt.portlet.user.model.PermissionType">
 		<field name="permissionTypeId" type="long" />
