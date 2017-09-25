@@ -38,6 +38,7 @@ import com.vnpt.portlet.user.service.persistence.ActIdInfoPersistence;
 import com.vnpt.portlet.user.service.persistence.ActIdMembershipPersistence;
 import com.vnpt.portlet.user.service.persistence.ActIdUserPersistence;
 import com.vnpt.portlet.user.service.persistence.GroupRolesPersistence;
+import com.vnpt.portlet.user.service.persistence.GroupUsersPersistence;
 import com.vnpt.portlet.user.service.persistence.PermissionGroupPersistence;
 import com.vnpt.portlet.user.service.persistence.PermissionTypePersistence;
 
@@ -476,6 +477,44 @@ public abstract class ActIdGroupLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the group users local service.
+	 *
+	 * @return the group users local service
+	 */
+	public com.vnpt.portlet.user.service.GroupUsersLocalService getGroupUsersLocalService() {
+		return groupUsersLocalService;
+	}
+
+	/**
+	 * Sets the group users local service.
+	 *
+	 * @param groupUsersLocalService the group users local service
+	 */
+	public void setGroupUsersLocalService(
+		com.vnpt.portlet.user.service.GroupUsersLocalService groupUsersLocalService) {
+		this.groupUsersLocalService = groupUsersLocalService;
+	}
+
+	/**
+	 * Returns the group users persistence.
+	 *
+	 * @return the group users persistence
+	 */
+	public GroupUsersPersistence getGroupUsersPersistence() {
+		return groupUsersPersistence;
+	}
+
+	/**
+	 * Sets the group users persistence.
+	 *
+	 * @param groupUsersPersistence the group users persistence
+	 */
+	public void setGroupUsersPersistence(
+		GroupUsersPersistence groupUsersPersistence) {
+		this.groupUsersPersistence = groupUsersPersistence;
+	}
+
+	/**
 	 * Returns the permission group local service.
 	 *
 	 * @return the permission group local service
@@ -747,6 +786,10 @@ public abstract class ActIdGroupLocalServiceBaseImpl
 	protected com.vnpt.portlet.user.service.GroupRolesLocalService groupRolesLocalService;
 	@BeanReference(type = GroupRolesPersistence.class)
 	protected GroupRolesPersistence groupRolesPersistence;
+	@BeanReference(type = com.vnpt.portlet.user.service.GroupUsersLocalService.class)
+	protected com.vnpt.portlet.user.service.GroupUsersLocalService groupUsersLocalService;
+	@BeanReference(type = GroupUsersPersistence.class)
+	protected GroupUsersPersistence groupUsersPersistence;
 	@BeanReference(type = com.vnpt.portlet.user.service.PermissionGroupLocalService.class)
 	protected com.vnpt.portlet.user.service.PermissionGroupLocalService permissionGroupLocalService;
 	@BeanReference(type = PermissionGroupPersistence.class)

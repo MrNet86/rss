@@ -1,3 +1,4 @@
+<%@page import="com.liferay.portal.model.Role"%>
 <%@page import="com.liferay.portal.kernel.util.KeyValuePairComparator"%>
 <%@page import="com.liferay.portal.kernel.util.ListUtil"%>
 <%@page import="com.liferay.portal.kernel.util.KeyValuePair"%>
@@ -6,12 +7,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <%@ include file="../init.jsp" %>
-
+<%
+List<PermissionGroup> lstPerGroup = PermissionGroupLocalServiceUtil.findByActiveGroupId(scopeGroupId, 1, -1, -1) ;
+%>
 <portlet:actionURL var="updateURL">
-	<portlet:param name="action" value="<%= VnptConstants.UPDATE_GROUP_ROLE %>"/>
+	<portlet:param name="action" value="<%= VnptConstants.UPDATE_ASSIGN_USER %>"/>
 </portlet:actionURL>
 
-<aui:form action="" method="post" name="fm">
+<aui:form action="<%= updateURL %>" method="post" name="fm" onSubmit='<%= "event.preventDefault(); " + renderResponse.getNamespace() + "assignUser();" %>'>
+	
+	<aui:input name="assignUserIds" type="hidden" />
+	
 	<div class="panel top-orange">
 		<div class="panel-body">
 			<div class="form-group">
@@ -20,17 +26,13 @@
 						<label for="#"><liferay-ui:message key="groupRole"/></label>
 					</div>
 					<div class="col-md-4 col-sm-9 col-xs-12">
-						<aui:select label="" name="languageId">
+						<aui:select label="" name="permissionGroupId">
 							<%
-							List<PermissionGroup> lstPerGroup = PermissionGroupLocalServiceUtil.getPermissionGroups(-1, -1);
-					
-							for (PermissionGroup perGroup : lstPerGroup) {
+								for (PermissionGroup perGroup : lstPerGroup) {
 							%>
-					
-								<aui:option label="<%= perGroup.getGroupName() %>" value="<%= perGroup.getPermissionGroupId() %>" />
-					
+									<aui:option label="<%= perGroup.getGroupName() %>" value="<%= perGroup.getPermissionGroupId() %>" />
 							<%
-							}
+								}
 							%>
 						</aui:select>
 					</div>
@@ -71,13 +73,13 @@
 							%>
 						
 							<liferay-ui:input-move-boxes
-								leftBoxName="currentLanguageIds"
+								leftBoxName="currentUserIds"
 								leftList="<%= leftList %>"
 								leftReorder="true"
-								leftTitle="current"
-								rightBoxName="availableLanguageIds"
+								leftTitle="currentUser"
+								rightBoxName="availableUserIds"
 								rightList="<%= rightList %>"
-								rightTitle="available"
+								rightTitle="availableUser"
 							/>
 						</aui:fieldset> 
 					</div>
@@ -86,4 +88,23 @@
 		</div>
 	</div>	
 	
-</aui:form>	
+	<aui:button-row>
+		<aui:button type="submit" value="Command.Save"  icon="icon-save" />
+	</aui:button-row>
+	
+</aui:form>
+
+<aui:script>
+	Liferay.provide(
+		window,
+		'<portlet:namespace />assignUser',
+		function() {
+
+			document.<portlet:namespace />fm.<portlet:namespace />assignUserIds.value = Liferay.Util.listSelect(document.<portlet:namespace />fm.<portlet:namespace />availableUserIds);
+
+			submitForm(document.<portlet:namespace />fm);
+		},
+		['liferay-util-list-fields']
+	);
+
+</aui:script>

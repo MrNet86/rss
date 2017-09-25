@@ -21,42 +21,6 @@ for (Role role : lstRegularRole) {
 	System.out.println("regular role :"+role.getName());
 }
 
-// // get all site role of user
-// List<Role> lstSiteRole = RoleLocalServiceUtil.getUserRelatedRoles(user.getUserId(), user.getGroups());
-// for (Role role : lstSiteRole) {
-// 	System.out.println("userrRelateRoles role :"+role.getName());
-// }
-
-// // get all role
-// List<Role> lstAllRole = RoleLocalServiceUtil.getRoles(-1, -1) ;
-// for (Role role : lstAllRole) {
-// 	System.out.println("allRole role :"+role.getName());
-// }
-// System.out.println("************************");
-// System.out.println("userid :"+user.getUserId()+ "|| groupid :"+user.getGroupId());
-// // site role and group role
-// List<UserGroupRole> userGroupRoleList =
-//     UserGroupRoleLocalServiceUtil.getUserGroupRoles(user.getUserId(), user.getGroupId());
-// if (userGroupRoleList != null) {
-//     for (UserGroupRole userGroupRole : userGroupRoleList) {
-//         /* Get Role object based on userGroupRole.getRoleId() */
-//         Role role = RoleLocalServiceUtil.getRole(userGroupRole.getRoleId());
-//         System.out.println("roleId : " + role.getRoleId());
-//         System.out.println("roleName : " + role.getName());
-//     }
-// }
-
-// List<UserGroupRole> groupRole =
-// 	UserGroupRoleLocalServiceUtil.getUserGroupRoles(user.getUserId());
-// if (userGroupRoleList != null) {
-//     for (UserGroupRole userGroupRole : groupRole) {
-//         /* Get Role object based on userGroupRole.getRoleId() */
-//         Role role = RoleLocalServiceUtil.getRole(userGroupRole.getRoleId());
-//         System.out.println("By user roleId : " + role.getRoleId());
-//         System.out.println("By user roleName : " + role.getName());
-//     }
-// }
-
 %>
 
 <aui:form action="" method="get" name="fm">

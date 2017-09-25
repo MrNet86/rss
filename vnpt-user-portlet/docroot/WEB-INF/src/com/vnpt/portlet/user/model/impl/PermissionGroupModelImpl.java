@@ -84,7 +84,8 @@ public class PermissionGroupModelImpl extends BaseModelImpl<PermissionGroup>
 			true);
 	public static long COMPANYID_COLUMN_BITMASK = 1L;
 	public static long GROUPID_COLUMN_BITMASK = 2L;
-	public static long PERMISSIONGROUPID_COLUMN_BITMASK = 4L;
+	public static long ISACTIVE_COLUMN_BITMASK = 4L;
+	public static long PERMISSIONGROUPID_COLUMN_BITMASK = 8L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.util.service.ServiceProps.get(
 				"lock.expiration.time.com.vnpt.portlet.user.model.PermissionGroup"));
 
@@ -272,7 +273,19 @@ public class PermissionGroupModelImpl extends BaseModelImpl<PermissionGroup>
 
 	@Override
 	public void setIsActive(int isActive) {
+		_columnBitmask |= ISACTIVE_COLUMN_BITMASK;
+
+		if (!_setOriginalIsActive) {
+			_setOriginalIsActive = true;
+
+			_originalIsActive = _isActive;
+		}
+
 		_isActive = isActive;
+	}
+
+	public int getOriginalIsActive() {
+		return _originalIsActive;
 	}
 
 	@Override
@@ -387,6 +400,10 @@ public class PermissionGroupModelImpl extends BaseModelImpl<PermissionGroup>
 		permissionGroupModelImpl._originalCompanyId = permissionGroupModelImpl._companyId;
 
 		permissionGroupModelImpl._setOriginalCompanyId = false;
+
+		permissionGroupModelImpl._originalIsActive = permissionGroupModelImpl._isActive;
+
+		permissionGroupModelImpl._setOriginalIsActive = false;
 
 		permissionGroupModelImpl._columnBitmask = 0;
 	}
@@ -509,6 +526,8 @@ public class PermissionGroupModelImpl extends BaseModelImpl<PermissionGroup>
 	private String _groupName;
 	private String _groupCode;
 	private int _isActive;
+	private int _originalIsActive;
+	private boolean _setOriginalIsActive;
 	private String _description;
 	private long _columnBitmask;
 	private PermissionGroup _escapedModel;

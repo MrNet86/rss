@@ -42,14 +42,15 @@
 		<column name="groupId" type="long" />
 		<column name="companyId" type="long" />
 		<!-- Audit fields -->
-
+		
 		<column name="groupName" type="String" />
 		<column name="groupCode" type="String" />
 		<column name="isActive" type="int"/>		
 		<column name="description" type="String"/>		
 				
-		<finder name="GroupId" return-type="Collection">
+		<finder name="ActiveGroupId" return-type="Collection">
 			<finder-column name="groupId" />
+			<finder-column name="isActive" />
 		</finder>
 		<finder name="CompanyId" return-type="Collection">
 			<finder-column name="companyId" />
@@ -69,6 +70,21 @@
 		
 		<finder name="RoleId" return-type="Collection">
 			<finder-column name="roleId" />
+		</finder>
+	</entity>
+	
+	<entity name="GroupUsers" table="eportal_group_users" local-service="true" remote-service="false"
+		data-source="eGovDataSource" session-factory="eGovSessionFactory" tx-manager="eGovTransactionManager">
+
+		<column name="permissionGroupId" type="long" primary="true" />
+		<column name="userId" type="long" primary="true" />
+		
+		<finder name="PermissionGroupId" return-type="Collection">
+			<finder-column name="permissionGroupId" />
+		</finder>
+		
+		<finder name="UserId" return-type="Collection">
+			<finder-column name="userId" />
 		</finder>
 	</entity>
 	

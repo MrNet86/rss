@@ -14,7 +14,16 @@
 
 package com.vnpt.portlet.user.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.model.Role;
+import com.liferay.portal.service.RoleLocalServiceUtil;
+import com.vnpt.portlet.user.model.GroupRoles;
 import com.vnpt.portlet.user.service.base.GroupRolesLocalServiceBaseImpl;
+import com.vnpt.portlet.user.service.persistence.GroupRolesUtil;
 
 /**
  * The implementation of the group roles local service.
@@ -36,4 +45,15 @@ public class GroupRolesLocalServiceImpl extends GroupRolesLocalServiceBaseImpl {
 	 *
 	 * Never reference this interface directly. Always use {@link com.vnpt.portlet.user.service.GroupRolesLocalServiceUtil} to access the group roles local service.
 	 */
+	
+	public List<Role> getRolesByPerGroupId (long permissionGroupId) throws SystemException, PortalException {
+		List<Role> lstResult = new ArrayList<Role>();
+		List<GroupRoles> lst = GroupRolesUtil.findByPermissionGroupId(permissionGroupId);
+		for (GroupRoles obj : lst) {
+			Role role = RoleLocalServiceUtil.getRole(obj.getRoleId());
+			lstResult.add(role);
+		}
+		return lstResult;
+	}
+	
 }

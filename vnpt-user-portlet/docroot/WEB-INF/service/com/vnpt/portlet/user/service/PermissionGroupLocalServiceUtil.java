@@ -275,6 +275,33 @@ public class PermissionGroupLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
+	/**
+	* @param groupId
+	* @param status
+	* @param start
+	* @param end
+	* @return
+	* @throws SystemException
+	*/
+	public static java.util.List<com.vnpt.portlet.user.model.PermissionGroup> findByActiveGroupId(
+		long groupId, int status, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().findByActiveGroupId(groupId, status, start, end);
+	}
+
+	/**
+	* write custom sql to get count
+	*
+	* @param groupId
+	* @param status
+	* @return
+	* @throws SystemException
+	*/
+	public static int countByfindByActiveGroupId(long groupId, int status)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().countByfindByActiveGroupId(groupId, status);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

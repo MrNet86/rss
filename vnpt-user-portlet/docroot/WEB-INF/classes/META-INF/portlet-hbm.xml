@@ -7,6 +7,7 @@
 	<import class="com.vnpt.portlet.user.model.ActIdMembership" />
 	<import class="com.vnpt.portlet.user.model.ActIdUser" />
 	<import class="com.vnpt.portlet.user.model.GroupRoles" />
+	<import class="com.vnpt.portlet.user.model.GroupUsers" />
 	<import class="com.vnpt.portlet.user.model.PermissionGroup" />
 	<import class="com.vnpt.portlet.user.model.PermissionType" />
 	<class name="com.vnpt.portlet.user.model.impl.ActIdGroupImpl" table="act_id_group">
@@ -55,6 +56,13 @@
 		<composite-id name="primaryKey" class="com.vnpt.portlet.user.service.persistence.GroupRolesPK">
 			<key-property name="permissionGroupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 			<key-property name="roleId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		</composite-id>
+	</class>
+	<class name="com.vnpt.portlet.user.model.impl.GroupUsersImpl" table="eportal_group_users">
+		<cache usage="read-write" />
+		<composite-id name="primaryKey" class="com.vnpt.portlet.user.service.persistence.GroupUsersPK">
+			<key-property name="permissionGroupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+			<key-property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		</composite-id>
 	</class>
 	<class name="com.vnpt.portlet.user.model.impl.PermissionGroupImpl" table="eportal_permission_group">

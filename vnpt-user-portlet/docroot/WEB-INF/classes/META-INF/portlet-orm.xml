@@ -108,6 +108,17 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="com.vnpt.portlet.user.model.impl.GroupUsersModelImpl">
+		<id-class class="com.vnpt.portlet.user.service.persistence.GroupUsersPK" />
+		<attributes>
+			<id name="permissionGroupId" />
+			<id name="userId" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+			<transient name="userUuid" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="com.vnpt.portlet.user.model.impl.PermissionGroupModelImpl">
 		<attributes>
 			<id name="permissionGroupId" />
@@ -154,6 +165,10 @@
 	</entity>
 	<entity class="com.vnpt.portlet.user.model.impl.GroupRolesImpl" name="GroupRoles">
 		<table name="eportal_group_role" />
+		<attributes />
+	</entity>
+	<entity class="com.vnpt.portlet.user.model.impl.GroupUsersImpl" name="GroupUsers">
+		<table name="eportal_group_users" />
 		<attributes />
 	</entity>
 	<entity class="com.vnpt.portlet.user.model.impl.PermissionGroupImpl" name="PermissionGroup">

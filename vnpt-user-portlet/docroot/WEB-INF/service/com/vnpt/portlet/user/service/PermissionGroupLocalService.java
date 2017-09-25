@@ -253,4 +253,27 @@ public interface PermissionGroupLocalService extends BaseLocalService,
 	public java.lang.Object invokeMethod(java.lang.String name,
 		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
 		throws java.lang.Throwable;
+
+	/**
+	* @param groupId
+	* @param status
+	* @param start
+	* @param end
+	* @return
+	* @throws SystemException
+	*/
+	public java.util.List<com.vnpt.portlet.user.model.PermissionGroup> findByActiveGroupId(
+		long groupId, int status, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* write custom sql to get count
+	*
+	* @param groupId
+	* @param status
+	* @return
+	* @throws SystemException
+	*/
+	public int countByfindByActiveGroupId(long groupId, int status)
+		throws com.liferay.portal.kernel.exception.SystemException;
 }

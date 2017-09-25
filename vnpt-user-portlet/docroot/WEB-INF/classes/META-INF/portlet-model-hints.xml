@@ -34,6 +34,10 @@
 		<field name="permissionGroupId" type="long" />
 		<field name="roleId" type="long" />
 	</model>
+	<model name="com.vnpt.portlet.user.model.GroupUsers">
+		<field name="permissionGroupId" type="long" />
+		<field name="userId" type="long" />
+	</model>
 	<model name="com.vnpt.portlet.user.model.PermissionGroup">
 		<field name="permissionGroupId" type="long" />
 		<field name="groupId" type="long" />

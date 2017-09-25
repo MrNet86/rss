@@ -13,7 +13,8 @@ SearchContainer<PermissionGroup> searchContainer = null;
 searchContainer = new SearchContainer<PermissionGroup>(renderRequest, null, null, SearchContainer.DEFAULT_CUR_PARAM, 
 						SearchContainer.DEFAULT_DELTA, portletURL, null, StringPool.BLANK);
 
-System.out.println("user :"+user.getEmailAddress());
+
+System.out.println("user :"+user.getEmailAddress() +" ||groupId :"+user.getGroupId()+" || scopeGroupId :"+scopeGroupId);
 // get all regular role of user
 List<PermissionGroup> lstPerGroup = PermissionGroupLocalServiceUtil.getPermissionGroups(-1, -1);
 for (PermissionGroup role : lstPerGroup) {
@@ -28,25 +29,10 @@ for (PermissionGroup role : lstPerGroup) {
 		var="roleSearchContainer"
 	>
 	
-		<liferay-ui:search-container-results >
-			<%
-				results = ListUtil.subList(lstPerGroup, searchContainer.getStart(),
-	                searchContainer.getEnd());
-	
-				if(lstPerGroup.size()<searchContainer.getEnd()){
-		            results = ListUtil.subList(lstPerGroup, searchContainer.getStart(),
-		            		lstPerGroup.size());
-		            total = lstPerGroup.size();
-		        } else{
-		            results = ListUtil.subList(lstPerGroup, searchContainer.getStart(),
-		                    searchContainer.getEnd());
-		            total = lstPerGroup.size();
-		        }
-	
-		        pageContext.setAttribute("results", results);
-		        pageContext.setAttribute("total", total);
-			%>
-		</liferay-ui:search-container-results>
+		<liferay-ui:search-container-results 
+			results="<%= PermissionGroupLocalServiceUtil.findByActiveGroupId(scopeGroupId, 1, searchContainer.getStart(), searchContainer.getEnd()) %>"
+			total="<%= PermissionGroupLocalServiceUtil.countByfindByActiveGroupId(scopeGroupId, 1) %>"
+		/>
 	
 		<liferay-ui:search-container-row
 			className="com.vnpt.portlet.user.model.PermissionGroup"
@@ -61,6 +47,18 @@ for (PermissionGroup role : lstPerGroup) {
 			<liferay-ui:search-container-column-text property="groupCode" />
 			
 			<liferay-ui:search-container-column-text property="description" />
+			
+			<liferay-ui:search-container-column-text name="role">
+				<%
+					String sites = "";
+					List<Role> lstRole = GroupRolesLocalServiceUtil.getRolesByPerGroupId(aPerGroup.getPermissionGroupId());
+					for(Role role : lstRole) {
+						sites += role.getName() + ", ";
+					}
+					System.out.println("sites :"+sites);
+				%>
+				<%= sites %>
+			</liferay-ui:search-container-column-text>
 													
 		</liferay-ui:search-container-row>
 	

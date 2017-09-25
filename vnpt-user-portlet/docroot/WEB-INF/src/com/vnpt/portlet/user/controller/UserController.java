@@ -43,6 +43,7 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.CalendarFactoryUtil;
 import com.liferay.portal.kernel.util.ClassResolverUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.MethodKey;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -61,6 +62,7 @@ import com.liferay.portal.model.UserGroupRole;
 import com.liferay.portal.model.Website;
 import com.liferay.portal.security.auth.CompanyThreadLocal;
 import com.liferay.portal.security.auth.PrincipalException;
+import com.liferay.portal.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.security.membershippolicy.MembershipPolicyException;
 import com.liferay.portal.security.permission.PermissionChecker;
 import com.liferay.portal.security.permission.PermissionCheckerFactoryUtil;
@@ -79,17 +81,20 @@ import com.liferay.portlet.usersadmin.util.UsersAdminUtil;
 import com.vnpt.portlet.user.model.ActIdGroup;
 import com.vnpt.portlet.user.model.ActIdUser;
 import com.vnpt.portlet.user.model.GroupRoles;
+import com.vnpt.portlet.user.model.GroupUsers;
 import com.vnpt.portlet.user.model.PermissionGroup;
 import com.vnpt.portlet.user.model.PermissionType;
 import com.vnpt.portlet.user.model.impl.ActIdGroupImpl;
 import com.vnpt.portlet.user.model.impl.ActIdUserImpl;
 import com.vnpt.portlet.user.model.impl.GroupRolesImpl;
+import com.vnpt.portlet.user.model.impl.GroupUsersImpl;
 import com.vnpt.portlet.user.model.impl.PermissionGroupImpl;
 import com.vnpt.portlet.user.model.impl.PermissionTypeImpl;
 import com.vnpt.portlet.user.permission.VnptPermission;
 import com.vnpt.portlet.user.service.ActIdGroupLocalServiceUtil;
 import com.vnpt.portlet.user.service.ActIdUserLocalServiceUtil;
 import com.vnpt.portlet.user.service.GroupRolesLocalServiceUtil;
+import com.vnpt.portlet.user.service.GroupUsersLocalServiceUtil;
 import com.vnpt.portlet.user.service.PermissionGroupLocalServiceUtil;
 import com.vnpt.portlet.user.service.PermissionTypeLocalServiceUtil;
 import com.vnpt.portlet.user.utils.VnptConstants;
@@ -114,7 +119,7 @@ public class UserController {
 			groups = themeDisplay.getUser().getGroups();		
 			renderRequest.setAttribute("groups", groups);
 		}
-		else if(VnptConstants.EDIT_USER.equals(tabs1)) {
+		else if(VnptConstants.EDIT_USER.equals(tabs1) || VnptConstants.EDIT_GROUP_ROLE.equals(tabs1)) {
 			System.out.println("editUser");
 			long groupId = themeDisplay.getScopeGroupId();
 			PermissionChecker permissionChecker = themeDisplay.getPermissionChecker();
@@ -223,14 +228,13 @@ public class UserController {
 			ServiceContext serviceContext = ServiceContextFactory.getInstance(
 					User.class.getName(), actionRequest);
 			
-			// Behalf of Admin user 
-			Role adminRole = RoleLocalServiceUtil.getRole(CompanyThreadLocal.getCompanyId(), "Administrator");
-			List<User> adminUsers = UserLocalServiceUtil.getRoleUsers(adminRole.getRoleId());
-			long userAdminId = 20159; // default@liferay.com
-			if(adminUsers != null && !adminUsers.isEmpty()) {
-				userAdminId = adminUsers.get(0).getUserId();
+			Role aRole = RoleLocalServiceUtil.getRole(CompanyThreadLocal.getCompanyId(), "Administrator");
+			List<User> aUsers = UserLocalServiceUtil.getRoleUsers(aRole.getRoleId());
+			long aUserId = 20159;
+			if(aUsers != null && !aUsers.isEmpty()) {
+				aUserId = aUsers.get(0).getUserId();
 			}
-			User userAdmin = UserLocalServiceUtil.getUser(userAdminId);
+			User userAdmin = UserLocalServiceUtil.getUser(aUserId);
 			PermissionChecker checker = PermissionCheckerFactoryUtil.create(userAdmin);
 			PermissionThreadLocal.setPermissionChecker(checker);
 			
@@ -537,7 +541,7 @@ public class UserController {
 		String title = ParamUtil.getString(actionRequest, "title");
 		String description = ParamUtil.getString(actionRequest, "description");
 		System.out.println("title :"+title +" || name :"+name);
-		Map<Locale, String> titleMap =new HashMap<Locale, String>();
+		Map<Locale, String> titleMap = new HashMap<Locale, String>();
 		Map<Locale, String> descriptionMap = new HashMap<Locale, String>();
 		
 		titleMap.put(defaultLocale, title);
@@ -545,10 +549,25 @@ public class UserController {
 		
 		ServiceContext serviceContext = ServiceContextFactory.getInstance(
 				Role.class.getName(), actionRequest);
-
+		
+		
+		Role aRole = RoleLocalServiceUtil.getRole(CompanyThreadLocal.getCompanyId(), "Administrator");
+		List<User> aUsers = UserLocalServiceUtil.getRoleUsers(aRole.getRoleId());
+		long aUserId = 20159; 
+		if(aUsers != null && !aUsers.isEmpty()) {
+			aUserId = aUsers.get(0).getUserId();
+		}
+		User userAdmin = UserLocalServiceUtil.getUser(aUserId);
+		PermissionChecker checker = PermissionCheckerFactoryUtil.create(userAdmin);
+		PermissionThreadLocal.setPermissionChecker(checker);
+		
+		
 		if(roleId <= 0) {
-			RoleServiceUtil.addRole(null, 0, name, titleMap, descriptionMap, 
+			Role role = RoleServiceUtil.addRole(null, 0, name, titleMap, descriptionMap, 
 					type, null, serviceContext);
+			
+			// Assign user to new Role
+			UserServiceUtil.addRoleUsers(role.getRoleId(), new long[] {themeDisplay.getUserId()});
 			
 			// insert into actIdGroup
 			ActIdGroup actIdGroup = new ActIdGroupImpl();
@@ -561,9 +580,12 @@ public class UserController {
 			
 		}
 		else {
-			RoleServiceUtil.updateRole(roleId, name, titleMap, descriptionMap, 
+			Role role = RoleServiceUtil.updateRole(roleId, name, titleMap, descriptionMap, 
 					null, serviceContext);
 			
+			// Assign user to new Role
+			UserServiceUtil.addRoleUsers(role.getRoleId(), new long[] {themeDisplay.getUserId()});
+						
 			// insert into actIdGroup
 			ActIdGroup actIdGroup = ActIdGroupLocalServiceUtil.fetchActIdGroup(name);
 			if(actIdGroup == null) {
@@ -594,6 +616,7 @@ public class UserController {
 		long groupId = themeDisplay.getScopeGroupId();
 		Locale defaultLocale = PortalUtil.getSiteDefaultLocale(groupId);
 		
+		Long userSiteId = ParamUtil.getLong(actionRequest, "userSite");
 		String groupName = ParamUtil.getString(actionRequest, "groupName");
 		String groupCode = ParamUtil.getString(actionRequest, "groupCode");
 		String description = ParamUtil.getString(actionRequest, "description");
@@ -604,7 +627,7 @@ public class UserController {
 		perGroup.setGroupCode(groupCode);
 		perGroup.setDescription(description);
 		perGroup.setIsActive(1);
-		perGroup.setGroupId(groupId);
+		perGroup.setGroupId(userSiteId); // userSite selected
 		perGroup.setCompanyId(themeDisplay.getCompanyId());
 		
 		perGroup = PermissionGroupLocalServiceUtil.addPermissionGroup(perGroup);
@@ -629,4 +652,41 @@ public class UserController {
 		actionResponse.setRenderParameter("action", VnptConstants.EDIT_GROUP_ROLE);
 	}
 
+	@ActionMapping(params="action=" + VnptConstants.UPDATE_ASSIGN_USER)
+	public void updateAssignUser(ActionRequest actionRequest,
+			ActionResponse actionResponse) throws Exception {
+		System.out.println("updateAssignUser");
+		
+		long permissionGroupId = ParamUtil.getLong(actionRequest, "permissionGroupId");
+		
+		List<Role> lstRole = GroupRolesLocalServiceUtil.getRolesByPerGroupId(permissionGroupId);
+		
+		long[] availableUserIds = StringUtil.split(
+				ParamUtil.getString(actionRequest, "assignUserIds"), 0L);
+		for (long userId : availableUserIds) {
+			
+			System.out.println("assignUserIds :"+userId);
+			GroupUsers groupUsers = new GroupUsersImpl();
+			groupUsers.setPermissionGroupId(permissionGroupId);
+			groupUsers.setUserId(userId);
+			
+			GroupUsersLocalServiceUtil.updateGroupUsers(groupUsers);			
+		}
+		
+		Role aRole = RoleLocalServiceUtil.getRole(CompanyThreadLocal.getCompanyId(), "Administrator");
+		List<User> aUsers = UserLocalServiceUtil.getRoleUsers(aRole.getRoleId());
+		long aUserId = 20159; 
+		if(aUsers != null && !aUsers.isEmpty()) {
+			aUserId = aUsers.get(0).getUserId();
+		}
+		User userAdmin = UserLocalServiceUtil.getUser(aUserId);
+		PermissionChecker checker = PermissionCheckerFactoryUtil.create(userAdmin);
+		PermissionThreadLocal.setPermissionChecker(checker);
+					
+		for(Role role : lstRole) {
+			UserServiceUtil.addRoleUsers(role.getRoleId(), availableUserIds);
+		}
+		
+	}
+	
 }

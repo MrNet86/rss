@@ -26,6 +26,11 @@
 		<property name="dataSource" ref="eGovDataSource" />
 		<property name="sessionFactory" ref="eGovSessionFactory" />
 	</bean>
+	<bean id="com.vnpt.portlet.user.service.GroupUsersLocalService" class="com.vnpt.portlet.user.service.impl.GroupUsersLocalServiceImpl" />
+	<bean id="com.vnpt.portlet.user.service.persistence.GroupUsersPersistence" class="com.vnpt.portlet.user.service.persistence.GroupUsersPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="eGovDataSource" />
+		<property name="sessionFactory" ref="eGovSessionFactory" />
+	</bean>
 	<bean id="com.vnpt.portlet.user.service.PermissionGroupLocalService" class="com.vnpt.portlet.user.service.impl.PermissionGroupLocalServiceImpl" />
 	<bean id="com.vnpt.portlet.user.service.persistence.PermissionGroupPersistence" class="com.vnpt.portlet.user.service.persistence.PermissionGroupPersistenceImpl" parent="basePersistence">
 		<property name="dataSource" ref="eGovDataSource" />

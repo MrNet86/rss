@@ -17,10 +17,10 @@ if(isAdmin) {
 	tabs1Names += ",edit-user";
 }
 
-tabs1Names += ",view-permission-type";
-if(isAdmin) {
-	tabs1Names += ",edit-permission-type";
-}
+// tabs1Names += ",view-permission-type";
+// if(isAdmin) {
+// 	tabs1Names += ",edit-permission-type";
+// }
 
 tabs1Names += ",view-role";
 if(isAdmin) {

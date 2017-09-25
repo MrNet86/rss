@@ -14,7 +14,13 @@
 
 package com.vnpt.portlet.user.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vnpt.portlet.user.model.PermissionGroup;
 import com.vnpt.portlet.user.service.base.PermissionGroupLocalServiceBaseImpl;
+import com.vnpt.portlet.user.service.persistence.PermissionGroupUtil;
 
 /**
  * The implementation of the permission group local service.
@@ -37,4 +43,31 @@ public class PermissionGroupLocalServiceImpl
 	 *
 	 * Never reference this interface directly. Always use {@link com.vnpt.portlet.user.service.PermissionGroupLocalServiceUtil} to access the permission group local service.
 	 */
+	
+	/**
+	 * 
+	 * @param groupId
+	 * @param status
+	 * @param start
+	 * @param end
+	 * @return
+	 * @throws SystemException
+	 */
+	public List<PermissionGroup> findByActiveGroupId (long groupId, int status, int start, int end) throws SystemException {
+		return PermissionGroupUtil.findByActiveGroupId(groupId, status, start, end);
+	}
+	
+	/**
+	 * write custom sql to get count
+	 * @param groupId
+	 * @param status
+	 * @return
+	 * @throws SystemException
+	 */
+	public int countByfindByActiveGroupId (long groupId, int status) throws SystemException {
+		List lst = new ArrayList();
+		lst = PermissionGroupUtil.findByActiveGroupId(groupId, status);
+		return lst.size();
+	}
+	
 }

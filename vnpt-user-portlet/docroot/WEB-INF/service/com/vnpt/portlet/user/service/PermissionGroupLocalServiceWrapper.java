@@ -290,6 +290,37 @@ public class PermissionGroupLocalServiceWrapper
 	}
 
 	/**
+	* @param groupId
+	* @param status
+	* @param start
+	* @param end
+	* @return
+	* @throws SystemException
+	*/
+	@Override
+	public java.util.List<com.vnpt.portlet.user.model.PermissionGroup> findByActiveGroupId(
+		long groupId, int status, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _permissionGroupLocalService.findByActiveGroupId(groupId,
+			status, start, end);
+	}
+
+	/**
+	* write custom sql to get count
+	*
+	* @param groupId
+	* @param status
+	* @return
+	* @throws SystemException
+	*/
+	@Override
+	public int countByfindByActiveGroupId(long groupId, int status)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _permissionGroupLocalService.countByfindByActiveGroupId(groupId,
+			status);
+	}
+
+	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */
 	public PermissionGroupLocalService getWrappedPermissionGroupLocalService() {

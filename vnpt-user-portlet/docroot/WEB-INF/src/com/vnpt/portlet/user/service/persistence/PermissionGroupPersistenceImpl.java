@@ -84,68 +84,74 @@ public class PermissionGroupPersistenceImpl extends BasePersistenceImpl<Permissi
 	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(PermissionGroupModelImpl.ENTITY_CACHE_ENABLED,
 			PermissionGroupModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPID = new FinderPath(PermissionGroupModelImpl.ENTITY_CACHE_ENABLED,
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_ACTIVEGROUPID =
+		new FinderPath(PermissionGroupModelImpl.ENTITY_CACHE_ENABLED,
 			PermissionGroupModelImpl.FINDER_CACHE_ENABLED,
 			PermissionGroupImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByGroupId",
+			"findByActiveGroupId",
 			new String[] {
-				Long.class.getName(),
+				Long.class.getName(), Integer.class.getName(),
 				
 			Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID =
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVEGROUPID =
 		new FinderPath(PermissionGroupModelImpl.ENTITY_CACHE_ENABLED,
 			PermissionGroupModelImpl.FINDER_CACHE_ENABLED,
 			PermissionGroupImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] { Long.class.getName() },
-			PermissionGroupModelImpl.GROUPID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_GROUPID = new FinderPath(PermissionGroupModelImpl.ENTITY_CACHE_ENABLED,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByActiveGroupId",
+			new String[] { Long.class.getName(), Integer.class.getName() },
+			PermissionGroupModelImpl.GROUPID_COLUMN_BITMASK |
+			PermissionGroupModelImpl.ISACTIVE_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_ACTIVEGROUPID = new FinderPath(PermissionGroupModelImpl.ENTITY_CACHE_ENABLED,
 			PermissionGroupModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] { Long.class.getName() });
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByActiveGroupId",
+			new String[] { Long.class.getName(), Integer.class.getName() });
 
 	/**
-	 * Returns all the permission groups where groupId = &#63;.
+	 * Returns all the permission groups where groupId = &#63; and isActive = &#63;.
 	 *
 	 * @param groupId the group ID
+	 * @param isActive the is active
 	 * @return the matching permission groups
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public List<PermissionGroup> findByGroupId(long groupId)
+	public List<PermissionGroup> findByActiveGroupId(long groupId, int isActive)
 		throws SystemException {
-		return findByGroupId(groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+		return findByActiveGroupId(groupId, isActive, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the permission groups where groupId = &#63;.
+	 * Returns a range of all the permission groups where groupId = &#63; and isActive = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.vnpt.portlet.user.model.impl.PermissionGroupModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
+	 * @param isActive the is active
 	 * @param start the lower bound of the range of permission groups
 	 * @param end the upper bound of the range of permission groups (not inclusive)
 	 * @return the range of matching permission groups
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public List<PermissionGroup> findByGroupId(long groupId, int start, int end)
-		throws SystemException {
-		return findByGroupId(groupId, start, end, null);
+	public List<PermissionGroup> findByActiveGroupId(long groupId,
+		int isActive, int start, int end) throws SystemException {
+		return findByActiveGroupId(groupId, isActive, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the permission groups where groupId = &#63;.
+	 * Returns an ordered range of all the permission groups where groupId = &#63; and isActive = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link com.vnpt.portlet.user.model.impl.PermissionGroupModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
+	 * @param isActive the is active
 	 * @param start the lower bound of the range of permission groups
 	 * @param end the upper bound of the range of permission groups (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
@@ -153,8 +159,9 @@ public class PermissionGroupPersistenceImpl extends BasePersistenceImpl<Permissi
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public List<PermissionGroup> findByGroupId(long groupId, int start,
-		int end, OrderByComparator orderByComparator) throws SystemException {
+	public List<PermissionGroup> findByActiveGroupId(long groupId,
+		int isActive, int start, int end, OrderByComparator orderByComparator)
+		throws SystemException {
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
@@ -162,12 +169,16 @@ public class PermissionGroupPersistenceImpl extends BasePersistenceImpl<Permissi
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
 				(orderByComparator == null)) {
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID;
-			finderArgs = new Object[] { groupId };
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVEGROUPID;
+			finderArgs = new Object[] { groupId, isActive };
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPID;
-			finderArgs = new Object[] { groupId, start, end, orderByComparator };
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_ACTIVEGROUPID;
+			finderArgs = new Object[] {
+					groupId, isActive,
+					
+					start, end, orderByComparator
+				};
 		}
 
 		List<PermissionGroup> list = (List<PermissionGroup>)FinderCacheUtil.getResult(finderPath,
@@ -175,7 +186,8 @@ public class PermissionGroupPersistenceImpl extends BasePersistenceImpl<Permissi
 
 		if ((list != null) && !list.isEmpty()) {
 			for (PermissionGroup permissionGroup : list) {
-				if ((groupId != permissionGroup.getGroupId())) {
+				if ((groupId != permissionGroup.getGroupId()) ||
+						(isActive != permissionGroup.getIsActive())) {
 					list = null;
 
 					break;
@@ -187,16 +199,18 @@ public class PermissionGroupPersistenceImpl extends BasePersistenceImpl<Permissi
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
+				query = new StringBundler(4 +
 						(orderByComparator.getOrderByFields().length * 3));
 			}
 			else {
-				query = new StringBundler(3);
+				query = new StringBundler(4);
 			}
 
 			query.append(_SQL_SELECT_PERMISSIONGROUP_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_ACTIVEGROUPID_GROUPID_2);
+
+			query.append(_FINDER_COLUMN_ACTIVEGROUPID_ISACTIVE_2);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -219,6 +233,8 @@ public class PermissionGroupPersistenceImpl extends BasePersistenceImpl<Permissi
 				QueryPos qPos = QueryPos.getInstance(q);
 
 				qPos.add(groupId);
+
+				qPos.add(isActive);
 
 				if (!pagination) {
 					list = (List<PermissionGroup>)QueryUtil.list(q,
@@ -251,31 +267,35 @@ public class PermissionGroupPersistenceImpl extends BasePersistenceImpl<Permissi
 	}
 
 	/**
-	 * Returns the first permission group in the ordered set where groupId = &#63;.
+	 * Returns the first permission group in the ordered set where groupId = &#63; and isActive = &#63;.
 	 *
 	 * @param groupId the group ID
+	 * @param isActive the is active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching permission group
 	 * @throws com.vnpt.portlet.user.NoSuchPermissionGroupException if a matching permission group could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public PermissionGroup findByGroupId_First(long groupId,
-		OrderByComparator orderByComparator)
+	public PermissionGroup findByActiveGroupId_First(long groupId,
+		int isActive, OrderByComparator orderByComparator)
 		throws NoSuchPermissionGroupException, SystemException {
-		PermissionGroup permissionGroup = fetchByGroupId_First(groupId,
-				orderByComparator);
+		PermissionGroup permissionGroup = fetchByActiveGroupId_First(groupId,
+				isActive, orderByComparator);
 
 		if (permissionGroup != null) {
 			return permissionGroup;
 		}
 
-		StringBundler msg = new StringBundler(4);
+		StringBundler msg = new StringBundler(6);
 
 		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
 		msg.append("groupId=");
 		msg.append(groupId);
+
+		msg.append(", isActive=");
+		msg.append(isActive);
 
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
@@ -283,18 +303,20 @@ public class PermissionGroupPersistenceImpl extends BasePersistenceImpl<Permissi
 	}
 
 	/**
-	 * Returns the first permission group in the ordered set where groupId = &#63;.
+	 * Returns the first permission group in the ordered set where groupId = &#63; and isActive = &#63;.
 	 *
 	 * @param groupId the group ID
+	 * @param isActive the is active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching permission group, or <code>null</code> if a matching permission group could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public PermissionGroup fetchByGroupId_First(long groupId,
-		OrderByComparator orderByComparator) throws SystemException {
-		List<PermissionGroup> list = findByGroupId(groupId, 0, 1,
-				orderByComparator);
+	public PermissionGroup fetchByActiveGroupId_First(long groupId,
+		int isActive, OrderByComparator orderByComparator)
+		throws SystemException {
+		List<PermissionGroup> list = findByActiveGroupId(groupId, isActive, 0,
+				1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -304,31 +326,35 @@ public class PermissionGroupPersistenceImpl extends BasePersistenceImpl<Permissi
 	}
 
 	/**
-	 * Returns the last permission group in the ordered set where groupId = &#63;.
+	 * Returns the last permission group in the ordered set where groupId = &#63; and isActive = &#63;.
 	 *
 	 * @param groupId the group ID
+	 * @param isActive the is active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching permission group
 	 * @throws com.vnpt.portlet.user.NoSuchPermissionGroupException if a matching permission group could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public PermissionGroup findByGroupId_Last(long groupId,
+	public PermissionGroup findByActiveGroupId_Last(long groupId, int isActive,
 		OrderByComparator orderByComparator)
 		throws NoSuchPermissionGroupException, SystemException {
-		PermissionGroup permissionGroup = fetchByGroupId_Last(groupId,
-				orderByComparator);
+		PermissionGroup permissionGroup = fetchByActiveGroupId_Last(groupId,
+				isActive, orderByComparator);
 
 		if (permissionGroup != null) {
 			return permissionGroup;
 		}
 
-		StringBundler msg = new StringBundler(4);
+		StringBundler msg = new StringBundler(6);
 
 		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
 		msg.append("groupId=");
 		msg.append(groupId);
+
+		msg.append(", isActive=");
+		msg.append(isActive);
 
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
@@ -336,24 +362,26 @@ public class PermissionGroupPersistenceImpl extends BasePersistenceImpl<Permissi
 	}
 
 	/**
-	 * Returns the last permission group in the ordered set where groupId = &#63;.
+	 * Returns the last permission group in the ordered set where groupId = &#63; and isActive = &#63;.
 	 *
 	 * @param groupId the group ID
+	 * @param isActive the is active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching permission group, or <code>null</code> if a matching permission group could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public PermissionGroup fetchByGroupId_Last(long groupId,
-		OrderByComparator orderByComparator) throws SystemException {
-		int count = countByGroupId(groupId);
+	public PermissionGroup fetchByActiveGroupId_Last(long groupId,
+		int isActive, OrderByComparator orderByComparator)
+		throws SystemException {
+		int count = countByActiveGroupId(groupId, isActive);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<PermissionGroup> list = findByGroupId(groupId, count - 1, count,
-				orderByComparator);
+		List<PermissionGroup> list = findByActiveGroupId(groupId, isActive,
+				count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -363,18 +391,20 @@ public class PermissionGroupPersistenceImpl extends BasePersistenceImpl<Permissi
 	}
 
 	/**
-	 * Returns the permission groups before and after the current permission group in the ordered set where groupId = &#63;.
+	 * Returns the permission groups before and after the current permission group in the ordered set where groupId = &#63; and isActive = &#63;.
 	 *
 	 * @param permissionGroupId the primary key of the current permission group
 	 * @param groupId the group ID
+	 * @param isActive the is active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next permission group
 	 * @throws com.vnpt.portlet.user.NoSuchPermissionGroupException if a permission group with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public PermissionGroup[] findByGroupId_PrevAndNext(long permissionGroupId,
-		long groupId, OrderByComparator orderByComparator)
+	public PermissionGroup[] findByActiveGroupId_PrevAndNext(
+		long permissionGroupId, long groupId, int isActive,
+		OrderByComparator orderByComparator)
 		throws NoSuchPermissionGroupException, SystemException {
 		PermissionGroup permissionGroup = findByPrimaryKey(permissionGroupId);
 
@@ -385,13 +415,13 @@ public class PermissionGroupPersistenceImpl extends BasePersistenceImpl<Permissi
 
 			PermissionGroup[] array = new PermissionGroupImpl[3];
 
-			array[0] = getByGroupId_PrevAndNext(session, permissionGroup,
-					groupId, orderByComparator, true);
+			array[0] = getByActiveGroupId_PrevAndNext(session, permissionGroup,
+					groupId, isActive, orderByComparator, true);
 
 			array[1] = permissionGroup;
 
-			array[2] = getByGroupId_PrevAndNext(session, permissionGroup,
-					groupId, orderByComparator, false);
+			array[2] = getByActiveGroupId_PrevAndNext(session, permissionGroup,
+					groupId, isActive, orderByComparator, false);
 
 			return array;
 		}
@@ -403,8 +433,8 @@ public class PermissionGroupPersistenceImpl extends BasePersistenceImpl<Permissi
 		}
 	}
 
-	protected PermissionGroup getByGroupId_PrevAndNext(Session session,
-		PermissionGroup permissionGroup, long groupId,
+	protected PermissionGroup getByActiveGroupId_PrevAndNext(Session session,
+		PermissionGroup permissionGroup, long groupId, int isActive,
 		OrderByComparator orderByComparator, boolean previous) {
 		StringBundler query = null;
 
@@ -418,7 +448,9 @@ public class PermissionGroupPersistenceImpl extends BasePersistenceImpl<Permissi
 
 		query.append(_SQL_SELECT_PERMISSIONGROUP_WHERE);
 
-		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+		query.append(_FINDER_COLUMN_ACTIVEGROUPID_GROUPID_2);
+
+		query.append(_FINDER_COLUMN_ACTIVEGROUPID_ISACTIVE_2);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -490,6 +522,8 @@ public class PermissionGroupPersistenceImpl extends BasePersistenceImpl<Permissi
 
 		qPos.add(groupId);
 
+		qPos.add(isActive);
+
 		if (orderByComparator != null) {
 			Object[] values = orderByComparator.getOrderByConditionValues(permissionGroup);
 
@@ -509,41 +543,47 @@ public class PermissionGroupPersistenceImpl extends BasePersistenceImpl<Permissi
 	}
 
 	/**
-	 * Removes all the permission groups where groupId = &#63; from the database.
+	 * Removes all the permission groups where groupId = &#63; and isActive = &#63; from the database.
 	 *
 	 * @param groupId the group ID
+	 * @param isActive the is active
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public void removeByGroupId(long groupId) throws SystemException {
-		for (PermissionGroup permissionGroup : findByGroupId(groupId,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+	public void removeByActiveGroupId(long groupId, int isActive)
+		throws SystemException {
+		for (PermissionGroup permissionGroup : findByActiveGroupId(groupId,
+				isActive, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
 			remove(permissionGroup);
 		}
 	}
 
 	/**
-	 * Returns the number of permission groups where groupId = &#63;.
+	 * Returns the number of permission groups where groupId = &#63; and isActive = &#63;.
 	 *
 	 * @param groupId the group ID
+	 * @param isActive the is active
 	 * @return the number of matching permission groups
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public int countByGroupId(long groupId) throws SystemException {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_GROUPID;
+	public int countByActiveGroupId(long groupId, int isActive)
+		throws SystemException {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_ACTIVEGROUPID;
 
-		Object[] finderArgs = new Object[] { groupId };
+		Object[] finderArgs = new Object[] { groupId, isActive };
 
 		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
 				this);
 
 		if (count == null) {
-			StringBundler query = new StringBundler(2);
+			StringBundler query = new StringBundler(3);
 
 			query.append(_SQL_COUNT_PERMISSIONGROUP_WHERE);
 
-			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
+			query.append(_FINDER_COLUMN_ACTIVEGROUPID_GROUPID_2);
+
+			query.append(_FINDER_COLUMN_ACTIVEGROUPID_ISACTIVE_2);
 
 			String sql = query.toString();
 
@@ -557,6 +597,8 @@ public class PermissionGroupPersistenceImpl extends BasePersistenceImpl<Permissi
 				QueryPos qPos = QueryPos.getInstance(q);
 
 				qPos.add(groupId);
+
+				qPos.add(isActive);
 
 				count = (Long)q.uniqueResult();
 
@@ -575,7 +617,8 @@ public class PermissionGroupPersistenceImpl extends BasePersistenceImpl<Permissi
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "permissionGroup.groupId = ?";
+	private static final String _FINDER_COLUMN_ACTIVEGROUPID_GROUPID_2 = "permissionGroup.groupId = ? AND ";
+	private static final String _FINDER_COLUMN_ACTIVEGROUPID_ISACTIVE_2 = "permissionGroup.isActive = ?";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_COMPANYID =
 		new FinderPath(PermissionGroupModelImpl.ENTITY_CACHE_ENABLED,
 			PermissionGroupModelImpl.FINDER_CACHE_ENABLED,
@@ -1300,19 +1343,25 @@ public class PermissionGroupPersistenceImpl extends BasePersistenceImpl<Permissi
 
 		else {
 			if ((permissionGroupModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID.getColumnBitmask()) != 0) {
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVEGROUPID.getColumnBitmask()) != 0) {
 				Object[] args = new Object[] {
-						permissionGroupModelImpl.getOriginalGroupId()
+						permissionGroupModelImpl.getOriginalGroupId(),
+						permissionGroupModelImpl.getOriginalIsActive()
 					};
 
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ACTIVEGROUPID,
+					args);
+				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVEGROUPID,
 					args);
 
-				args = new Object[] { permissionGroupModelImpl.getGroupId() };
+				args = new Object[] {
+						permissionGroupModelImpl.getGroupId(),
+						permissionGroupModelImpl.getIsActive()
+					};
 
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ACTIVEGROUPID,
+					args);
+				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ACTIVEGROUPID,
 					args);
 			}
 

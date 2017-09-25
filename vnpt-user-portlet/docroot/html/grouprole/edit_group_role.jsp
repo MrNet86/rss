@@ -1,3 +1,4 @@
+<%@page import="java.util.Collections"%>
 <%@page import="com.liferay.portal.service.RoleLocalServiceUtil"%>
 <%@page import="com.liferay.portal.model.Role"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -11,6 +12,20 @@
 List<Role> lstRegularRole = RoleLocalServiceUtil.getUserRoles(user.getUserId());
 for (Role role : lstRegularRole) {
 	System.out.println("regular role :"+role.getName());
+}
+
+//list site where user login belong to
+List<Group> groups = (List<Group>) request.getAttribute("groups");
+if(groups == null || groups.isEmpty()) {
+	 groups = Collections.emptyList();
+}
+
+//list site of modifield user
+List<Group> curGroups = Collections.emptyList();
+
+User aUser = (User) request.getAttribute("user");
+if(aUser != null) {
+	curGroups = aUser.getGroups();
 }
 
 %>
@@ -36,6 +51,27 @@ for (Role role : lstRegularRole) {
 			<div class="form-group">
 				<div class="row">
 					<div class="col-md-2 col-sm-3 col-xs-12">
+						<label for="#"><liferay-ui:message key="site"/></label>
+					</div>
+					<div class="col-md-4 col-sm-9 col-xs-12">
+						<aui:select name="userSite" label="" cssClass="form-control" required="true">
+							<%
+								for (Group group : groups) {
+							%>
+								<aui:option value="<%= group.getGroupId() %>" >
+									<%= group.getName() %>
+								</aui:option>
+							<%
+								}
+							%>
+						</aui:select>
+					</div>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-2 col-sm-3 col-xs-12">
 						<label for="#"><liferay-ui:message key="role"/></label>
 					</div>
 					<div class="col-md-4 col-sm-9 col-xs-12">
@@ -44,7 +80,7 @@ for (Role role : lstRegularRole) {
 								for (Role role : lstRegularRole) {
 							%>
 								<aui:option value="<%= role.getRoleId() %>" selected=''>
-									<%= role.getTitle() %>
+									<%= role.getName() %>
 								</aui:option>
 							<%
 								}
@@ -89,7 +125,7 @@ for (Role role : lstRegularRole) {
 		            <div class="col-md-4 col-sm-9 col-xs-12">
 		                <aui:input type="text" name="description" label="" 
 		                	cssClass="form-control" value="" />								
-		            </div> 							
+		            </div>
 				</div>
 			</div>
 			
