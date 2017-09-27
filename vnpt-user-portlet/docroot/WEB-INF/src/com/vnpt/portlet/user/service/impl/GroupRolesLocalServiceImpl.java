@@ -56,4 +56,17 @@ public class GroupRolesLocalServiceImpl extends GroupRolesLocalServiceBaseImpl {
 		return lstResult;
 	}
 	
+	
+	public List<Long> getRolesIdByPerGroupId (long permissionGroupId) throws SystemException, PortalException {
+
+		List<Long> lstResult = new ArrayList<Long>();
+		List<GroupRoles> lst = GroupRolesUtil.findByPermissionGroupId(permissionGroupId);
+		for (GroupRoles obj : lst) {
+			lstResult.add(obj.getRoleId());
+		}
+		
+		return lstResult;
+	}
+	
+	
 }

@@ -41,7 +41,6 @@ import com.vnpt.portlet.user.service.persistence.GroupRolesPersistence;
 import com.vnpt.portlet.user.service.persistence.GroupUsersPK;
 import com.vnpt.portlet.user.service.persistence.GroupUsersPersistence;
 import com.vnpt.portlet.user.service.persistence.PermissionGroupPersistence;
-import com.vnpt.portlet.user.service.persistence.PermissionTypePersistence;
 
 import java.io.Serializable;
 
@@ -555,44 +554,6 @@ public abstract class GroupUsersLocalServiceBaseImpl
 	}
 
 	/**
-	 * Returns the permission type local service.
-	 *
-	 * @return the permission type local service
-	 */
-	public com.vnpt.portlet.user.service.PermissionTypeLocalService getPermissionTypeLocalService() {
-		return permissionTypeLocalService;
-	}
-
-	/**
-	 * Sets the permission type local service.
-	 *
-	 * @param permissionTypeLocalService the permission type local service
-	 */
-	public void setPermissionTypeLocalService(
-		com.vnpt.portlet.user.service.PermissionTypeLocalService permissionTypeLocalService) {
-		this.permissionTypeLocalService = permissionTypeLocalService;
-	}
-
-	/**
-	 * Returns the permission type persistence.
-	 *
-	 * @return the permission type persistence
-	 */
-	public PermissionTypePersistence getPermissionTypePersistence() {
-		return permissionTypePersistence;
-	}
-
-	/**
-	 * Sets the permission type persistence.
-	 *
-	 * @param permissionTypePersistence the permission type persistence
-	 */
-	public void setPermissionTypePersistence(
-		PermissionTypePersistence permissionTypePersistence) {
-		this.permissionTypePersistence = permissionTypePersistence;
-	}
-
-	/**
 	 * Returns the counter local service.
 	 *
 	 * @return the counter local service
@@ -796,10 +757,6 @@ public abstract class GroupUsersLocalServiceBaseImpl
 	protected com.vnpt.portlet.user.service.PermissionGroupLocalService permissionGroupLocalService;
 	@BeanReference(type = PermissionGroupPersistence.class)
 	protected PermissionGroupPersistence permissionGroupPersistence;
-	@BeanReference(type = com.vnpt.portlet.user.service.PermissionTypeLocalService.class)
-	protected com.vnpt.portlet.user.service.PermissionTypeLocalService permissionTypeLocalService;
-	@BeanReference(type = PermissionTypePersistence.class)
-	protected PermissionTypePersistence permissionTypePersistence;
 	@BeanReference(type = com.liferay.counter.service.CounterLocalService.class)
 	protected com.liferay.counter.service.CounterLocalService counterLocalService;
 	@BeanReference(type = com.liferay.portal.service.ResourceLocalService.class)

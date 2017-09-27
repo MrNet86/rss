@@ -25,9 +25,6 @@ User _aUser = (User)row.getObject();
 
 <div class="list-button">
 	<a class="btn btn-sm btn-primary" href="<%= editURL %>">
-		<i class="fa fa-plus"></i>
-	</a>	
-	<a class="btn btn-sm btn-primary" href="<%= editURL %>">
 		<i class="fa fa-edit"></i>
 	</a>
 	<%
@@ -45,7 +42,7 @@ Liferay.provide(
 	'deleteUser',
 	function(url) {
 		
-	 	if (confirm('<%= UnicodeLanguageUtil.get(pageContext, "ban-co-muon-xoa-nguoi-dung-nay-khong ha") %>')) {
+	 	if (confirm('<%= UnicodeLanguageUtil.get(pageContext, "ban-co-muon-xoa-nguoi-dung-nay-khong") %>')) {
 	 		window.location.href = url;
 	 	}
 	 	

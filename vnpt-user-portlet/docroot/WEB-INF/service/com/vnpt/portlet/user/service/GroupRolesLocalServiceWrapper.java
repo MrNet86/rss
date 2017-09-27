@@ -295,6 +295,14 @@ public class GroupRolesLocalServiceWrapper implements GroupRolesLocalService,
 		return _groupRolesLocalService.getRolesByPerGroupId(permissionGroupId);
 	}
 
+	@Override
+	public java.util.List<java.lang.Long> getRolesIdByPerGroupId(
+		long permissionGroupId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _groupRolesLocalService.getRolesIdByPerGroupId(permissionGroupId);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

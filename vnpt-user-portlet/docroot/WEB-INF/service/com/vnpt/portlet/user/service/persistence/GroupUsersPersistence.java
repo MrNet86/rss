@@ -151,7 +151,8 @@ public interface GroupUsersPersistence extends BasePersistence<GroupUsers> {
 	* @throws SystemException if a system exception occurred
 	*/
 	public com.vnpt.portlet.user.model.GroupUsers[] findByPermissionGroupId_PrevAndNext(
-		GroupUsersPK groupUsersPK, long permissionGroupId,
+		com.vnpt.portlet.user.service.persistence.GroupUsersPK groupUsersPK,
+		long permissionGroupId,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			com.vnpt.portlet.user.NoSuchGroupUsersException;
@@ -288,7 +289,8 @@ public interface GroupUsersPersistence extends BasePersistence<GroupUsers> {
 	* @throws SystemException if a system exception occurred
 	*/
 	public com.vnpt.portlet.user.model.GroupUsers[] findByUserId_PrevAndNext(
-		GroupUsersPK groupUsersPK, long userId,
+		com.vnpt.portlet.user.service.persistence.GroupUsersPK groupUsersPK,
+		long userId,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			com.vnpt.portlet.user.NoSuchGroupUsersException;
@@ -334,7 +336,7 @@ public interface GroupUsersPersistence extends BasePersistence<GroupUsers> {
 	* @return the new group users
 	*/
 	public com.vnpt.portlet.user.model.GroupUsers create(
-		GroupUsersPK groupUsersPK);
+		com.vnpt.portlet.user.service.persistence.GroupUsersPK groupUsersPK);
 
 	/**
 	* Removes the group users with the primary key from the database. Also notifies the appropriate model listeners.
@@ -345,7 +347,7 @@ public interface GroupUsersPersistence extends BasePersistence<GroupUsers> {
 	* @throws SystemException if a system exception occurred
 	*/
 	public com.vnpt.portlet.user.model.GroupUsers remove(
-		GroupUsersPK groupUsersPK)
+		com.vnpt.portlet.user.service.persistence.GroupUsersPK groupUsersPK)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			com.vnpt.portlet.user.NoSuchGroupUsersException;
 
@@ -362,7 +364,7 @@ public interface GroupUsersPersistence extends BasePersistence<GroupUsers> {
 	* @throws SystemException if a system exception occurred
 	*/
 	public com.vnpt.portlet.user.model.GroupUsers findByPrimaryKey(
-		GroupUsersPK groupUsersPK)
+		com.vnpt.portlet.user.service.persistence.GroupUsersPK groupUsersPK)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			com.vnpt.portlet.user.NoSuchGroupUsersException;
 
@@ -374,7 +376,7 @@ public interface GroupUsersPersistence extends BasePersistence<GroupUsers> {
 	* @throws SystemException if a system exception occurred
 	*/
 	public com.vnpt.portlet.user.model.GroupUsers fetchByPrimaryKey(
-		GroupUsersPK groupUsersPK)
+		com.vnpt.portlet.user.service.persistence.GroupUsersPK groupUsersPK)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**

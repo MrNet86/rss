@@ -20,6 +20,10 @@
 			<mime-type>text/html</mime-type>
 		</supports>
 		
+		<supported-locale>vi</supported-locale>
+		<supported-locale>en</supported-locale>
+		<resource-bundle>content.languagues.Language-listcontents</resource-bundle>
+		
 		<portlet-info>
 			<title>Vnpt User</title>
 			<short-title>Vnpt User</short-title>

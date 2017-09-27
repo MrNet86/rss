@@ -47,13 +47,4 @@
 		<field name="isActive" type="int" />
 		<field name="description" type="String" />
 	</model>
-	<model name="com.vnpt.portlet.user.model.PermissionType">
-		<field name="permissionTypeId" type="long" />
-		<field name="groupId" type="long" />
-		<field name="companyId" type="long" />
-		<field name="typeName" type="String" />
-		<field name="typeCode" type="String" />
-		<field name="isActive" type="int" />
-		<field name="description" type="String" />
-	</model>
 </model-hints>

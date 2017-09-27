@@ -1,3 +1,4 @@
+<%@page import="com.vnpt.portlet.user.permission.VnptPermission"%>
 <%@page import="com.liferay.portal.kernel.util.ListUtil"%>
 <%@page import="com.liferay.portal.service.RoleLocalServiceUtil"%>
 <%@page import="com.liferay.portal.model.Role"%>
@@ -24,6 +25,8 @@ for (PermissionGroup role : lstPerGroup) {
 %>
 <aui:form action="" method="post" name="fm">
 	
+	<liferay-ui:success key="update-group-role-successfull" message="cap-nhat-thanh-cong-nhom-quyen" />
+	
 	<liferay-ui:search-container
 		searchContainer="<%= searchContainer %>"
 		var="roleSearchContainer"
@@ -40,26 +43,42 @@ for (PermissionGroup role : lstPerGroup) {
 			keyProperty="permissionGroupId"
 		>
 		
-			<liferay-ui:search-container-column-text property="permissionGroupId" />
+			<liferay-ui:search-container-column-text 
+				name="ten-nhom-quyen"
+				value="<%= aPerGroup.getGroupName() %>"
+			/>
 			
-			<liferay-ui:search-container-column-text property="groupName" />
+			<liferay-ui:search-container-column-text 
+				name="ma-nhom-quyen"
+				value="<%= aPerGroup.getGroupCode() %>"
+			/>
 			
-			<liferay-ui:search-container-column-text property="groupCode" />
+			<liferay-ui:search-container-column-text 
+				name="mo-ta" 
+				value="<%= aPerGroup.getDescription() %>"
+			/>
+			<%
+				String sites = "";
+				List<Role> lstRole = GroupRolesLocalServiceUtil.getRolesByPerGroupId(aPerGroup.getPermissionGroupId());
+				for(Role role : lstRole) {
+					sites += role.getName() + ", ";
+				}
+			%>
+			<liferay-ui:search-container-column-text 
+				name="loai-nhom-quyen" 
+				value="<%= sites %>"
+			/>
 			
-			<liferay-ui:search-container-column-text property="description" />
-			
-			<liferay-ui:search-container-column-text name="role">
-				<%
-					String sites = "";
-					List<Role> lstRole = GroupRolesLocalServiceUtil.getRolesByPerGroupId(aPerGroup.getPermissionGroupId());
-					for(Role role : lstRole) {
-						sites += role.getName() + ", ";
-					}
-					System.out.println("sites :"+sites);
-				%>
-				<%= sites %>
-			</liferay-ui:search-container-column-text>
-													
+			<%
+			if (VnptPermission.contains(permissionChecker, scopeGroupId, VnptConstants.USER_PER_ADMIN)) {
+			%>
+			<liferay-ui:search-container-column-jsp
+				align="center"
+				path="/html/grouprole/action_group_role.jsp"
+			/>
+			<%
+			}
+			%>	
 		</liferay-ui:search-container-row>
 	
 		<liferay-ui:search-iterator />

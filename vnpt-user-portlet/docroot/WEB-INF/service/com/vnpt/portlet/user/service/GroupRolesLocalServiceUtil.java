@@ -282,6 +282,13 @@ public class GroupRolesLocalServiceUtil {
 		return getService().getRolesByPerGroupId(permissionGroupId);
 	}
 
+	public static java.util.List<java.lang.Long> getRolesIdByPerGroupId(
+		long permissionGroupId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().getRolesIdByPerGroupId(permissionGroupId);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

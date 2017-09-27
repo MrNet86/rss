@@ -1,3 +1,6 @@
+<%@page import="com.liferay.portal.security.permission.PermissionThreadLocal"%>
+<%@page import="com.liferay.portal.security.permission.PermissionChecker"%>
+<%@page import="com.vnpt.portlet.user.permission.VnptPermission"%>
 <%@page import="com.liferay.portal.kernel.util.ListUtil"%>
 <%@page import="com.liferay.portal.service.UserGroupRoleLocalServiceUtil"%>
 <%@page import="com.liferay.portal.model.UserGroupRole"%>
@@ -56,14 +59,28 @@ for (Role role : lstRegularRole) {
 			keyProperty="roleId"
 		>
 		
-			<liferay-ui:search-container-column-text property="roleId" />
+			<liferay-ui:search-container-column-text 
+				name="ten-loai-nhom-quyen"
+				value="<%= aRole.getTitle() %>"
+			/>
 			
-			<liferay-ui:search-container-column-text property="name" />
+			<liferay-ui:search-container-column-text 
+				name="ma-loai-nhom-quyen"
+				value="<%= aRole.getName() %>"
+			/>						
 			
-			<liferay-ui:search-container-column-text property="title" />
-			
-			<liferay-ui:search-container-column-text property="description" />
-													
+			<liferay-ui:search-container-column-text 
+				name="mo-ta"
+				value="<%= aRole.getDescription() %>"
+			/>
+			<%
+			if (VnptPermission.contains(permissionChecker, scopeGroupId, VnptConstants.USER_PER_ADMIN)) {
+			%>
+			<liferay-ui:search-container-column-jsp
+				align="center"
+				path="/html/role/action_role.jsp"
+			/>
+			<%} %>
 		</liferay-ui:search-container-row>
 	
 		<liferay-ui:search-iterator />

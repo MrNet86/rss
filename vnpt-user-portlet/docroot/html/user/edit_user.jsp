@@ -1,3 +1,4 @@
+<%@page import="com.liferay.portal.service.UserGroupRoleLocalServiceUtil"%>
 <%@page import="com.liferay.portal.model.UserGroup"%>
 <%@page import="java.util.Collections"%>
 <%@page import="com.liferay.portal.model.Phone"%>
@@ -15,6 +16,7 @@ String email = "";
 String fullName = "";
 String phoneNumber = "";
 boolean isMale = true;
+boolean isSiteAdmin = false;
 long userId = 0;
 
 // list site where user login belong to
@@ -39,10 +41,14 @@ if(aUser != null) {
 			if(phone.getPrimary()) {
 				phoneNumber = phone.getNumber();	
 			}
-		}		
+		}
 	}
 	
 	curGroups = aUser.getGroups();
+	for(Group gr : groups) {
+		isSiteAdmin =  UserGroupRoleLocalServiceUtil.hasUserGroupRole(userId, gr.getGroupId(), 20170);	
+	}
+	
 }
 
 %>
@@ -95,6 +101,13 @@ if(aUser != null) {
 									%>
 								</aui:select>
 							</div>
+							
+							<div class="col-md-2 col-sm-3 col-xs-12">
+				                <label for="#"><liferay-ui:message key="site-admin"/></label>
+				            </div>
+				            <div class="col-md-4 col-sm-9 col-xs-12">
+				                <aui:input label="" name="isSiteAdmin" type="checkbox" value="<%= isSiteAdmin %>"/>
+				            </div> 
 						</div>
 					</div>
 					
@@ -134,7 +147,7 @@ if(aUser != null) {
 			        <div class="form-group">
 				        <div class="row">
 				        	<div class="col-md-2 col-sm-3 col-xs-12">
-				        		<label><liferay-ui:message key="phone"/></label>
+				        		<label><liferay-ui:message key="so-dien-thoai"/></label>
 				        	</div>
 				        	<div class="col-md-4 col-sm-9 col-xs-12">
 				        		<aui:input type="text" name="phoneNumber" label="" cssClass="form-control" value="<%= phoneNumber %>">
@@ -144,7 +157,7 @@ if(aUser != null) {
 				        	</div>
 				        	
 				        	<div class="col-md-2 col-sm-3 col-xs-12">
-				        		<label><liferay-ui:message key="gender"/></label>
+				        		<label><liferay-ui:message key="gioi-tinh"/></label>
 				        	</div>
 				        	<div class="col-md-4 col-sm-9 col-xs-12">
 				        		<aui:select name="male" label="" cssClass="form-control">
@@ -159,7 +172,7 @@ if(aUser != null) {
 				        <c:if test="<%= aUser == null %>">
 				        	<div class="row">
 					        	<div class="col-md-2 col-sm-3 col-xs-12">
-					        		<label><liferay-ui:message key="password"/></label>
+					        		<label><liferay-ui:message key="mat-khau"/></label>
 					        	</div>
 					        	<div class="col-md-4 col-sm-9 col-xs-12">
 					        		<aui:input autocomplete="off" name="password1" size="30" type="password" label="" cssClass="form-control">
@@ -168,7 +181,7 @@ if(aUser != null) {
 					        	</div>
 					        	
 					        	<div class="col-md-2 col-sm-3 col-xs-12">
-					        		<label><liferay-ui:message key="enter-again"/></label>
+					        		<label><liferay-ui:message key="nhap-lai-mat-khau"/></label>
 					        	</div>
 					        	<div class="col-md-4 col-sm-9 col-xs-12">
 					        		<aui:input autocomplete="off" name="password2" size="30" type="password" label="" cssClass="form-control">

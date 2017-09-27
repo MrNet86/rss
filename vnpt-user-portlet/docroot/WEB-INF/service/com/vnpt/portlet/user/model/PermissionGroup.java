@@ -17,7 +17,7 @@ package com.vnpt.portlet.user.model;
 import com.liferay.portal.model.PersistedModel;
 
 /**
- * The extended model interface for the PermissionGroup service. Represents a row in the &quot;eportal_permission_group&quot; database table, with each column mapped to a property of this class.
+ * The extended model interface for the PermissionGroup service. Represents a row in the &quot;eportal_group_permission&quot; database table, with each column mapped to a property of this class.
  *
  * @author ToanNQ86
  * @see PermissionGroupModel

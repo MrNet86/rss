@@ -23,7 +23,7 @@ List<PermissionGroup> lstPerGroup = PermissionGroupLocalServiceUtil.findByActive
 			<div class="form-group">
 				<div class="row">
 					<div class="col-md-2 col-sm-3 col-xs-12">
-						<label for="#"><liferay-ui:message key="groupRole"/></label>
+						<label for="#"><liferay-ui:message key="loai-nhom-quyen"/></label>
 					</div>
 					<div class="col-md-4 col-sm-9 col-xs-12">
 						<aui:select label="" name="permissionGroupId">
@@ -45,7 +45,7 @@ List<PermissionGroup> lstPerGroup = PermissionGroupLocalServiceUtil.findByActive
 						<label ><liferay-ui:message key="user"/></label>
 					</div>
 					<div class="col-md-10 col-sm-9 col-xs-12">
-						<aui:fieldset cssClass="available-languages" label="available-languages">
+						<aui:fieldset cssClass="available-languages" label="view-user">
 							<%
 							List<User> lstUser = new ArrayList<User>();
 							List<Group> sites =  user.getMySiteGroups();
@@ -76,10 +76,10 @@ List<PermissionGroup> lstPerGroup = PermissionGroupLocalServiceUtil.findByActive
 								leftBoxName="currentUserIds"
 								leftList="<%= leftList %>"
 								leftReorder="true"
-								leftTitle="currentUser"
+								leftTitle="none-group-role"
 								rightBoxName="availableUserIds"
 								rightList="<%= rightList %>"
-								rightTitle="availableUser"
+								rightTitle="in-group-role"
 							/>
 						</aui:fieldset> 
 					</div>
@@ -89,7 +89,7 @@ List<PermissionGroup> lstPerGroup = PermissionGroupLocalServiceUtil.findByActive
 	</div>	
 	
 	<aui:button-row>
-		<aui:button type="submit" value="Command.Save"  icon="icon-save" />
+		<aui:button type="submit" icon="icon-save" />
 	</aui:button-row>
 	
 </aui:form>

@@ -25,7 +25,6 @@ import com.vnpt.portlet.user.service.ClpSerializer;
 import com.vnpt.portlet.user.service.GroupRolesLocalServiceUtil;
 import com.vnpt.portlet.user.service.GroupUsersLocalServiceUtil;
 import com.vnpt.portlet.user.service.PermissionGroupLocalServiceUtil;
-import com.vnpt.portlet.user.service.PermissionTypeLocalServiceUtil;
 
 /**
  * @author ToanNQ86
@@ -55,8 +54,6 @@ public class ClpMessageListener extends BaseMessageListener {
 			GroupUsersLocalServiceUtil.clearService();
 
 			PermissionGroupLocalServiceUtil.clearService();
-
-			PermissionTypeLocalServiceUtil.clearService();
 		}
 	}
 }

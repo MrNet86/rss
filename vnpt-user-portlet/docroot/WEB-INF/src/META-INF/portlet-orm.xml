@@ -133,20 +133,6 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
-	<mapped-superclass class="com.vnpt.portlet.user.model.impl.PermissionTypeModelImpl">
-		<attributes>
-			<id name="permissionTypeId" />
-			<basic name="groupId" />
-			<basic name="companyId" />
-			<basic name="typeName" />
-			<basic name="typeCode" />
-			<basic name="isActive" />
-			<basic name="description" />
-			<transient name="modelAttributes" />
-			<transient name="primaryKey" />
-			<transient name="primaryKeyObj" />
-		</attributes>
-	</mapped-superclass>
 	<entity class="com.vnpt.portlet.user.model.impl.ActIdGroupImpl" name="ActIdGroup">
 		<table name="act_id_group" />
 		<attributes />
@@ -172,11 +158,7 @@
 		<attributes />
 	</entity>
 	<entity class="com.vnpt.portlet.user.model.impl.PermissionGroupImpl" name="PermissionGroup">
-		<table name="eportal_permission_group" />
-		<attributes />
-	</entity>
-	<entity class="com.vnpt.portlet.user.model.impl.PermissionTypeImpl" name="PermissionType">
-		<table name="eportal_permission_type" />
+		<table name="eportal_group_permission" />
 		<attributes />
 	</entity>
 </entity-mappings>

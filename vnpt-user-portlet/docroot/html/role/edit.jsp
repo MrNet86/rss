@@ -1,3 +1,6 @@
+<%@page import="com.liferay.portal.DuplicateRoleException"%>
+<%@page import="com.liferay.portal.RoleNameException"%>
+<%@page import="com.liferay.portal.RequiredRoleException"%>
 <%@page import="com.liferay.portal.model.Role"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -8,11 +11,14 @@
 <%
 String backURL = (String)request.getAttribute("backURL");
 String name = "", title = "", description = "";
-
+long roleId = 0;
 Role role = (Role)request.getAttribute("role");
 if(role != null) {
+	roleId = role.getRoleId();
 	name = role.getName();
-	title = role.getTitle();
+	title = LanguageUtil.get(pageContext, role.getTitle()) ;
+	
+	System.out.println("title :"+title+" || :: "+LanguageUtil.get(portletConfig, themeDisplay.getLocale(), role.getTitle()));
 	description = role.getDescription();
 }
 %>
@@ -23,38 +29,35 @@ if(role != null) {
 
 <aui:form action="<%= updateURL %>" method="post" name="fm">
 	
+	<liferay-ui:error exception="<%= DuplicateRoleException.class %>" message="please-enter-a-unique-name" />
+	<liferay-ui:error exception="<%= RequiredRoleException.class %>" message="old-role-name-is-a-required-system-role" />
+	<liferay-ui:error exception="<%= RoleNameException.class %>" message="please-enter-a-valid-name" />
+	
+	<liferay-ui:success key="update-role-successfull" message="update-role-successfull" />
+
+	<aui:input type="hidden" name="roleId" value="<%= roleId %>"/>
+			
 	<div class="row">
 		<div class="col-md-12">
-			<h1 class="page-header">Tạo mới loại nhóm quyền</h1>
+			<h1 class="page-header">Cập nhật loại nhóm quyền</h1>
 		</div>
 	</div>
 		
 	<div class="row col-md-12 panel top-orange panel-body">
-		<div class="form-group row">
+		<%-- <div class="form-group row">
 			<div class="col-md-2 col-sm-3 col-xs-12">
 				<label for="#"><liferay-ui:message key="roleType"/></label>
 			</div>
 			<div class="col-md-4 col-sm-3 col-xs-12">
 				<aui:select name="type" label="" cssClass="form-control">
 					<aui:option label="regular" value="1" />
-<%-- 					<aui:option label="site" value="2" /> --%>
-<%-- 					<aui:option label="organization" value="3" /> --%>
 				</aui:select>
 			</div>
-		</div>
+		</div> --%>
 
 		<div class="form-group row">
 			<div class="col-md-2 col-sm-3 col-xs-12">
-				<label for="#"><liferay-ui:message key="roleName"/></label>
-			</div>
-			<div class="col-md-4 col-sm-3 col-xs-12">
-				<aui:input name="name" label="" cssClass="form-control" value="<%= name %>"/>
-			</div>
-		</div>
-		
-		<div class="form-group row">
-			<div class="col-md-2 col-sm-3 col-xs-12">
-				<label for="#"><liferay-ui:message key="roleTitle"/></label>
+				<label for="#"><liferay-ui:message key="ten-loai-nhom-quyen"/></label>
 			</div>
 			<div class="col-md-4 col-sm-3 col-xs-12">
 				<aui:input name="title" label="" cssClass="form-control" value="<%= title %>"/>
@@ -63,7 +66,16 @@ if(role != null) {
 		
 		<div class="form-group row">
 			<div class="col-md-2 col-sm-3 col-xs-12">
-				<label for="#"><liferay-ui:message key="description"/></label>
+				<label for="#"><liferay-ui:message key="ma-loai-nhom-quyen"/></label>
+			</div>
+			<div class="col-md-4 col-sm-3 col-xs-12">
+				<aui:input name="name" label="" cssClass="form-control" value="<%= name %>"/>
+			</div>
+		</div>
+		
+		<div class="form-group row">
+			<div class="col-md-2 col-sm-3 col-xs-12">
+				<label for="#"><liferay-ui:message key="mo-ta"/></label>
 			</div>
 			<div class="col-md-4 col-sm-3 col-xs-12">
 				<aui:input name="description" type="textarea" label="" value="<%= description %>" 
@@ -73,8 +85,7 @@ if(role != null) {
 	</div>
 	<div class="separator"><!-- --></div>
 	<aui:button-row>
-		<aui:button type="submit" value="Command.Save"  icon="icon-save" />
-		<aui:button type="cancel" value="Command.Cancel"  icon="icon-undo" href="<%= backURL %>" />
+		<aui:button type="submit" icon="icon-save" />
 	</aui:button-row>
 	
 	

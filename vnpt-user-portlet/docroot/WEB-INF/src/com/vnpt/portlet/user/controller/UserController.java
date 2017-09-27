@@ -20,15 +20,19 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import com.liferay.portal.DuplicateOpenIdException;
+import com.liferay.portal.DuplicateRoleException;
 import com.liferay.portal.DuplicateUserEmailAddressException;
 import com.liferay.portal.DuplicateUserScreenNameException;
 import com.liferay.portal.EmailAddressException;
 import com.liferay.portal.GroupFriendlyURLException;
 import com.liferay.portal.NoSuchListTypeException;
+import com.liferay.portal.NoSuchRoleException;
 import com.liferay.portal.NoSuchUserException;
+import com.liferay.portal.RequiredRoleException;
 import com.liferay.portal.RequiredUserException;
 import com.liferay.portal.ReservedUserEmailAddressException;
 import com.liferay.portal.ReservedUserScreenNameException;
+import com.liferay.portal.RoleNameException;
 import com.liferay.portal.UserEmailAddressException;
 import com.liferay.portal.UserFieldException;
 import com.liferay.portal.UserIdException;
@@ -38,18 +42,17 @@ import com.liferay.portal.UserScreenNameException;
 import com.liferay.portal.UserSmsException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.security.RandomUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.CalendarFactoryUtil;
 import com.liferay.portal.kernel.util.ClassResolverUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.MethodKey;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalClassInvoker;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.UniqueList;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.Address;
 import com.liferay.portal.model.Contact;
@@ -62,7 +65,6 @@ import com.liferay.portal.model.UserGroupRole;
 import com.liferay.portal.model.Website;
 import com.liferay.portal.security.auth.CompanyThreadLocal;
 import com.liferay.portal.security.auth.PrincipalException;
-import com.liferay.portal.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.security.membershippolicy.MembershipPolicyException;
 import com.liferay.portal.security.permission.PermissionChecker;
 import com.liferay.portal.security.permission.PermissionCheckerFactoryUtil;
@@ -72,8 +74,10 @@ import com.liferay.portal.service.RoleLocalServiceUtil;
 import com.liferay.portal.service.RoleServiceUtil;
 import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.ServiceContextFactory;
+import com.liferay.portal.service.UserGroupRoleLocalServiceUtil;
 import com.liferay.portal.service.UserLocalServiceUtil;
 import com.liferay.portal.service.UserServiceUtil;
+import com.liferay.portal.service.persistence.UserGroupRolePK;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.portlet.announcements.model.AnnouncementsDelivery;
@@ -97,6 +101,7 @@ import com.vnpt.portlet.user.service.GroupRolesLocalServiceUtil;
 import com.vnpt.portlet.user.service.GroupUsersLocalServiceUtil;
 import com.vnpt.portlet.user.service.PermissionGroupLocalServiceUtil;
 import com.vnpt.portlet.user.service.PermissionTypeLocalServiceUtil;
+import com.vnpt.portlet.user.service.persistence.GroupRolesPK;
 import com.vnpt.portlet.user.utils.VnptConstants;
 
 @Controller
@@ -111,19 +116,18 @@ public class UserController {
 		
 		String tabs1 = ParamUtil.getString(renderRequest, "tabs1");
 		
-		System.out.println("tabs1 :"+tabs1);
+		// get all site of user login
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
-		if(VnptConstants.VIEW_USER.equals(tabs1)) {
-			System.out.println("viewUser");
-			List<Group> groups = Collections.emptyList();
-			groups = themeDisplay.getUser().getGroups();		
-			renderRequest.setAttribute("groups", groups);
-		}
-		else if(VnptConstants.EDIT_USER.equals(tabs1) || VnptConstants.EDIT_GROUP_ROLE.equals(tabs1)) {
+		List<Group> groups = Collections.emptyList();
+		groups = themeDisplay.getUser().getGroups();		
+		renderRequest.setAttribute("groups", groups);
+		
+		System.out.println("renderHomePage tabs1 :"+tabs1);
+		
+		if(VnptConstants.EDIT_USER.equals(tabs1)) {
 			System.out.println("editUser");
 			long groupId = themeDisplay.getScopeGroupId();
 			PermissionChecker permissionChecker = themeDisplay.getPermissionChecker();
-	
 			// check edit permission
 			if (!VnptPermission.contains(permissionChecker, groupId, VnptConstants.USER_PER_ADMIN)) {
 				SessionErrors.add(renderRequest, "use-have-not-permission");
@@ -137,13 +141,7 @@ public class UserController {
 					renderRequest.setAttribute("user", user);
 				}
 			}
-			System.out.println("editUserPage userId :"+userId);
-	
-			// get all site of user login
-			List<Group> groups = Collections.emptyList();
-			groups = themeDisplay.getUser().getGroups();		
-			renderRequest.setAttribute("groups", groups);
-		}
+		}		
 		else if(VnptConstants.VIEW_PERMISSION_TYPE.equals(tabs1)) {
 			System.out.println("viewPermissionType");
 			
@@ -200,14 +198,19 @@ public class UserController {
 			String screenName = StringUtil.replace(emailAddress, "@", "");
 			screenName = StringUtil.replace(screenName, "_", "");
 			screenName = StringUtil.replace(screenName, "-", "");		
-			screenName = RandomUtil.shuffle(screenName);
+			screenName = screenName + firstName;
 			
 			String[] strGroups = actionRequest.getParameterValues("userSite");
 			long[] groupIds = new long[strGroups.length] ;
 			for (int i = 0; i < strGroups.length; i++) {
 				groupIds[i] = Long.valueOf(strGroups[i]);
 			}
-			
+
+			// if isSiteAdmin, assign user to Site Administrator
+			boolean isSiteAdmin = ParamUtil.getBoolean(
+					actionRequest, "isSiteAdmin");
+			System.out.println("isSiteAdmin :"+isSiteAdmin);
+
 			// Default properties 		
 			int birthdayMonth = 1;
 			int birthdayDay = 1;
@@ -240,6 +243,7 @@ public class UserController {
 			
 			// end
 			try {
+				
 				if(userId > 0) { // edit User
 					
 					User user = UserLocalServiceUtil.fetchUser(userId);
@@ -312,6 +316,21 @@ public class UserController {
 								user.getRoleIds(), userGroupRoles, user.getUserGroupIds(), user.getAddresses(), user.getEmailAddresses(),
 								phones, user.getWebsites(), announcementsDeliveries, serviceContext);
 						
+						// site admin group
+						for (int j = 0; j < groupIds.length; j++) {
+							UserGroupRolePK userGroupRolePK = new UserGroupRolePK(
+								user.getUserId(), groupIds[j], 20170);
+	
+							UserGroupRole userGroupRole =
+								UserGroupRoleLocalServiceUtil.createUserGroupRole(
+									userGroupRolePK);
+							if(isSiteAdmin) {
+								UserGroupRoleLocalServiceUtil.addUserGroupRole(userGroupRole);
+							} else {
+								UserGroupRoleLocalServiceUtil.deleteUserGroupRole(userGroupRole);
+							}
+						}					
+						
 						// update actIdUser in activity
 						ActIdUser actIdUser = ActIdUserLocalServiceUtil.fetchActIdUser(emailAddress);
 						
@@ -351,6 +370,21 @@ public class UserController {
 					
 					// set password to login
 					user = UserLocalServiceUtil.updatePassword(user.getUserId(), password1, password2, true);
+					
+					// add Site Administrator Role
+					if(isSiteAdmin) {
+						for (int j = 0; j < groupIds.length; j++) {
+							System.out.println("groupIds :"+groupIds[j]+" || userId :"+user.getUserId());
+							UserGroupRolePK userGroupRolePK = new UserGroupRolePK(
+								user.getUserId(), groupIds[j], 20170);
+	
+							UserGroupRole userGroupRole =
+								UserGroupRoleLocalServiceUtil.createUserGroupRole(
+									userGroupRolePK);
+							
+							UserGroupRoleLocalServiceUtil.addUserGroupRole(userGroupRole);
+						}					
+					}
 					
 					// insert actIdUser into activity db
 					ActIdUser actIdUser = new ActIdUserImpl();
@@ -501,7 +535,7 @@ public class UserController {
 	@RenderMapping(params="action="+VnptConstants.EDIT_ROLE)
 	public String editRole(RenderRequest renderRequest,
 			RenderResponse renderResponse) throws Exception {
-		System.out.println("edit user");
+		System.out.println("editRole edit role");
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		long groupId = themeDisplay.getScopeGroupId();
 		PermissionChecker permissionChecker = themeDisplay.getPermissionChecker();
@@ -528,14 +562,12 @@ public class UserController {
 	public void updateRole (ActionRequest actionRequest,
 			ActionResponse actionResponse) throws Exception {
 		
-		System.out.println("updateRole");
-		
 		ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		long groupId = themeDisplay.getScopeGroupId();
 		Locale defaultLocale = PortalUtil.getSiteDefaultLocale(groupId);
 
 		Long roleId = ParamUtil.getLong(actionRequest, "roleId", 0L);
-		
+		System.out.println("updateRole roleId :"+roleId);
 		int type = ParamUtil.getInteger(actionRequest, "type");
 		String name = ParamUtil.getString(actionRequest, "name");
 		String title = ParamUtil.getString(actionRequest, "title");
@@ -561,49 +593,91 @@ public class UserController {
 		PermissionChecker checker = PermissionCheckerFactoryUtil.create(userAdmin);
 		PermissionThreadLocal.setPermissionChecker(checker);
 		
-		
-		if(roleId <= 0) {
-			Role role = RoleServiceUtil.addRole(null, 0, name, titleMap, descriptionMap, 
-					type, null, serviceContext);
-			
-			// Assign user to new Role
-			UserServiceUtil.addRoleUsers(role.getRoleId(), new long[] {themeDisplay.getUserId()});
-			
-			// insert into actIdGroup
-			ActIdGroup actIdGroup = new ActIdGroupImpl();
-			actIdGroup.setId(name);;
-			actIdGroup.setRev(1);
-			actIdGroup.setName(name);
-			actIdGroup.setType("assignment");
-			
-			ActIdGroupLocalServiceUtil.addActIdGroup(actIdGroup);
-			
-		}
-		else {
-			Role role = RoleServiceUtil.updateRole(roleId, name, titleMap, descriptionMap, 
-					null, serviceContext);
-			
-			// Assign user to new Role
-			UserServiceUtil.addRoleUsers(role.getRoleId(), new long[] {themeDisplay.getUserId()});
-						
-			// insert into actIdGroup
-			ActIdGroup actIdGroup = ActIdGroupLocalServiceUtil.fetchActIdGroup(name);
-			if(actIdGroup == null) {
-				actIdGroup = new ActIdGroupImpl();
+		try {
+			if(roleId <= 0) {
+				Role role = RoleServiceUtil.addRole(null, 0, name, titleMap, descriptionMap, 
+						type, null, serviceContext);
+				
+				// Assign user to new Role
+				UserServiceUtil.addRoleUsers(role.getRoleId(), new long[] {themeDisplay.getUserId()});
+				
+				// insert into actIdGroup
+				ActIdGroup actIdGroup = new ActIdGroupImpl();
+				actIdGroup.setId(name);;
+				actIdGroup.setRev(1);
+				actIdGroup.setName(name);
+				actIdGroup.setType("assignment");
+				
+				ActIdGroupLocalServiceUtil.addActIdGroup(actIdGroup);
+				
+				SessionMessages.add(actionRequest, "update-role-successfull");
 			}
-			
-			actIdGroup.setId(name);;
-			actIdGroup.setRev(1);
-			actIdGroup.setName(name);
-			actIdGroup.setType("assignment");
-			
-			ActIdGroupLocalServiceUtil.updateActIdGroup(actIdGroup);
-			
+			else {
+				Role role = RoleServiceUtil.updateRole(roleId, name, titleMap, descriptionMap, 
+						null, serviceContext);
+				
+				// Assign user to new Role
+				UserServiceUtil.addRoleUsers(role.getRoleId(), new long[] {themeDisplay.getUserId()});
+							
+				// insert into actIdGroup
+				ActIdGroup actIdGroup = ActIdGroupLocalServiceUtil.fetchActIdGroup(name);
+				if(actIdGroup == null) {
+					actIdGroup = new ActIdGroupImpl();
+				}
+				
+				actIdGroup.setId(name);;
+				actIdGroup.setRev(1);
+				actIdGroup.setName(name);
+				actIdGroup.setType("assignment");
+				
+				ActIdGroupLocalServiceUtil.updateActIdGroup(actIdGroup);
+				
+				SessionMessages.add(actionRequest, "update-role-successfull");
+			}
+		}
+		catch (Exception e) {
+			if (e instanceof PrincipalException) {
+				SessionErrors.add(actionRequest, e.getClass());
+			}
+			else if (e instanceof DuplicateRoleException ||
+					 e instanceof NoSuchRoleException ||
+					 e instanceof RequiredRoleException ||
+					 e instanceof RoleNameException) {
+
+				SessionErrors.add(actionRequest, e.getClass());
+			}
+			else {
+				throw e;
+			}
 		}
 		
-		SessionMessages.add(actionRequest, "update-role-successfull");
 		actionResponse.setRenderParameter("tabs1", VnptConstants.EDIT_ROLE);
 		actionResponse.setRenderParameter("action", VnptConstants.EDIT_ROLE);
+	}
+	
+	@RenderMapping(params="action="+VnptConstants.EDIT_GROUP_ROLE)
+	public String editGroupRole (RenderRequest renderRequest, 
+			RenderResponse renderResponse) throws Exception {
+		System.out.println("edtiGroupRole ");
+		// get all site of user login
+		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
+		List<Group> groups = Collections.emptyList();
+		groups = themeDisplay.getUser().getGroups();		
+		renderRequest.setAttribute("groups", groups);
+		
+		long permissionGroupId = ParamUtil.getLong(renderRequest, "permissionGroupId", 0);
+		
+		if(permissionGroupId > 0) {
+			PermissionGroup perGroup = PermissionGroupLocalServiceUtil.getPermissionGroup(permissionGroupId);
+			if(perGroup != null) {
+				List<Role> lstRole = GroupRolesLocalServiceUtil.getRolesByPerGroupId(perGroup.getPermissionGroupId());
+				
+				renderRequest.setAttribute("perGroup", perGroup);
+				renderRequest.setAttribute("lstRole", lstRole);
+			}
+		}
+		
+		return "view";
 	}
 	
 	@ActionMapping(params="action="+VnptConstants.UPDATE_GROUP_ROLE)
@@ -612,16 +686,19 @@ public class UserController {
 		
 		System.out.println("updateGroupRole");
 		
+		Long permissionGroupId = ParamUtil.getLong(actionRequest, "permissionGroupId", 0);
+		
 		ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
-		long groupId = themeDisplay.getScopeGroupId();
-		Locale defaultLocale = PortalUtil.getSiteDefaultLocale(groupId);
 		
 		Long userSiteId = ParamUtil.getLong(actionRequest, "userSite");
 		String groupName = ParamUtil.getString(actionRequest, "groupName");
 		String groupCode = ParamUtil.getString(actionRequest, "groupCode");
 		String description = ParamUtil.getString(actionRequest, "description");
-		
+				
 		PermissionGroup perGroup = new PermissionGroupImpl();
+		if(permissionGroupId > 0) {
+			perGroup = PermissionGroupLocalServiceUtil.fetchPermissionGroup(permissionGroupId);
+		}
 		
 		perGroup.setGroupName(groupName);
 		perGroup.setGroupCode(groupCode);
@@ -630,7 +707,13 @@ public class UserController {
 		perGroup.setGroupId(userSiteId); // userSite selected
 		perGroup.setCompanyId(themeDisplay.getCompanyId());
 		
-		perGroup = PermissionGroupLocalServiceUtil.addPermissionGroup(perGroup);
+		perGroup = PermissionGroupLocalServiceUtil.updatePermissionGroup(perGroup);
+		
+		// delete old role before update
+		List<Long> lstOldRole = new ArrayList<Long>();
+		if(permissionGroupId > 0) {
+			lstOldRole = GroupRolesLocalServiceUtil.getRolesIdByPerGroupId(permissionGroupId);
+		}
 		
 		// Mapping permissionGroup and Role_
 		GroupRoles groupRoles = null;
@@ -639,6 +722,7 @@ public class UserController {
 		for (int i = 0; i < strRoleId.length; i++) {
 			roles[i] = Long.valueOf(strRoleId[i]);
 			System.out.println("roles :"+ i +" : "+roles[i]);
+			lstOldRole.remove(roles[i]);
 			
 			groupRoles = new GroupRolesImpl();
 			groupRoles.setRoleId(roles[i]);
@@ -647,9 +731,16 @@ public class UserController {
 			GroupRolesLocalServiceUtil.updateGroupRoles(groupRoles);
 		}
 		
+		if(!lstOldRole.isEmpty()) {
+			for(Long id : lstOldRole) {
+				GroupRolesPK groupRolesPK = new GroupRolesPK(permissionGroupId, id);
+				GroupRolesLocalServiceUtil.deleteGroupRoles(groupRolesPK);
+			}
+		}
+		
 		SessionMessages.add(actionRequest, "update-group-role-successfull");
-		actionResponse.setRenderParameter("tabs1", VnptConstants.EDIT_GROUP_ROLE);
-		actionResponse.setRenderParameter("action", VnptConstants.EDIT_GROUP_ROLE);
+		actionResponse.setRenderParameter("tabs1", VnptConstants.VIEW_GROUP_ROLE);
+		actionResponse.setRenderParameter("action", VnptConstants.VIEW_GROUP_ROLE);
 	}
 
 	@ActionMapping(params="action=" + VnptConstants.UPDATE_ASSIGN_USER)

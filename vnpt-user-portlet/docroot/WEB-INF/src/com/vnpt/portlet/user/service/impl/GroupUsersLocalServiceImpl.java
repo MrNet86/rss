@@ -14,6 +14,10 @@
 
 package com.vnpt.portlet.user.service.impl;
 
+import java.util.List;
+
+import com.liferay.portal.model.Role;
+import com.vnpt.portlet.user.model.GroupRoles;
 import com.vnpt.portlet.user.service.base.GroupUsersLocalServiceBaseImpl;
 
 /**
