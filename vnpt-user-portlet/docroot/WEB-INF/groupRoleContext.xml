@@ -20,7 +20,7 @@
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass"
 			value="org.springframework.web.servlet.view.JstlView" />
-		<property name="prefix" value="/html/user/" />
+		<property name="prefix" value="/html/grouprole/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
 	

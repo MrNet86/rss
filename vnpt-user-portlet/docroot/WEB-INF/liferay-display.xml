@@ -5,6 +5,9 @@
 	<category name="VNPT">
 		<category name="VNPT.BackEnd">
 			<portlet id="vnpt-user" />
+			<portlet id="vnpt-role" />
+			<portlet id="vnpt-group-role" />
+			<portlet id="vnpt-assign" />
 		</category>		
 	</category>
 </display>

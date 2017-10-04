@@ -1,3 +1,4 @@
+<%@page import="com.liferay.portal.service.RoleLocalServiceUtil"%>
 <%@page import="com.liferay.portal.service.UserGroupRoleLocalServiceUtil"%>
 <%@page import="com.liferay.portal.model.UserGroup"%>
 <%@page import="java.util.Collections"%>
@@ -21,7 +22,7 @@ long userId = 0;
 
 // list site where user login belong to
 List<Group> groups = (List<Group>) request.getAttribute("groups");
-if(groups == null || groups.isEmpty()) {
+if(groups.isEmpty()) {
 	 groups = Collections.emptyList();
 }
 
@@ -46,7 +47,8 @@ if(aUser != null) {
 	
 	curGroups = aUser.getGroups();
 	for(Group gr : groups) {
-		isSiteAdmin =  UserGroupRoleLocalServiceUtil.hasUserGroupRole(userId, gr.getGroupId(), 20170);	
+		isSiteAdmin =  UserGroupRoleLocalServiceUtil.hasUserGroupRole(userId, gr.getGroupId(),
+			RoleLocalServiceUtil.getRole(themeDisplay.getCompanyId(), "Site Administrator").getRoleId());	
 	}
 	
 }
@@ -114,10 +116,23 @@ if(aUser != null) {
 					<div class="form-group">
 						<div class="row">
 				            <div class="col-md-2 col-sm-3 col-xs-12">
+				                <label for="#"><liferay-ui:message key="screen-name"/></label>
+				            </div>
+				            <div class="col-md-4 col-sm-9 col-xs-12">
+				                <aui:input type="text" name="screenName" label="" cssClass="form-control" value='<%= aUser == null ? "" : HtmlUtil.escape(aUser.getScreenName()) %>'>
+									<aui:validator name="required" />
+								</aui:input>
+				            </div> 
+			            </div>
+		            </div>
+		            
+					<div class="form-group">
+						<div class="row">
+				            <div class="col-md-2 col-sm-3 col-xs-12">
 				                <label for="#"><liferay-ui:message key="email"/></label>
 				            </div>
 				            <div class="col-md-4 col-sm-9 col-xs-12">
-				                <aui:input type="text" name="emailAddress" label="" cssClass="form-control" value="<%= email %>">
+				                <aui:input type="text" name="emailAddress" label="" cssClass="form-control" value="<%= HtmlUtil.escape(email) %>">
 									<aui:validator name="required" />
 									<aui:validator name="email"/>
 								</aui:input>
@@ -212,63 +227,3 @@ if(aUser != null) {
 	}
 	
 </aui:script>
-
-<%--
-<aui:script>
-	
-Liferay.on('_submitAction',function(event) {	
-	
-	AUI().ready('aui-form-validator', 'aui-overlay-context-panel', function(A) {
-		
-		var validator1 = new A.FormValidator({
-			
-			boundingBox: '#<portlet:namespace />fm',
-			validateOnBlur: true,
-			selectText: true,
-			
-			rules: {
-				<portlet:namespace />emailAddress: {
-					required: true
-				},
-				<portlet:namespace />fullName: {
-					required: true
-				}			
-			},
-			
-			fieldStrings: {
-				<portlet:namespace />emailAddress: {
-					required: 'Bond Amount is a required field'
-				},
-				<portlet:namespace />fullName: {
-					required: 'Email is a required field'
-				}				
-			}
-		
-		});
-		
-		validator1.validate();
-		
-		if(validator1.hasErrors()){
-			alert("hello co loi");
-			event.halt();
-		}
-		else {
-			alert("hello khong loi");
-		 	var data = $('#<portlet:namespace/>fm').serializeArray().reduce(function(obj, item) {
-		 	    obj[item.name] = item.value;
-		 	    return obj;
-		 	}, {});
-		 	
-			Liferay.fire('_callBackAction', {
-	 			user_form : data,
-	 			user_namespace : '<portlet:namespace/>'
-	 		});
-		}
-		
-	});
-	
-});
-
-</aui:script>
-
- --%>

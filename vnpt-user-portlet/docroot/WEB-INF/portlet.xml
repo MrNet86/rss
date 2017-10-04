@@ -13,7 +13,7 @@
 		
 		<init-param>
 			<name>view-template</name>
-			<value>/view.jsp</value>
+			<value>/html/user/view.jsp</value>
 		</init-param>
 		
 		<supports>
@@ -28,6 +28,138 @@
 			<title>Vnpt User</title>
 			<short-title>Vnpt User</short-title>
 			<keywords>Vnpt User</keywords>
+		</portlet-info>
+		
+		<security-role-ref>
+			<role-name>administrator</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>guest</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+		
+	</portlet>
+	
+	<portlet>
+		<portlet-name>vnpt-role</portlet-name>
+		<display-name>Vnpt Role</display-name>
+		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		
+		<init-param>
+			<name>contextConfigLocation</name>
+			<value>/WEB-INF/roleContext.xml</value>
+		</init-param>
+		
+		<init-param>
+			<name>view-template</name>
+			<value>/html/role/view.jsp</value>
+		</init-param>
+		
+		<supports>
+			<mime-type>text/html</mime-type>
+		</supports>
+		
+		<supported-locale>vi</supported-locale>
+		<supported-locale>en</supported-locale>
+		<resource-bundle>content.languagues.Language-listcontents</resource-bundle>
+		
+		<portlet-info>
+			<title>Vnpt Role</title>
+			<short-title>Vnpt Role</short-title>
+			<keywords>Vnpt Role</keywords>
+		</portlet-info>
+		
+		<security-role-ref>
+			<role-name>administrator</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>guest</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+		
+	</portlet>
+	
+	<portlet>
+		<portlet-name>vnpt-group-role</portlet-name>
+		<display-name>Vnpt Group Role</display-name>
+		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		
+		<init-param>
+			<name>contextConfigLocation</name>
+			<value>/WEB-INF/groupRoleContext.xml</value>
+		</init-param>
+		
+		<init-param>
+			<name>view-template</name>
+			<value>/html/grouprole/view.jsp</value>
+		</init-param>
+		
+		<supports>
+			<mime-type>text/html</mime-type>
+		</supports>
+		
+		<supported-locale>vi</supported-locale>
+		<supported-locale>en</supported-locale>
+		<resource-bundle>content.languagues.Language-listcontents</resource-bundle>
+		
+		<portlet-info>
+			<title>Vnpt Group Role</title>
+			<short-title>Vnpt Group Role</short-title>
+			<keywords>Vnpt Group Role</keywords>
+		</portlet-info>
+		
+		<security-role-ref>
+			<role-name>administrator</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>guest</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+		
+	</portlet>
+
+	<portlet>
+		<portlet-name>vnpt-assign</portlet-name>
+		<display-name>Vnpt Assign</display-name>
+		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		
+		<init-param>
+			<name>contextConfigLocation</name>
+			<value>/WEB-INF/userContext.xml</value>
+		</init-param>
+		
+		<init-param>
+			<name>view-template</name>
+			<value>/html/assignuser/assign_user.jsp</value>
+		</init-param>
+		
+		<supports>
+			<mime-type>text/html</mime-type>
+		</supports>
+		
+		<supported-locale>vi</supported-locale>
+		<supported-locale>en</supported-locale>
+		<resource-bundle>content.languagues.Language-listcontents</resource-bundle>
+		
+		<portlet-info>
+			<title>Vnpt Assign</title>
+			<short-title>Vnpt Assign</short-title>
+			<keywords>Vnpt Assign</keywords>
 		</portlet-info>
 		
 		<security-role-ref>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<custom-sql>
+	
+	<sql id="findAllUserByGroupAndChild">
+		<![CDATA[
+			SELECT
+				a.* 
+			FROM
+				user_ a 
+			WHERE
+				a.STATUS = 0 
+				AND a.userId IN (
+						SELECT DISTINCT
+							( userId ) 
+						FROM
+							users_groups 
+						WHERE
+							groupId IN 
+								( SELECT DISTINCT ( g.groupid ) 
+									FROM group_ g WHERE g.treePath LIKE ? 
+								) 
+				)
+			Order by a.firstName
+		]]>
+	</sql>
+	
+	
+</custom-sql>

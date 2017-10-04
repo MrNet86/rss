@@ -1,4 +1,4 @@
-<%@ include file="init.jsp" %>
+<%-- <%@ include file="init.jsp" %>
 
 <%
 String tabs1 = ParamUtil.getString(request, "tabs1", VnptConstants.VIEW_USER);
@@ -51,4 +51,4 @@ pageContext.setAttribute("portletURL", portletURL);
 		<liferay-util:include page="/html/assignuser/assign_user.jsp"
 			servletContext="<%= this.getServletContext() %>"/>
 	</c:when>
-</c:choose>
+</c:choose> --%>

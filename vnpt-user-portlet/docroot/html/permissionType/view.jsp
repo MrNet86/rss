@@ -1,3 +1,4 @@
+<%--
 <%@ include file="../init.jsp" %>
 <%
 PortletURL portletURL = (PortletURL)request.getAttribute("view.jsp-portletURL");
@@ -64,3 +65,4 @@ PortletURL portletURL = (PortletURL)request.getAttribute("view.jsp-portletURL");
 		<liferay-ui:search-iterator />
 	</liferay-ui:search-container>
 </aui:form>
+ --%>

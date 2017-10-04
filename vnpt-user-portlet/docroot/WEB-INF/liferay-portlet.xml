@@ -12,6 +12,33 @@
         <add-default-resource>true</add-default-resource>
 	</portlet>
 	
+	<portlet>
+		<portlet-name>vnpt-role</portlet-name>
+        <icon>/icon.png</icon>
+        <header-portlet-css>/css/main.css</header-portlet-css>
+        <footer-portlet-javascript>/js/main.js</footer-portlet-javascript>
+        <css-class-wrapper>vnpt-user-portlet</css-class-wrapper>
+        <add-default-resource>true</add-default-resource>
+	</portlet>
+	
+	<portlet>
+		<portlet-name>vnpt-group-role</portlet-name>
+        <icon>/icon.png</icon>
+        <header-portlet-css>/css/main.css</header-portlet-css>
+        <footer-portlet-javascript>/js/main.js</footer-portlet-javascript>
+        <css-class-wrapper>vnpt-user-portlet</css-class-wrapper>
+        <add-default-resource>true</add-default-resource>
+	</portlet>
+
+	<portlet>
+		<portlet-name>vnpt-assign</portlet-name>
+        <icon>/icon.png</icon>
+        <header-portlet-css>/css/main.css</header-portlet-css>
+        <footer-portlet-javascript>/js/main.js</footer-portlet-javascript>
+        <css-class-wrapper>vnpt-user-portlet</css-class-wrapper>
+        <add-default-resource>true</add-default-resource>
+	</portlet>
+	
 	<role-mapper>
 		<role-name>administrator</role-name>
 		<role-link>Administrator</role-link>
@@ -28,4 +55,5 @@
 		<role-name>user</role-name>
 		<role-link>User</role-link>
 	</role-mapper>
+	
 </liferay-portlet-app>

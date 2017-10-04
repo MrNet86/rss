@@ -1,3 +1,4 @@
+<%--
 <%@page import="com.vnpt.portlet.user.model.impl.PermissionTypeImpl"%>
 <%@page import="com.vnpt.portlet.user.model.PermissionType"%>
 <%@ include file="../init.jsp" %>
@@ -71,3 +72,4 @@ if(perType == null) {
 	</aui:button-row>
 
 </aui:form>
+ --%>

@@ -1,3 +1,8 @@
+<%@page import="com.liferay.portlet.usersadmin.util.UsersAdminUtil"%>
+<%@page import="java.util.Collections"%>
+<%@page import="com.liferay.portal.security.auth.CompanyThreadLocal"%>
+<%@page import="com.liferay.portal.service.RoleLocalServiceUtil"%>
+<%@page import="com.liferay.portal.model.Role"%>
 <%@page import="com.vnpt.portlet.user.permission.VnptPermission"%>
 <%@page import="com.liferay.portal.model.Phone"%>
 <%@page import="com.liferay.portal.kernel.util.ListUtil"%>
@@ -12,15 +17,13 @@ searchContainer = new SearchContainer<User>(renderRequest, null, null, SearchCon
 // get all user's site
 List<User> lstUser = new ArrayList<User>();
 List<Group> sites =  user.getMySites();
+
 for (Group group : sites) {
-	System.out.println("siteId :"+group.getGroupId() + " || sites name :"+group.getName());
 	if(group.getSite()) {
 		lstUser.addAll(UserLocalServiceUtil.getGroupUsers(group.getGroupId()));
 	}
 }
-if(!lstUser.isEmpty()) {
-	lstUser.remove(0); // except test@liferay.com
-}
+
 %>
 
 <aui:form action="<%= portletURL.toString() %>" method="post" name="fm">
@@ -79,6 +82,24 @@ if(!lstUser.isEmpty()) {
 				name="so-dien-thoai"
 				value="<%= phoneNumber %>"
 			/>
+			
+			<%
+			// get all site of user
+			String strSite = "";
+			List<Group> groups = Collections.emptyList();
+			groups = aUser.getGroups();
+			for(Group grp :groups) {
+				strSite += grp.getName() +", ";
+			}
+			if(!"".equals(strSite)) {
+				strSite = strSite.substring(0, strSite.length()-2);
+			}
+			%>
+			<liferay-ui:search-container-column-text
+				name="site"
+				value="<%= strSite %>"			
+			/>
+				
 			<%
 			if (VnptPermission.contains(permissionChecker, scopeGroupId, VnptConstants.USER_PER_ADMIN)) {
 			%>
