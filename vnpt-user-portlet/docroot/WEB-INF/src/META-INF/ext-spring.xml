@@ -12,6 +12,7 @@
 		http://www.springframework.org/schema/util
 		http://www.springframework.org/schema/util/spring-util-3.0.xsd"
 >
+	<!-- eGovDatabase -->
 	<bean id="eGovDataSource" class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy">
 		<property name="targetDataSource">
 			<bean class="com.liferay.portal.dao.jdbc.util.DataSourceFactoryBean">
@@ -47,6 +48,7 @@
 		</property>
 	</bean>
 	
+	<!-- Activity Database -->
 	<bean id="activityDataSource" class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy">
 		<property name="targetDataSource">
 			<bean class="com.liferay.portal.dao.jdbc.util.DataSourceFactoryBean">
@@ -79,6 +81,43 @@
 		</property>
 		<property name="sessionFactory">
 			<ref bean="activityHibernateSessionFactory" />
+		</property>
+	</bean>
+
+	<!-- Liferay database -->
+	<bean id="liferayDataSource" class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy">
+		<property name="targetDataSource">
+			<bean class="com.liferay.portal.dao.jdbc.util.DataSourceFactoryBean">
+				<property name="propertyPrefix" value="jdbc.default." />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="liferayHibernateSessionFactory" class="com.liferay.portal.spring.hibernate.PortletHibernateConfiguration">
+		<property name="dataSource">
+			<ref bean="liferayDataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+			    <prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">false</prop>
+				<prop key="hibernate.generate_statistics">true</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="liferaySessionFactory" class="com.liferay.portal.dao.orm.hibernate.SessionFactoryImpl">
+		<property name="sessionFactoryImplementor">
+			<ref bean="liferayHibernateSessionFactory" />
+		</property>
+	</bean>
+	
+	<bean id="liferayTransactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="dataSource">
+			<ref bean="liferayDataSource" />
+		</property>
+		<property name="sessionFactory">
+			<ref bean="liferayHibernateSessionFactory" />
 		</property>
 	</bean>
 

@@ -31,6 +31,9 @@
 		<property name="dataSource" ref="eGovDataSource" />
 		<property name="sessionFactory" ref="eGovSessionFactory" />
 	</bean>
+	<bean id="com.vnpt.portlet.user.service.LiferayDatabaseLocalService" class="com.vnpt.portlet.user.service.impl.LiferayDatabaseLocalServiceImpl" />
+	<bean id="com.vnpt.portlet.user.service.persistence.LiferayDatabasePersistence" class="com.vnpt.portlet.user.service.persistence.LiferayDatabasePersistenceImpl" parent="basePersistence" />
+	<bean id="com.vnpt.portlet.user.service.persistence.LiferayDatabaseFinder" class="com.vnpt.portlet.user.service.persistence.LiferayDatabaseFinderImpl" parent="basePersistence" />
 	<bean id="com.vnpt.portlet.user.service.PermissionGroupLocalService" class="com.vnpt.portlet.user.service.impl.PermissionGroupLocalServiceImpl" />
 	<bean id="com.vnpt.portlet.user.service.persistence.PermissionGroupPersistence" class="com.vnpt.portlet.user.service.persistence.PermissionGroupPersistenceImpl" parent="basePersistence">
 		<property name="dataSource" ref="eGovDataSource" />

@@ -8,6 +8,7 @@
 	<import class="com.vnpt.portlet.user.model.ActIdUser" />
 	<import class="com.vnpt.portlet.user.model.GroupRoles" />
 	<import class="com.vnpt.portlet.user.model.GroupUsers" />
+	<import class="com.vnpt.portlet.user.model.LiferayDatabase" />
 	<import class="com.vnpt.portlet.user.model.PermissionGroup" />
 	<class name="com.vnpt.portlet.user.model.impl.ActIdGroupImpl" table="act_id_group">
 		<cache usage="read-write" />
@@ -63,6 +64,16 @@
 			<key-property name="permissionGroupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 			<key-property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		</composite-id>
+	</class>
+	<class name="com.vnpt.portlet.user.model.impl.LiferayDatabaseImpl" table="shoppingitemfield">
+		<cache usage="read-write" />
+		<id name="itemFieldId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="itemId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="values" type="com.liferay.portal.dao.orm.hibernate.StringType" column="values_" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="com.vnpt.portlet.user.model.impl.PermissionGroupImpl" table="eportal_group_permission">
 		<cache usage="read-write" />

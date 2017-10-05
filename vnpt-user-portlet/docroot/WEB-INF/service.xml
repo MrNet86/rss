@@ -58,7 +58,7 @@
 		
 		<finder name="UserId" return-type="Collection">
 			<finder-column name="userId" />
-		</finder>
+		</finder>		
 	</entity>
 	
 	<entity name="ActIdUser" table="act_id_user" local-service="true" remote-service="false"
@@ -96,6 +96,26 @@
 		<column name="rev" db-name="rev_" type="long" />
 		<column name="name" db-name="name_" type="String" />
 		<column name="type" db-name="type_" type="String" />
+	</entity>
+	
+	
+	<!-- create entity shoppingitemfield to connect to liferay database -->
+	<entity name="LiferayDatabase" table="shoppingitemfield" local-service="true" remote-service="false"
+		data-source="liferayDataSource" session-factory="liferaySessionFactory" >
+		
+		<column name="itemFieldId" type="long" primary="true" />
+
+		<!-- Other fields -->
+
+		<column name="itemId" type="long" />
+		<column name="name" type="String" />
+		<column name="values" type="String" />
+		<column name="description" type="String" />
+
+		<finder name="ItemId" return-type="Collection">
+			<finder-column name="itemId" />
+		</finder>
+		
 	</entity>
 	
 </service-builder>

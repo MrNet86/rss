@@ -31,6 +31,7 @@ import com.vnpt.portlet.user.model.ActIdMembershipClp;
 import com.vnpt.portlet.user.model.ActIdUserClp;
 import com.vnpt.portlet.user.model.GroupRolesClp;
 import com.vnpt.portlet.user.model.GroupUsersClp;
+import com.vnpt.portlet.user.model.LiferayDatabaseClp;
 import com.vnpt.portlet.user.model.PermissionGroupClp;
 
 import java.io.ObjectInputStream;
@@ -132,6 +133,10 @@ public class ClpSerializer {
 			return translateInputGroupUsers(oldModel);
 		}
 
+		if (oldModelClassName.equals(LiferayDatabaseClp.class.getName())) {
+			return translateInputLiferayDatabase(oldModel);
+		}
+
 		if (oldModelClassName.equals(PermissionGroupClp.class.getName())) {
 			return translateInputPermissionGroup(oldModel);
 		}
@@ -205,6 +210,16 @@ public class ClpSerializer {
 		GroupUsersClp oldClpModel = (GroupUsersClp)oldModel;
 
 		BaseModel<?> newModel = oldClpModel.getGroupUsersRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
+	}
+
+	public static Object translateInputLiferayDatabase(BaseModel<?> oldModel) {
+		LiferayDatabaseClp oldClpModel = (LiferayDatabaseClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getLiferayDatabaseRemoteModel();
 
 		newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -461,6 +476,43 @@ public class ClpSerializer {
 		}
 
 		if (oldModelClassName.equals(
+					"com.vnpt.portlet.user.model.impl.LiferayDatabaseImpl")) {
+			return translateOutputLiferayDatabase(oldModel);
+		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
+		}
+
+		if (oldModelClassName.equals(
 					"com.vnpt.portlet.user.model.impl.PermissionGroupImpl")) {
 			return translateOutputPermissionGroup(oldModel);
 		}
@@ -603,6 +655,11 @@ public class ClpSerializer {
 		}
 
 		if (className.equals(
+					"com.vnpt.portlet.user.NoSuchLiferayDatabaseException")) {
+			return new com.vnpt.portlet.user.NoSuchLiferayDatabaseException();
+		}
+
+		if (className.equals(
 					"com.vnpt.portlet.user.NoSuchPermissionGroupException")) {
 			return new com.vnpt.portlet.user.NoSuchPermissionGroupException();
 		}
@@ -666,6 +723,16 @@ public class ClpSerializer {
 		newModel.setModelAttributes(oldModel.getModelAttributes());
 
 		newModel.setGroupUsersRemoteModel(oldModel);
+
+		return newModel;
+	}
+
+	public static Object translateOutputLiferayDatabase(BaseModel<?> oldModel) {
+		LiferayDatabaseClp newModel = new LiferayDatabaseClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setLiferayDatabaseRemoteModel(oldModel);
 
 		return newModel;
 	}

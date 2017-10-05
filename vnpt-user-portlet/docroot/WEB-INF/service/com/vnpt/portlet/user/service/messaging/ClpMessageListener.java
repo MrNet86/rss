@@ -24,6 +24,7 @@ import com.vnpt.portlet.user.service.ActIdUserLocalServiceUtil;
 import com.vnpt.portlet.user.service.ClpSerializer;
 import com.vnpt.portlet.user.service.GroupRolesLocalServiceUtil;
 import com.vnpt.portlet.user.service.GroupUsersLocalServiceUtil;
+import com.vnpt.portlet.user.service.LiferayDatabaseLocalServiceUtil;
 import com.vnpt.portlet.user.service.PermissionGroupLocalServiceUtil;
 
 /**
@@ -52,6 +53,8 @@ public class ClpMessageListener extends BaseMessageListener {
 			GroupRolesLocalServiceUtil.clearService();
 
 			GroupUsersLocalServiceUtil.clearService();
+
+			LiferayDatabaseLocalServiceUtil.clearService();
 
 			PermissionGroupLocalServiceUtil.clearService();
 		}

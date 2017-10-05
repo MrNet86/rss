@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.model.Role;
@@ -29,6 +31,8 @@ import com.vnpt.portlet.user.utils.VnptConstants;
 @Controller
 @RequestMapping("VIEW")
 public class AssignUserController {
+	
+	private static final Log _log = LogFactoryUtil.getLog(AssignUserController.class);
 	
 	@ActionMapping(params="action=" + VnptConstants.UPDATE_ASSIGN_USER)
 	public void updateAssignUser(ActionRequest actionRequest,

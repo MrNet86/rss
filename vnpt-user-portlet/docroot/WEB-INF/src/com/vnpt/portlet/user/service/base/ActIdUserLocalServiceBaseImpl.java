@@ -39,6 +39,8 @@ import com.vnpt.portlet.user.service.persistence.ActIdMembershipPersistence;
 import com.vnpt.portlet.user.service.persistence.ActIdUserPersistence;
 import com.vnpt.portlet.user.service.persistence.GroupRolesPersistence;
 import com.vnpt.portlet.user.service.persistence.GroupUsersPersistence;
+import com.vnpt.portlet.user.service.persistence.LiferayDatabaseFinder;
+import com.vnpt.portlet.user.service.persistence.LiferayDatabasePersistence;
 import com.vnpt.portlet.user.service.persistence.PermissionGroupPersistence;
 
 import java.io.Serializable;
@@ -513,6 +515,63 @@ public abstract class ActIdUserLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
+	 * Returns the liferay database local service.
+	 *
+	 * @return the liferay database local service
+	 */
+	public com.vnpt.portlet.user.service.LiferayDatabaseLocalService getLiferayDatabaseLocalService() {
+		return liferayDatabaseLocalService;
+	}
+
+	/**
+	 * Sets the liferay database local service.
+	 *
+	 * @param liferayDatabaseLocalService the liferay database local service
+	 */
+	public void setLiferayDatabaseLocalService(
+		com.vnpt.portlet.user.service.LiferayDatabaseLocalService liferayDatabaseLocalService) {
+		this.liferayDatabaseLocalService = liferayDatabaseLocalService;
+	}
+
+	/**
+	 * Returns the liferay database persistence.
+	 *
+	 * @return the liferay database persistence
+	 */
+	public LiferayDatabasePersistence getLiferayDatabasePersistence() {
+		return liferayDatabasePersistence;
+	}
+
+	/**
+	 * Sets the liferay database persistence.
+	 *
+	 * @param liferayDatabasePersistence the liferay database persistence
+	 */
+	public void setLiferayDatabasePersistence(
+		LiferayDatabasePersistence liferayDatabasePersistence) {
+		this.liferayDatabasePersistence = liferayDatabasePersistence;
+	}
+
+	/**
+	 * Returns the liferay database finder.
+	 *
+	 * @return the liferay database finder
+	 */
+	public LiferayDatabaseFinder getLiferayDatabaseFinder() {
+		return liferayDatabaseFinder;
+	}
+
+	/**
+	 * Sets the liferay database finder.
+	 *
+	 * @param liferayDatabaseFinder the liferay database finder
+	 */
+	public void setLiferayDatabaseFinder(
+		LiferayDatabaseFinder liferayDatabaseFinder) {
+		this.liferayDatabaseFinder = liferayDatabaseFinder;
+	}
+
+	/**
 	 * Returns the permission group local service.
 	 *
 	 * @return the permission group local service
@@ -750,6 +809,12 @@ public abstract class ActIdUserLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected com.vnpt.portlet.user.service.GroupUsersLocalService groupUsersLocalService;
 	@BeanReference(type = GroupUsersPersistence.class)
 	protected GroupUsersPersistence groupUsersPersistence;
+	@BeanReference(type = com.vnpt.portlet.user.service.LiferayDatabaseLocalService.class)
+	protected com.vnpt.portlet.user.service.LiferayDatabaseLocalService liferayDatabaseLocalService;
+	@BeanReference(type = LiferayDatabasePersistence.class)
+	protected LiferayDatabasePersistence liferayDatabasePersistence;
+	@BeanReference(type = LiferayDatabaseFinder.class)
+	protected LiferayDatabaseFinder liferayDatabaseFinder;
 	@BeanReference(type = com.vnpt.portlet.user.service.PermissionGroupLocalService.class)
 	protected com.vnpt.portlet.user.service.PermissionGroupLocalService permissionGroupLocalService;
 	@BeanReference(type = PermissionGroupPersistence.class)

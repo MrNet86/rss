@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -33,15 +35,27 @@ import com.vnpt.portlet.user.utils.VnptConstants;
 @RequestMapping("VIEW")
 public class GroupRoleController {
 	
-	@RenderMapping(params="action="+VnptConstants.EDIT_GROUP_ROLE)
+	private static final Log _log = LogFactoryUtil.getLog(UserController.class);
+
+	@RenderMapping
+	public String viewGroupRole(RenderRequest renderRequest,
+			RenderResponse renderResponse) throws Exception {
+		String tabs1 = ParamUtil.getString(renderRequest, "tabs1");
+		_log.info("viewGroupRole tabs1 :"+tabs1);		
+		
+		return "view";
+	}
+	
+	@RenderMapping(params="tabs1="+VnptConstants.EDIT_GROUP_ROLE)
 	public String editGroupRole (RenderRequest renderRequest, 
 			RenderResponse renderResponse) throws Exception {
+		_log.info("editGroupRole");
 		// get all site of user login
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		List<Group> groups = Collections.emptyList();
 		groups = themeDisplay.getUser().getGroups();		
 		renderRequest.setAttribute("groups", groups);
-		
+		System.out.println("groups :"+groups.size());
 		long permissionGroupId = ParamUtil.getLong(renderRequest, "permissionGroupId", 0);
 		
 		if(permissionGroupId > 0) {

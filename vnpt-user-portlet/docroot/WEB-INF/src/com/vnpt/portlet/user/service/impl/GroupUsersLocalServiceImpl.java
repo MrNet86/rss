@@ -14,11 +14,15 @@
 
 package com.vnpt.portlet.user.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.liferay.portal.model.Role;
+import com.liferay.portal.model.User;
 import com.vnpt.portlet.user.model.GroupRoles;
 import com.vnpt.portlet.user.service.base.GroupUsersLocalServiceBaseImpl;
+import com.vnpt.portlet.user.service.persistence.GroupUsersFinderUtil;
+import com.vnpt.portlet.user.service.persistence.GroupUsersUtil;
 
 /**
  * The implementation of the group users local service.
@@ -40,4 +44,5 @@ public class GroupUsersLocalServiceImpl extends GroupUsersLocalServiceBaseImpl {
 	 *
 	 * Never reference this interface directly. Always use {@link com.vnpt.portlet.user.service.GroupUsersLocalServiceUtil} to access the group users local service.
 	 */
+	
 }

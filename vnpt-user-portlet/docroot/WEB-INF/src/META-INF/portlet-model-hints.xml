@@ -38,6 +38,13 @@
 		<field name="permissionGroupId" type="long" />
 		<field name="userId" type="long" />
 	</model>
+	<model name="com.vnpt.portlet.user.model.LiferayDatabase">
+		<field name="itemFieldId" type="long" />
+		<field name="itemId" type="long" />
+		<field name="name" type="String" />
+		<field name="values" type="String" />
+		<field name="description" type="String" />
+	</model>
 	<model name="com.vnpt.portlet.user.model.PermissionGroup">
 		<field name="permissionGroupId" type="long" />
 		<field name="groupId" type="long" />

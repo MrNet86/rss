@@ -31,4 +31,7 @@ public class VnptConstants {
 	// Permission
 	public static final String USER_PER_ADMIN = "USER_PER_ADMIN";
 	
+	// Custom SQL
+	public static final String FIND_ALL_USER_BY_GROUP_AND_CHILD = "findAllUserByGroupAndChild";
+	public static final String COUNT_ALL_USER_BY_GROUP_AND_CHILD = "countAllUserByGroupAndChild";
 }

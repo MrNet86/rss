@@ -12,7 +12,7 @@
 		</init-param>
 		
 		<init-param>
-			<name>view-template</name>
+			<name>view-user</name>
 			<value>/html/user/view.jsp</value>
 		</init-param>
 		
@@ -56,7 +56,7 @@
 		</init-param>
 		
 		<init-param>
-			<name>view-template</name>
+			<name>view-role</name>
 			<value>/html/role/view.jsp</value>
 		</init-param>
 		
@@ -100,7 +100,7 @@
 		</init-param>
 		
 		<init-param>
-			<name>view-template</name>
+			<name>view-grouprole</name>
 			<value>/html/grouprole/view.jsp</value>
 		</init-param>
 		
@@ -140,11 +140,11 @@
 		
 		<init-param>
 			<name>contextConfigLocation</name>
-			<value>/WEB-INF/userContext.xml</value>
+			<value>/WEB-INF/assignUserContext.xml</value>
 		</init-param>
 		
 		<init-param>
-			<name>view-template</name>
+			<name>view-assign</name>
 			<value>/html/assignuser/assign_user.jsp</value>
 		</init-param>
 		

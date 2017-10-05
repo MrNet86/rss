@@ -6,7 +6,30 @@
 			SELECT
 				a.* 
 			FROM
-				user_ a 
+				user_ a
+			WHERE
+				a.STATUS = 0 
+				AND a.userId IN (
+						SELECT DISTINCT
+							( userId ) 
+						FROM
+							users_groups 
+						WHERE
+							groupId IN 
+								( SELECT DISTINCT ( g.groupid ) 
+									FROM group_ g WHERE g.treePath LIKE ? 
+								) 
+				)
+			Order by a.firstName
+		]]>
+	</sql>
+	
+	<sql id="countAllUserByGroupAndChild">
+		<![CDATA[
+			SELECT
+				count(*) as totalRow
+			FROM
+				user_ a
 			WHERE
 				a.STATUS = 0 
 				AND a.userId IN (

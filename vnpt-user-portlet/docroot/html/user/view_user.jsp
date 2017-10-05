@@ -15,14 +15,15 @@ searchContainer = new SearchContainer<User>(renderRequest, null, null, SearchCon
 						SearchContainer.DEFAULT_DELTA, portletURL, null, StringPool.BLANK);
 
 // get all user's site
-List<User> lstUser = new ArrayList<User>();
-List<Group> sites =  user.getMySites();
+// List<User> lstUser = LiferayDatabaseLocalServiceUtil.findAllUserByGroupAndChild(scopeGroupId, 
+// 						searchContainer.getStart(), searchContainer.getEnd());
+// List<Group> sites =  user.getMySites();
 
-for (Group group : sites) {
-	if(group.getSite()) {
-		lstUser.addAll(UserLocalServiceUtil.getGroupUsers(group.getGroupId()));
-	}
-}
+// for (Group group : sites) {
+// 	if(group.getSite()) {
+// 		lstUser.addAll(UserLocalServiceUtil.getGroupUsers(group.getGroupId()));
+// 	}
+// }
 
 %>
 
@@ -33,25 +34,11 @@ for (Group group : sites) {
 		var="userSearchContainer"
 	>
 	
-		<liferay-ui:search-container-results>
-			<%
-				results = ListUtil.subList(lstUser, searchContainer.getStart(),
-	                searchContainer.getEnd());
-	
-				if(lstUser.size()<searchContainer.getEnd()){
-		            results = ListUtil.subList(lstUser, searchContainer.getStart(),
-		            		lstUser.size());
-		            total = lstUser.size();
-		        } else{
-		            results = ListUtil.subList(lstUser, searchContainer.getStart(),
-		                    searchContainer.getEnd());
-		            total = lstUser.size();
-		        }
-	
-		        pageContext.setAttribute("results", results);
-		        pageContext.setAttribute("total", total);
-			%>
-		</liferay-ui:search-container-results>
+		<liferay-ui:search-container-results
+			results="<%= LiferayDatabaseLocalServiceUtil.findAllUserByGroupAndChild(scopeGroupId, 
+					searchContainer.getStart(), searchContainer.getEnd()) %>"
+			total="<%= LiferayDatabaseLocalServiceUtil.countAllUserByGroupAndChild(scopeGroupId) %>"
+		/>
 	
 		<liferay-ui:search-container-row
 			className="com.liferay.portal.model.User"
@@ -72,6 +59,7 @@ for (Group group : sites) {
 			<%
 			String phoneNumber = "";
 			List<Phone> lstPhone = aUser.getPhones();
+			System.out.println("lstPhone :"+lstPhone.size());
 			for(Phone phone : lstPhone) {
 				if(phone.getPrimary()) {
 					phoneNumber = phone.getNumber();	
@@ -79,15 +67,16 @@ for (Group group : sites) {
 			}
 			%>
 			<liferay-ui:search-container-column-text 
-				name="so-dien-thoai"
-				value="<%= phoneNumber %>"
-			/>
+ 				name="so-dien-thoai"
+ 				value="<%= phoneNumber %>"
+ 			/>
 			
 			<%
 			// get all site of user
 			String strSite = "";
 			List<Group> groups = Collections.emptyList();
 			groups = aUser.getGroups();
+			System.out.println("groups :"+groups.size());
 			for(Group grp :groups) {
 				strSite += grp.getName() +", ";
 			}
@@ -96,10 +85,9 @@ for (Group group : sites) {
 			}
 			%>
 			<liferay-ui:search-container-column-text
-				name="site"
-				value="<%= strSite %>"			
-			/>
-				
+ 				name="site"
+ 				value="<%= strSite %>"			 
+ 			/>
 			<%
 			if (VnptPermission.contains(permissionChecker, scopeGroupId, VnptConstants.USER_PER_ADMIN)) {
 			%>

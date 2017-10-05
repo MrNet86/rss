@@ -1,0 +1,1 @@
+create index IX_883B33E7 on shoppingitemfield (itemId);
