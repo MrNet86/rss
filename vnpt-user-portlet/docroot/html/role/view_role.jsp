@@ -17,13 +17,8 @@ SearchContainer<Role> searchContainer = null;
 searchContainer = new SearchContainer<Role>(renderRequest, null, null, SearchContainer.DEFAULT_CUR_PARAM, 
 						SearchContainer.DEFAULT_DELTA, portletURL, null, StringPool.BLANK);
 
-System.out.println("user :"+user.getEmailAddress());
 // get all regular role of user
 List<Role> lstRegularRole = RoleLocalServiceUtil.getUserRoles(user.getUserId());
-for (Role role : lstRegularRole) {
-	System.out.println("regular role :"+role.getName());
-}
-
 %>
 
 <aui:form action="" method="get" name="fm">

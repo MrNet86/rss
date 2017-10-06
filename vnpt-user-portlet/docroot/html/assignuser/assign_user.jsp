@@ -14,6 +14,8 @@ List<PermissionGroup> lstPerGroup = PermissionGroupLocalServiceUtil.findByActive
 	<portlet:param name="action" value="<%= VnptConstants.UPDATE_ASSIGN_USER %>"/>
 </portlet:actionURL>
 
+<portlet:resourceURL id="getUserByGroupRole" var="getGroupRoleUserURL" />
+
 <aui:form action="<%= updateURL %>" method="post" name="fm" onSubmit='<%= "event.preventDefault(); " + renderResponse.getNamespace() + "assignUser();" %>'>
 	
 	<aui:input name="assignUserIds" type="hidden" />
@@ -26,7 +28,7 @@ List<PermissionGroup> lstPerGroup = PermissionGroupLocalServiceUtil.findByActive
 						<label for="#"><liferay-ui:message key="loai-nhom-quyen"/></label>
 					</div>
 					<div class="col-md-4 col-sm-9 col-xs-12">
-						<aui:select label="" name="permissionGroupId">
+						<aui:select label="" name="permissionGroupId" onChange="getUserByGroupRole();">
 							<%
 								for (PermissionGroup perGroup : lstPerGroup) {
 							%>
@@ -50,7 +52,6 @@ List<PermissionGroup> lstPerGroup = PermissionGroupLocalServiceUtil.findByActive
 							List<User> lstUser = new ArrayList<User>();
 							List<Group> sites =  user.getMySiteGroups();
 							for (Group group : sites) {
-								System.out.println("siteId :"+group.getGroupId() + " || sites name :"+group.getName());
 								if(group.getSite()) {
 									lstUser.addAll(UserLocalServiceUtil.getGroupUsers(group.getGroupId()));
 								}
@@ -107,4 +108,31 @@ List<PermissionGroup> lstPerGroup = PermissionGroupLocalServiceUtil.findByActive
 		['liferay-util-list-fields']
 	);
 
+	Liferay.provide(
+		window,
+		'getUserByGroupRole',
+		function() {
+			var	permissionGroupId = document.getElementById("<portlet:namespace/>permissionGroupId").value;
+			console.log("----permissionGroupId :"+permissionGroupId);
+			
+			AUI().use('aui-io-request', function(A){
+				 
+		        A.io.request('<%=  getGroupRoleUserURL %>', {
+		               method: 'get',
+		               dataType: 'json',
+		               data: {
+		            	   <portlet:namespace />permissionGroupId : permissionGroupId
+		               },
+		               on: {
+		            	   success: function(event, id, obj) {
+		            		   var responseData = this.get('responseData');
+		                	   console.log("get type service success :");
+		                   }
+		               }
+		        });
+		 
+		    });
+		},
+		['aui-io-request', 'aui-base']
+	);
 </aui:script>

@@ -14,14 +14,6 @@ SearchContainer<PermissionGroup> searchContainer = null;
 searchContainer = new SearchContainer<PermissionGroup>(renderRequest, null, null, SearchContainer.DEFAULT_CUR_PARAM, 
 						SearchContainer.DEFAULT_DELTA, portletURL, null, StringPool.BLANK);
 
-
-System.out.println("user :"+user.getEmailAddress() +" ||groupId :"+user.getGroupId()+" || scopeGroupId :"+scopeGroupId);
-// get all regular role of user
-List<PermissionGroup> lstPerGroup = PermissionGroupLocalServiceUtil.getPermissionGroups(-1, -1);
-for (PermissionGroup role : lstPerGroup) {
-	System.out.println("groupName :"+role.getGroupName() +" || groupCode :"+role.getGroupCode());
-}
-
 %>
 <aui:form action="" method="post" name="fm">
 	

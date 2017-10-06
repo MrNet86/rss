@@ -1,7 +1,7 @@
 <%@ include file="../init.jsp" %>
 
 <%
-String tabs1 = ParamUtil.getString(request, "tabs1", VnptConstants.VIEW_USER);
+String tabs1 = ParamUtil.getString(request, "tabs1", VnptConstants.VIEW_GROUP_ROLE);
 
 PortletURL portletURL = renderResponse.createRenderURL();
 portletURL.setParameter("tabs1", tabs1);

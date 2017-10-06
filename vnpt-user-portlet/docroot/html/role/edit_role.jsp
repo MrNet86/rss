@@ -17,8 +17,6 @@ if(role != null) {
 	roleId = role.getRoleId();
 	name = role.getName();
 	title = LanguageUtil.get(pageContext, role.getTitle()) ;
-	
-	System.out.println("title :"+title+" || :: "+LanguageUtil.get(portletConfig, themeDisplay.getLocale(), role.getTitle()));
 	description = role.getDescription();
 }
 %>

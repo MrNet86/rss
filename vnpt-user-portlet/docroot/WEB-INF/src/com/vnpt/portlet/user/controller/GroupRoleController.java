@@ -35,7 +35,7 @@ import com.vnpt.portlet.user.utils.VnptConstants;
 @RequestMapping("VIEW")
 public class GroupRoleController {
 	
-	private static final Log _log = LogFactoryUtil.getLog(UserController.class);
+	private static final Log _log = LogFactoryUtil.getLog(GroupRoleController.class);
 
 	@RenderMapping
 	public String viewGroupRole(RenderRequest renderRequest,
@@ -55,7 +55,6 @@ public class GroupRoleController {
 		List<Group> groups = Collections.emptyList();
 		groups = themeDisplay.getUser().getGroups();		
 		renderRequest.setAttribute("groups", groups);
-		System.out.println("groups :"+groups.size());
 		long permissionGroupId = ParamUtil.getLong(renderRequest, "permissionGroupId", 0);
 		
 		if(permissionGroupId > 0) {

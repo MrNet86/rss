@@ -83,14 +83,13 @@ public class UserController {
 	
 	private static final Log _log = LogFactoryUtil.getLog(UserController.class);
 	
-	@RenderMapping(params="tabs1="+VnptConstants.VIEW_USER)
+	@RenderMapping
 	public String viewUser(RenderRequest renderRequest,
 			RenderResponse renderResponse) throws Exception {
 		String tabs1 = ParamUtil.getString(renderRequest, "tabs1");
 		_log.info("viewUser tabs1 :"+tabs1);		
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		
-		System.out.println("viewUser");
 		List<Group> groups = Collections.emptyList();
 		groups = themeDisplay.getUser().getGroups();		
 		renderRequest.setAttribute("groups", groups);
@@ -111,7 +110,6 @@ public class UserController {
 		}
 
 		long userId = ParamUtil.getLong(renderRequest, "userId", 0L);
-		_log.info("editUser id :"+userId);
 		if(userId > 0 ) {
 			User user = UserLocalServiceUtil.getUser(userId);
 			if(user != null) {
@@ -121,10 +119,7 @@ public class UserController {
 
 		// get all site of user login
 		List<Group> groups = Collections.emptyList();
-		groups = themeDisplay.getUser().getGroups();
-		for(Group grp : groups) {
-			System.out.println("grp :"+grp.getName());
-		}
+		groups = themeDisplay.getUser().getGroups();		
 		renderRequest.setAttribute("groups", groups);
 		
 		return "view";
@@ -134,7 +129,6 @@ public class UserController {
 	public void updateUserAction(ActionRequest actionRequest,
 			ActionResponse actionResponse) throws Exception {
 		
-		System.out.println("updateUserAction ");
 		long userId = ParamUtil.getLong(actionRequest, "userId");
 		
 		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(

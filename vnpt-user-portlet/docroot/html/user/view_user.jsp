@@ -13,18 +13,6 @@ PortletURL portletURL = (PortletURL) request.getAttribute("view.jsp-portletURL")
 SearchContainer<User> searchContainer = null;
 searchContainer = new SearchContainer<User>(renderRequest, null, null, SearchContainer.DEFAULT_CUR_PARAM, 
 						SearchContainer.DEFAULT_DELTA, portletURL, null, StringPool.BLANK);
-
-// get all user's site
-// List<User> lstUser = LiferayDatabaseLocalServiceUtil.findAllUserByGroupAndChild(scopeGroupId, 
-// 						searchContainer.getStart(), searchContainer.getEnd());
-// List<Group> sites =  user.getMySites();
-
-// for (Group group : sites) {
-// 	if(group.getSite()) {
-// 		lstUser.addAll(UserLocalServiceUtil.getGroupUsers(group.getGroupId()));
-// 	}
-// }
-
 %>
 
 <aui:form action="<%= portletURL.toString() %>" method="post" name="fm">
@@ -59,7 +47,6 @@ searchContainer = new SearchContainer<User>(renderRequest, null, null, SearchCon
 			<%
 			String phoneNumber = "";
 			List<Phone> lstPhone = aUser.getPhones();
-			System.out.println("lstPhone :"+lstPhone.size());
 			for(Phone phone : lstPhone) {
 				if(phone.getPrimary()) {
 					phoneNumber = phone.getNumber();	
@@ -76,7 +63,6 @@ searchContainer = new SearchContainer<User>(renderRequest, null, null, SearchCon
 			String strSite = "";
 			List<Group> groups = Collections.emptyList();
 			groups = aUser.getGroups();
-			System.out.println("groups :"+groups.size());
 			for(Group grp :groups) {
 				strSite += grp.getName() +", ";
 			}

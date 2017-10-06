@@ -17,9 +17,13 @@ package com.vnpt.portlet.user.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.model.Role;
 import com.liferay.portal.model.User;
+import com.liferay.portal.service.UserLocalServiceUtil;
 import com.vnpt.portlet.user.model.GroupRoles;
+import com.vnpt.portlet.user.model.GroupUsers;
 import com.vnpt.portlet.user.service.base.GroupUsersLocalServiceBaseImpl;
 import com.vnpt.portlet.user.service.persistence.GroupUsersFinderUtil;
 import com.vnpt.portlet.user.service.persistence.GroupUsersUtil;
@@ -45,4 +49,16 @@ public class GroupUsersLocalServiceImpl extends GroupUsersLocalServiceBaseImpl {
 	 * Never reference this interface directly. Always use {@link com.vnpt.portlet.user.service.GroupUsersLocalServiceUtil} to access the group users local service.
 	 */
 	
+	public List<User> getUserByPermissionGroupId (long permissionGroupId) throws SystemException, PortalException {
+		
+		List<User> lstUser = new ArrayList<User>();
+		List<GroupUsers> lstGroupUsers = GroupUsersUtil.findByPermissionGroupId(permissionGroupId);
+		for (GroupUsers gp : lstGroupUsers) {
+			long userId = gp.getUserId();
+			User u = UserLocalServiceUtil.getUser(userId);
+			lstUser.add(u);
+		}
+		
+		return lstUser;
+	}
 }

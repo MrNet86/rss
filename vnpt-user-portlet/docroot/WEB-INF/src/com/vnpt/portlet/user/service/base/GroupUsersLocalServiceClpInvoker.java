@@ -121,6 +121,10 @@ public class GroupUsersLocalServiceClpInvoker {
 		_methodName63 = "setBeanIdentifier";
 
 		_methodParameterTypes63 = new String[] { "java.lang.String" };
+
+		_methodName68 = "getUserByPermissionGroupId";
+
+		_methodParameterTypes68 = new String[] { "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -224,6 +228,11 @@ public class GroupUsersLocalServiceClpInvoker {
 			return null;
 		}
 
+		if (_methodName68.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes68, parameterTypes)) {
+			return GroupUsersLocalServiceUtil.getUserByPermissionGroupId(((Long)arguments[0]).longValue());
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -263,4 +272,6 @@ public class GroupUsersLocalServiceClpInvoker {
 	private String[] _methodParameterTypes62;
 	private String _methodName63;
 	private String[] _methodParameterTypes63;
+	private String _methodName68;
+	private String[] _methodParameterTypes68;
 }

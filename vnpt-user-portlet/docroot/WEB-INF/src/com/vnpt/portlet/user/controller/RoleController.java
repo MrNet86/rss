@@ -66,7 +66,6 @@ public class RoleController {
 			RenderResponse renderResponse) throws Exception {
 		
 		_log.info("editRole");
-		
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		long groupId = themeDisplay.getScopeGroupId();
 		PermissionChecker permissionChecker = themeDisplay.getPermissionChecker();

@@ -287,6 +287,14 @@ public class GroupUsersLocalServiceWrapper implements GroupUsersLocalService,
 			arguments);
 	}
 
+	@Override
+	public java.util.List<com.liferay.portal.model.User> getUserByPermissionGroupId(
+		long permissionGroupId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _groupUsersLocalService.getUserByPermissionGroupId(permissionGroupId);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */
