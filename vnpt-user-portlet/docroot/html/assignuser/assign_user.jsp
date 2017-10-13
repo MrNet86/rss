@@ -14,7 +14,7 @@ List<PermissionGroup> lstPerGroup = PermissionGroupLocalServiceUtil.findByActive
 	<portlet:param name="action" value="<%= VnptConstants.UPDATE_ASSIGN_USER %>"/>
 </portlet:actionURL>
 
-<portlet:resourceURL id="getUserByGroupRole" var="getGroupRoleUserURL" />
+<portlet:resourceURL id="getResourceUserByGroupRole" var="getGroupRoleUserURL" />
 
 <aui:form action="<%= updateURL %>" method="post" name="fm" onSubmit='<%= "event.preventDefault(); " + renderResponse.getNamespace() + "assignUser();" %>'>
 	
@@ -28,7 +28,7 @@ List<PermissionGroup> lstPerGroup = PermissionGroupLocalServiceUtil.findByActive
 						<label for="#"><liferay-ui:message key="loai-nhom-quyen"/></label>
 					</div>
 					<div class="col-md-4 col-sm-9 col-xs-12">
-						<aui:select label="" name="permissionGroupId" onChange="getUserByGroupRole();">
+						<aui:select label="" name="permissionGroupId" onChange='<%= renderResponse.getNamespace() + "getUserByGroupRole();" %>'>
 							<%
 								for (PermissionGroup perGroup : lstPerGroup) {
 							%>
@@ -63,22 +63,22 @@ List<PermissionGroup> lstPerGroup = PermissionGroupLocalServiceUtil.findByActive
 							// Left list	
 							List<KeyValuePair> leftList = new ArrayList<KeyValuePair>();
 						
-							for (User aUser : lstUser) {
-								leftList.add(new KeyValuePair(String.valueOf(aUser.getUserId()), aUser.getFullName() + " - " + aUser.getEmailAddress()));
-							}
+// 							for (User aUser : lstUser) {
+// 								leftList.add(new KeyValuePair(String.valueOf(aUser.getUserId()), aUser.getFullName() + " - " + aUser.getEmailAddress()));
+// 							}
 						
 							// Right list
 						
 							List rightList = new ArrayList<KeyValuePair>();
-							rightList = ListUtil.sort(rightList, new KeyValuePairComparator(false, true));
+// 							rightList = ListUtil.sort(rightList, new KeyValuePairComparator(false, true));
 							%>
 						
 							<liferay-ui:input-move-boxes
-								leftBoxName="currentUserIds"
+								leftBoxName="availableUserIds"
 								leftList="<%= leftList %>"
 								leftReorder="true"
 								leftTitle="none-group-role"
-								rightBoxName="availableUserIds"
+								rightBoxName="currentUserIds"
 								rightList="<%= rightList %>"
 								rightTitle="in-group-role"
 							/>
@@ -95,7 +95,12 @@ List<PermissionGroup> lstPerGroup = PermissionGroupLocalServiceUtil.findByActive
 	
 </aui:form>
 
-<aui:script>
+<aui:script use="aui-base">
+	
+	AUI().ready(function(A) {
+		<portlet:namespace />getUserByGroupRole();
+	});
+	
 	Liferay.provide(
 		window,
 		'<portlet:namespace />assignUser',
@@ -110,10 +115,10 @@ List<PermissionGroup> lstPerGroup = PermissionGroupLocalServiceUtil.findByActive
 
 	Liferay.provide(
 		window,
-		'getUserByGroupRole',
+		'<portlet:namespace />getUserByGroupRole',
 		function() {
+			
 			var	permissionGroupId = document.getElementById("<portlet:namespace/>permissionGroupId").value;
-			console.log("----permissionGroupId :"+permissionGroupId);
 			
 			AUI().use('aui-io-request', function(A){
 				 
@@ -126,7 +131,36 @@ List<PermissionGroup> lstPerGroup = PermissionGroupLocalServiceUtil.findByActive
 		               on: {
 		            	   success: function(event, id, obj) {
 		            		   var responseData = this.get('responseData');
-		                	   console.log("get type service success :");
+		                	   if(responseData) {
+		                		   
+		                		   var avaiUser = A.one("#<portlet:namespace />availableUserIds");
+		                		   if(avaiUser) {
+		                			   avaiUser.empty();
+		                		   }
+		                		   for(var i in responseData.avaiableUser){
+		                			   var opt = document.createElement('option');
+		                			   opt.innerHTML = responseData.avaiableUser[i].name;
+		                			   opt.value = responseData.avaiableUser[i].value;
+		                			   
+		                			   avaiUser.appendChild(opt);
+		                		   }
+		                		   
+		                		   var curUser = A.one("#<portlet:namespace />currentUserIds");
+		                		   if(curUser) {
+		                			   curUser.empty();
+		                		   }
+		                		   for(var i in responseData.currentUser){
+		                			   var opt = document.createElement('option');
+		                			   opt.innerHTML = responseData.currentUser[i].name;
+		                			   opt.value = responseData.currentUser[i].value;
+		                			   
+		                			   curUser.appendChild(opt);
+		                		   }
+		                		   
+		                	   }
+		                	   else {
+		                		   console.log("responseData has error");
+		                	   }
 		                   }
 		               }
 		        });

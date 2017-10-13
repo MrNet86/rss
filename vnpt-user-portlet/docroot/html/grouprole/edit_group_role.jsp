@@ -88,6 +88,7 @@ List<Role> lstRole = (List<Role>) request.getAttribute("lstRole");
 		            <div class="col-md-4 col-sm-9 col-xs-12">
 		                <aui:input type="text" name="groupName" label="" cssClass="form-control" value='<%= perGroup != null ? perGroup.getGroupName() : "" %>'>
 							<aui:validator name="required" />
+							<aui:validator name="maxLength">50</aui:validator>
 						</aui:input>
 		            </div> 							
 				</div>
@@ -102,6 +103,7 @@ List<Role> lstRole = (List<Role>) request.getAttribute("lstRole");
 		                <aui:input type="text" name="groupCode" label="" 
 		                	cssClass="form-control" value='<%= perGroup != null ? perGroup.getGroupCode() : "" %>'>
 							<aui:validator name="required" />
+							<aui:validator name="maxLength">50</aui:validator>
 						</aui:input>
 		            </div> 							
 				</div>

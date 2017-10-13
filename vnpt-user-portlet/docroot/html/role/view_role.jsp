@@ -56,7 +56,7 @@ List<Role> lstRegularRole = RoleLocalServiceUtil.getUserRoles(user.getUserId());
 		
 			<liferay-ui:search-container-column-text 
 				name="ten-loai-nhom-quyen"
-				value="<%= aRole.getTitle() %>"
+				value="<%= aRole.getTitle(locale) %>"
 			/>
 			
 			<liferay-ui:search-container-column-text 

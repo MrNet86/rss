@@ -121,6 +121,7 @@ if(aUser != null) {
 				            <div class="col-md-4 col-sm-9 col-xs-12">
 				                <aui:input type="text" name="screenName" label="" cssClass="form-control" value='<%= aUser == null ? "" : HtmlUtil.escape(aUser.getScreenName()) %>'>
 									<aui:validator name="required" />
+									<aui:validator name="maxLength">50</aui:validator>
 								</aui:input>
 				            </div> 
 			            </div>
@@ -135,6 +136,7 @@ if(aUser != null) {
 				                <aui:input type="text" name="emailAddress" label="" cssClass="form-control" value="<%= HtmlUtil.escape(email) %>">
 									<aui:validator name="required" />
 									<aui:validator name="email"/>
+									<aui:validator name="maxLength">50</aui:validator>
 								</aui:input>
 				            </div> 
 				            
@@ -145,6 +147,7 @@ if(aUser != null) {
 				                <aui:input type="text" name="fullName" label="" cssClass="form-control" 
 				                	value="<%= fullName %>">
 									<aui:validator name="required" />
+									<aui:validator name="maxLength">100</aui:validator>
 									<aui:validator name="custom" errorMessage="ho-va-ten-khong-hop-le" >
 										function (val) {
 											if(val.trim().indexOf(" ") > -1) {
@@ -201,6 +204,7 @@ if(aUser != null) {
 					        	<div class="col-md-4 col-sm-9 col-xs-12">
 					        		<aui:input autocomplete="off" name="password2" size="30" type="password" label="" cssClass="form-control">
 										<aui:validator name="required" />
+										<aui:validator name="maxLength">50</aui:validator>
 										<aui:validator name="equalTo">
 											'#<portlet:namespace />password1'
 										</aui:validator>

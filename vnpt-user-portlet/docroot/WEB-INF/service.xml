@@ -20,7 +20,17 @@
 		<column name="groupCode" type="String" />
 		<column name="isActive" type="int"/>		
 		<column name="description" type="String"/>		
-				
+		
+						
+		<finder name="GroupName" return-type="Collection">
+			<finder-column name="groupName" />
+			<finder-column name="isActive" />
+		</finder>
+		<finder name="GroupCode" return-type="Collection">
+			<finder-column name="groupCode" />
+			<finder-column name="isActive" />
+		</finder>
+		
 		<finder name="ActiveGroupId" return-type="Collection">
 			<finder-column name="groupId" />
 			<finder-column name="isActive" />

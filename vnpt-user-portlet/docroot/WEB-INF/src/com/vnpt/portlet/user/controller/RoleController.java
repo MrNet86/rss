@@ -57,7 +57,6 @@ public class RoleController {
 	@RenderMapping
 	public String viewRole(RenderRequest renderRequest,
 			RenderResponse renderResponse) throws Exception {
-		_log.info("viewRole");
 		return "view";
 	}
 
@@ -65,7 +64,6 @@ public class RoleController {
 	public String editRole(RenderRequest renderRequest,
 			RenderResponse renderResponse) throws Exception {
 		
-		_log.info("editRole");
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		long groupId = themeDisplay.getScopeGroupId();
 		PermissionChecker permissionChecker = themeDisplay.getPermissionChecker();

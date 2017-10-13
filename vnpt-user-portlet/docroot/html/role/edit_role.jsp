@@ -16,8 +16,8 @@ Role role = (Role)request.getAttribute("role");
 if(role != null) {
 	roleId = role.getRoleId();
 	name = role.getName();
-	title = LanguageUtil.get(pageContext, role.getTitle()) ;
-	description = role.getDescription();
+	title = role.getTitle(locale) ;
+	description = role.getDescription(locale);
 }
 %>
 
@@ -48,7 +48,10 @@ if(role != null) {
 				<label for="#"><liferay-ui:message key="ten-loai-nhom-quyen"/></label>
 			</div>
 			<div class="col-md-4 col-sm-3 col-xs-12">
-				<aui:input name="title" label="" cssClass="form-control" value="<%= title %>"/>
+				<aui:input name="title" label="" cssClass="form-control" value="<%= title %>">
+					<aui:validator name="required"></aui:validator>
+					<aui:validator name="maxLength">50</aui:validator>
+				</aui:input>
 			</div>
 		</div>
 		
@@ -57,7 +60,10 @@ if(role != null) {
 				<label for="#"><liferay-ui:message key="ma-loai-nhom-quyen"/></label>
 			</div>
 			<div class="col-md-4 col-sm-3 col-xs-12">
-				<aui:input name="name" label="" cssClass="form-control" value="<%= name %>"/>
+				<aui:input name="name" label="" cssClass="form-control" value="<%= name %>">
+					<aui:validator name="required"></aui:validator>	
+					<aui:validator name="maxLength">50</aui:validator>
+				</aui:input>
 			</div>
 		</div>
 		
@@ -67,7 +73,9 @@ if(role != null) {
 			</div>
 			<div class="col-md-4 col-sm-3 col-xs-12">
 				<aui:input name="description" type="textarea" label="" value="<%= description %>" 
-					rows="5" cols="30" cssClass="form-control"/>
+					rows="5" cols="30" cssClass="form-control" >
+					<aui:validator name="maxLength">200</aui:validator>
+				</aui:input>
 			</div>
 		</div>
 	</div>
@@ -75,6 +83,5 @@ if(role != null) {
 	<aui:button-row>
 		<aui:button type="submit" icon="icon-save" />
 	</aui:button-row>
-	
 	
 </aui:form>

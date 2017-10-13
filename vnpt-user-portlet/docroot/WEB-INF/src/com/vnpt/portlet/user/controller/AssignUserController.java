@@ -1,6 +1,7 @@
 package com.vnpt.portlet.user.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,9 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -76,6 +80,10 @@ public class AssignUserController {
 			GroupUsersLocalServiceUtil.updateGroupUsers(groupUsers);			
 		}
 
+		// Cap nhat lai role thuoc cac nhom quyen cho user dc chon
+		// Kiem tra xem nguoi dung nao dc gan quyen thi them moi
+		// nguoi dung nao loai bo ra khoi nhom phai xoa bo cac quyen tuong ung cua no di
+		
 		// assign role to user
 		Role aRole = RoleLocalServiceUtil.getRole(CompanyThreadLocal.getCompanyId(), "Administrator");
 		List<User> aUsers = UserLocalServiceUtil.getRoleUsers(aRole.getRoleId());
@@ -91,21 +99,21 @@ public class AssignUserController {
 			UserServiceUtil.addRoleUsers(role.getRoleId(), availableUserIds);
 		}
 		
+		
+		
 	}
 	
-	@ResourceMapping("getUserByGroupRole")
+	@ResourceMapping("getResourceUserByGroupRole")
 	public void getUserByGroupRole(ResourceRequest resourceRequest,
-			ResourceResponse response) throws IOException, PortalException,
+			ResourceResponse resourceResponse) throws IOException, PortalException,
 			SystemException {
-		
-		_log.info("getUserByGroupRole");
 		
 		ThemeDisplay themeDisplay = (ThemeDisplay) resourceRequest.getAttribute(WebKeys.THEME_DISPLAY);
 
 		Long permissionGroupId = ParamUtil.getLong(resourceRequest,"permissionGroupId", 0L);
-		System.out.println("permissionGroupId :"+permissionGroupId);
+		_log.info("getUserByGroupRole permissionGroupId :"+permissionGroupId);
 
-		// Lay danh sach nguoi dung da duoc phan vao nhom quyen
+		// get all assigned user
 		List<User> lstAssignUser = GroupUsersLocalServiceUtil.getUserByPermissionGroupId(permissionGroupId);
 		
 		// get all user by login user
@@ -119,6 +127,36 @@ public class AssignUserController {
 		
 		lstUser.removeAll(lstAssignUser);
 
-		System.out.println("unAssign list :"+lstUser.size() +" || assignList :"+lstAssignUser.size());
+		_log.info("getUserByGroupRole unAssign list :"+lstUser.size() +" || assignList :"+lstAssignUser.size());
+		
+		JSONArray jsonArrayAvaiable = JSONFactoryUtil.createJSONArray();
+		JSONArray jsonArrayCurrent = JSONFactoryUtil.createJSONArray();
+		JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
+		
+		// Avaiable
+		for(User us : lstUser) {
+			jsonObject = JSONFactoryUtil.createJSONObject();
+			jsonObject.put("value", us.getUserId());
+			jsonObject.put("name", us.getFullName() +" - " + us.getEmailAddress());
+			
+			jsonArrayAvaiable.put(jsonObject);
+		}				
+		
+		// Current
+		for(User us : lstAssignUser) {
+			jsonObject = JSONFactoryUtil.createJSONObject();
+			jsonObject.put("value", us.getUserId());
+			jsonObject.put("name", us.getFullName() +" - " + us.getEmailAddress());
+			
+			jsonArrayCurrent.put(jsonObject);
+		}		
+		jsonObject = JSONFactoryUtil.createJSONObject();
+		jsonObject.put("currentUser", jsonArrayCurrent);
+		jsonObject.put("avaiableUser", jsonArrayAvaiable);
+		
+		// write data object
+		PrintWriter printWriter = resourceResponse.getWriter();
+		printWriter.println(jsonObject);
+		
 	}
 }
